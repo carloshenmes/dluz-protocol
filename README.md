@@ -50,7 +50,6 @@ We bring **transparency**, **accessibility**, and **liquidity** to the environme
 
 ### 🏗️ Architecture
 
-```text
 ┌─ Frontend (Next.js + Wagmi + RainbowKit) ────────┐
 │  Swap · Pools · Farms · Carbon Dashboard          │
 └───────────────────────┬───────────────────────────┘
