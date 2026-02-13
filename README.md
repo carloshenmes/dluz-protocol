@@ -69,27 +69,31 @@ We bring **transparency**, **accessibility**, and **liquidity** to the environme
 │  │ Yield       │ │ Public record of retired     │  │
 │  │ Farming     │ │ carbon credits               │  │
 │  └─────────────┘ └──────────────────────────────┘  │
-└───────────────────────────────────────────────────┘
-🪙 Tokens
+└───────────────────────────────────────────────────
+
+### 🪙 Tokens
+
+| Token | Símbolo | Tipo | Função |
+|-------|---------|------|--------|
+| dLuz Token | `$DLUZ` | Governança & Utilidade | Votação, staking, desconto em taxas |
+| Crédito de Carbono | `$dCARBON` | Lastro em ativo real | 1 token = 1 tonelada CO₂ compensada |
+| Energia Renovável | `$dENERGY` | Lastro em ativo real | 1 token = 1 MWh de energia limpa |
 
 
-Token	Symbol	Type	Purpose
-dLuz Token	$DLUZ	Governance & Utility	Voting, staking, fee discounts
-Carbon Credit	$dCARBON	RWA-backed	1 token = 1 tonne CO₂ offset
-Renewable Energy	$dENERGY	RWA-backed	1 token = 1 MWh clean energy
-🛠️ Tech Stack
+### 🛠️ Tech Stack
 
 
-Layer	Technology
-Smart Contracts	Solidity ^0.8.20 + OpenZeppelin + Hardhat
-Frontend	Next.js 14 + TypeScript + Wagmi v2 + RainbowKit
-Network	Base (Ethereum L2 by Coinbase)
-Indexing	The Graph
-Hosting	Vercel
-Domain	dluz.cc
-🚀 Quick Start
-bash
+| Layer | Technology |
+| --- | --- |
+| Smart Contracts | Solidity ^0.8.20 + OpenZeppelin + Hardhat |
+| Frontend | Next.js 14 + TypeScript + Wagmi v2 + RainbowKit |
+| Network | Base (Ethereum L2 by Coinbase) |
+| Indexing | The Graph |
+| Hosting | Vercel |
+| Domain | dluz.cc |
 
+
+### 🚀 Quick Start
 
 # Clone the repository
 git clone https://github.com/carloshenmes/dluz-protocol.git
@@ -106,38 +110,42 @@ npx hardhat test
 
 # Deploy to Base Sepolia testnet
 npx hardhat run scripts/deploy.js --network baseSepolia
-📋 Roadmap
+
+### 📋 Roadmap
+
+| Phase | Period | Deliverables | Status |
+| --- | --- | --- | --- |
+| 🌱 Seed | Q1 2026 | Smart contracts on Base Sepolia. Frontend MVP. Whitepaper v1 | 🔄 In Progress |
+| 🌿 Sprout | Q2 2026 | Base mainnet deploy. Initial pools. $DLUZ airdrop | ⏳ Planned |
+| 🌳 Growth | Q3 2026 | Yield Farming. Carbon certifier partnerships. Analytics | ⏳ Planned |
+| 🌍 Canopy | Q4 2026 | DAO governance. Project marketplace. SBCE integration | ⏳ Planned |
 
 
-Phase	Period	Deliverables	Status
-🌱 Seed	Q1 2026	Smart contracts on Base Sepolia. Frontend MVP. Whitepaper v1	🔄 In Progress
-🌿 Sprout	Q2 2026	Base mainnet deploy. Initial pools. $DLUZ airdrop	⏳ Planned
-🌳 Growth	Q3 2026	Yield Farming. Carbon certifier partnerships. Analytics	⏳ Planned
-🌍 Canopy	Q4 2026	DAO governance. Project marketplace. SBCE integration	⏳ Planned
-🇧🇷 Português
+### 🇧🇷 Português
+
 🌍 O que é o dLuz?
 O dLuz é uma exchange descentralizada (DEX) construída na Base (Ethereum L2) especializada na negociação de ativos ambientais tokenizados — créditos de carbono e certificados de energia renovável (RECs).
 
 Trazemos transparência, acessibilidade e liquidez ao mercado de ativos ambientais através do modelo AMM (Automated Market Maker).
 
-❓ Por que dLuz?
+### ❓ Por que dLuz?
 
+| Problema | Solução dLuz |
+| --- | --- |
+| Mercado de carbono é opaco e fragmentado | Transações totalmente transparentes, on-chain |
+| Somente grandes corporações participam | Qualquer pessoa pode comprar frações de créditos |
+| Taxas altas e liquidação lenta | Taxas ultra-baixas na Base (< $0.01 por tx) |
+| Sem marketplace descentralizado unificado | Uma DEX para todos os ativos ambientais |
 
-Problema	Solução dLuz
-Mercado de carbono é opaco e fragmentado	Transações totalmente transparentes, on-chain
-Somente grandes corporações participam	Qualquer pessoa pode comprar frações de créditos
-Taxas altas e liquidação lenta	Taxas ultra-baixas na Base (< $0.01 por tx)
-Sem marketplace descentralizado unificado	Uma DEX para todos os ativos ambientais
-🔑 Funcionalidades
-🌿 Negociação de Créditos de Carbono — Compre e venda créditos tokenizados ($dCARBON)
-⚡ Certificados de Energia Renovável — Negocie RECs tokenizados ($dENERGY)
-🌾 Yield Farming — Ganhe $DLUZ fornecendo liquidez aos pools verdes
-🗳️ Governança — Holders de $DLUZ votam nas decisões do protocolo
-📊 Carbon Dashboard — Rastreamento em tempo real de créditos aposentados
-💸 Taxas ultra-baixas — Construído na Base (transações < $0.01)
-🏗️ Arquitetura
-text
+### 🔑 Funcionalidades
+.🌿 Negociação de Créditos de Carbono — Compre e venda créditos tokenizados ($dCARBON)
+.⚡ Certificados de Energia Renovável — Negocie RECs tokenizados ($dENERGY)
+.🌾 Yield Farming — Ganhe $DLUZ fornecendo liquidez aos pools verdes
+.🗳️ Governança — Holders de $DLUZ votam nas decisões do protocolo
+.📊 Carbon Dashboard — Rastreamento em tempo real de créditos aposentados
+.💸 Taxas ultra-baixas — Construído na Base (transações < $0.01)
 
+###🏗️ Arquitetura
 
 ┌─ Frontend (Next.js + Wagmi + RainbowKit) ────────┐
 │  Swap · Pools · Farms · Carbon Dashboard          │
@@ -158,16 +166,18 @@ text
 │  │ Farming     │ │ de carbono aposentados       │  │
 │  └─────────────┘ └──────────────────────────────┘  │
 └───────────────────────────────────────────────────┘
-🪙 Tokens
+
+### 🪙 Tokens
 
 
-Token	Símbolo	Tipo	Função
-dLuz Token	$DLUZ	Governança & Utilidade	Votação, staking, desconto em taxas
-Crédito de Carbono	$dCARBON	Lastro em ativo real	1 token = 1 tonelada CO₂ compensada
-Energia Renovável	$dENERGY	Lastro em ativo real	1 token = 1 MWh de energia limpa
-🚀 Início Rápido
-bash
+| Token | Símbolo | Tipo | Função |
+| --- | --- | --- | --- |
+| dLuz Token | $DLUZ | Governança & Utilidade | Votação, staking, desconto em taxas |
+| Crédito de Carbono | $dCARBON | Lastro em ativo real | 1 token = 1 tonelada CO₂ compensada |
+| Energia Renovável | $dENERGY | Lastro em ativo real | 1 token = 1 MWh de energia limpa |
 
+
+### 🚀 Início Rápido
 
 # Clone o repositório
 git clone https://github.com/carloshenmes/dluz-protocol.git
@@ -184,15 +194,15 @@ npx hardhat test
 
 # Deploy na testnet Base Sepolia
 npx hardhat run scripts/deploy.js --network baseSepolia
-📋 Roadmap
 
+### 📋 Roadmap
 
-Fase	Período	Entregas	Status
-🌱 Seed	Q1 2026	Smart contracts na Base Sepolia. Frontend MVP. Whitepaper v1	🔄 Em Andamento
-🌿 Sprout	Q2 2026	Deploy na Base mainnet. Pools iniciais. Airdrop de $DLUZ	⏳ Planejado
-🌳 Growth	Q3 2026	Yield Farming. Parcerias com certificadoras. Analytics	⏳ Planejado
-🌍 Canopy	Q4 2026	Governança DAO. Marketplace de projetos. Integração SBCE	⏳ Planejado
-📁 Project Structure / Estrutura do Projeto
+| Fase | Período | Entregas | Status |
+| --- | --- | --- | --- |
+| 🌱 Seed | Q1 2026 | Smart contracts na Base Sepolia. Frontend MVP. Whitepaper v1 | 🔄 Em Andamento |
+| 🌿 Sprout | Q2 2026 | Deploy na Base mainnet. Pools iniciais. Airdrop de $DLUZ | ⏳ Planejado |
+| 🌳 Growth | Q3 2026 | Yield Farming. Parcerias com certificadoras. Analytics | ⏳ Planejado |
+| 🌍 Canopy | Q4 2026 | Governança DAO. Marketplace de projetos. Integração SBCE | ⏳ Planejado |
 
 
 dluz-protocol/
@@ -233,15 +243,17 @@ dluz-protocol/
 ├── package.json
 ├── LICENSE
 └── README.md
-🤝 Contributing / Contribuindo
+
+### 🤝 Contributing / Contribuindo
 Contributions are welcome! / Contribuições são bem-vindas!
 
-Fork the project / Faça um fork
-Create your branch / Crie sua branch (git checkout -b feature/new-feature)
-Commit your changes / Commit (git commit -m 'Add new feature')
-Push to branch / Push (git push origin feature/new-feature)
-Open a Pull Request / Abra um Pull Request
-📜 License / Licença
+1.Fork the project / Faça um fork
+2.Create your branch / Crie sua branch (git checkout -b feature/new-feature)
+3.Commit your changes / Commit (git commit -m 'Add new feature')
+4.Push to branch / Push (git push origin feature/new-feature)
+5.Open a Pull Request / Abra um Pull Request
+
+### 📜 License / Licença
 This project is licensed under the MIT License — see LICENSE [blocked] for details.
 
 Este projeto está licenciado sob a Licença MIT — veja LICENSE [blocked] para detalhes.
