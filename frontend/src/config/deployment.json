@@ -1,0 +1,12 @@
+{
+  "network": "baseSepolia",
+  "chainId": 84532,
+  "deployer": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+  "timestamp": "2026-02-14T02:32:26.063Z",
+  "contracts": {
+    "DLuzToken": "0xAB466632039be4DCCD2B881dEFa76e26D9e7e089",
+    "DCarbonToken": "0xB93ACd30A7eb798f66B4d69Cb2dd26d7581E9641",
+    "DEnergyToken": "0xdFA156De300e756D0FcCe2C1ce0e926863cbBaB8",
+    "CarbonRegistry": "0x022b458564cf2EB37be93D2D34fABFe7aCdbC699"
+  }
+}
