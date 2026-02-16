@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimateOnScroll } from "./AnimateOnScroll";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 
 interface BlogPost {
@@ -32,8 +33,9 @@ function formatDate(iso: string) {
   });
 }
 
-export function BlogSection() {
+export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [filter, setFilter] = useState<string>("all");
 
   useEffect(() => {
     fetch("/data/blog-posts.json")
@@ -42,40 +44,61 @@ export function BlogSection() {
         const sorted = data.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
-        setPosts(sorted.slice(0, 3));
+        setPosts(sorted);
       })
       .catch(() => {});
   }, []);
 
+  const tags = ["all", ...Array.from(new Set(posts.map((p) => p.tag)))];
+  const filtered = filter === "all" ? posts : posts.filter((p) => p.tag === filter);
+
   return (
-    <section id="blog" className="py-24 px-6 border-t border-gray-800/50">
-      <div className="max-w-6xl mx-auto">
-        <AnimateOnScroll>
+    <main className="min-h-screen bg-gray-950 text-white">
+      <Header />
+
+      <section className="py-24 px-6">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <span className="text-xs font-semibold text-green-400 uppercase tracking-widest mb-4 block">
               📰 Blog & Notícias
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Fique por dentro do{" "}
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Todas as{" "}
               <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                mercado verde
+                publicações
               </span>
-            </h2>
+            </h1>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Conteúdo curado sobre mercado de carbono, energia renovável e Web3
-              — sempre com crédito aos autores originais.
+              Conteúdo curado sobre mercado de carbono, energia renovável e Web3.
             </p>
           </div>
-        </AnimateOnScroll>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post, i) => (
-            <AnimateOnScroll key={post.id} delay={i * 0.1} scale>
+          {/* Filter tags */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+            {tags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setFilter(tag)}
+                className={`text-xs font-medium px-4 py-2 rounded-full border transition-colors ${
+                  filter === tag
+                    ? "border-green-500/50 bg-green-500/10 text-green-400"
+                    : "border-gray-800 bg-gray-900/40 text-gray-500 hover:text-gray-300"
+                }`}
+              >
+                {tag === "all" ? "Todos" : tag}
+              </button>
+            ))}
+          </div>
+
+          {/* Posts grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((post) => (
               <a
+                key={post.id}
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block h-full bg-gray-900/40 border border-gray-800 rounded-2xl p-6 hover:border-green-500/30 transition-all glow-hover"
+                className="group block h-full bg-gray-900/40 border border-gray-800 rounded-2xl p-6 hover:border-green-500/30 transition-all"
               >
                 <div className="flex items-center justify-between mb-4">
                   <span
@@ -108,24 +131,18 @@ export function BlogSection() {
                   </span>
                 </div>
               </a>
-            </AnimateOnScroll>
-          ))}
-        </div>
-
-        <AnimateOnScroll delay={0.3}>
-          <div className="mt-10 text-center">
-            <a
-              href="/blog"
-              className="inline-flex items-center gap-2 bg-gray-900/40 border border-gray-800 rounded-full px-5 py-2.5 hover:border-green-500/30 transition-colors"
-            >
-              <span className="text-orange-400 text-sm">📡</span>
-              <span className="text-xs text-gray-400">
-                Feed automatizado via RSS — ver todos os posts
-              </span>
-            </a>
+            ))}
           </div>
-        </AnimateOnScroll>
-      </div>
-    </section>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-gray-600">Nenhum post encontrado para esse filtro.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Footer />
+    </main>
   );
 }

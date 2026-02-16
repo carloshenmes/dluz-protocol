@@ -1,0 +1,32 @@
+[
+  {
+    "id": "brasil-regulamenta-sbce",
+    "title": "Brasil regulamenta mercado de carbono com o SBCE",
+    "source": "Carbon Credits",
+    "date": "2026-01-20",
+    "tag": "Regulação",
+    "tagColor": "blue",
+    "excerpt": "A Lei 15.042/2024 cria o Sistema Brasileiro de Comércio de Emissões, colocando o Brasil no mapa global do mercado regulado de carbono.",
+    "url": "https://carboncredits.com"
+  },
+  {
+    "id": "tokenizacao-rec-energia",
+    "title": "Tokenização de REC: como blockchain transforma energia renovável",
+    "source": "CoinDesk",
+    "date": "2026-01-15",
+    "tag": "Energia",
+    "tagColor": "yellow",
+    "excerpt": "Certificados de energia renovável tokenizados permitem rastreabilidade e negociação peer-to-peer, eliminando intermediários.",
+    "url": "https://coindesk.com"
+  },
+  {
+    "id": "creditos-amazonia-premium",
+    "title": "Créditos de carbono da Amazônia ganham premium no mercado global",
+    "source": "Bloomberg Green",
+    "date": "2026-01-08",
+    "tag": "Amazônia",
+    "tagColor": "emerald",
+    "excerpt": "Projetos REDD+ na Amazônia brasileira estão sendo negociados com ágio de até 40% sobre créditos convencionais.",
+    "url": "https://bloomberg.com/green"
+  }
+]
