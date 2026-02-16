@@ -7,6 +7,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Built on Base](https://img.shields.io/badge/Built%20on-Base-0052FF.svg)](https://base.org)
 [![Solidity](https://img.shields.io/badge/Solidity-^0.8.20-363636.svg)](https://soliditylang.org)
+[![Coverage](https://img.shields.io/badge/Coverage-98.5%25-brightgreen.svg)](#-test-coverage)
+[![Tests](https://img.shields.io/badge/Tests-64%20passing-brightgreen.svg)](#-test-coverage)
 
 [Website](https://dluz.cc) · [Whitepaper](./docs/WHITEPAPER.md) · [Whitepaper PT](./docs/WHITEPAPER_PT.md) · [Tokenomics](./docs/TOKENOMICS.md)
 
@@ -18,9 +20,9 @@
 
 ### 🌍 What is dLuz?
 
-dLuz is a decentralized exchange (DEX) built on **Base** (Ethereum L2) specialized in trading tokenized environmental assets — carbon credits and renewable energy certificates (RECs).
+dLuz is a decentralized protocol built on **Base** (Ethereum L2) for registering, trading, and retiring tokenized environmental assets — carbon credits and renewable energy certificates (RECs).
 
-We bring **transparency**, **accessibility**, and **liquidity** to the environmental asset market through an AMM (Automated Market Maker) model.
+We bring **transparency**, **accessibility**, and **liquidity** to the environmental asset market through on-chain registration and an AMM (Automated Market Maker) model.
 
 ### ❓ Why dLuz?
 
@@ -33,12 +35,24 @@ We bring **transparency**, **accessibility**, and **liquidity** to the environme
 
 ### 🔑 Key Features
 
-- 🌿 **Carbon Credit Trading** — Buy and sell tokenized carbon credits ($dCARBON)
+- 🌿 **Carbon Credit Registration** — On-chain registry of tokenized carbon credits ($dCARBON)
 - ⚡ **Renewable Energy Certificates** — Trade tokenized RECs ($dENERGY)
-- 🍀 **Yield Farming** — Earn $DLUZ by providing liquidity to green pools
+- 🍀 **DLUZ Rewards** — Earn $DLUZ for registering environmental projects
 - 🗳 **Governance** — $DLUZ holders vote on protocol decisions
+- 🔥 **Carbon Retirement** — Permanently retire credits with public on-chain proof
 - 📊 **Carbon Dashboard** — Real-time tracking of retired carbon credits
 - 💸 **Ultra-low fees** — Built on Base (transactions < $0.01)
+
+### 📜 Deployed Contracts (Base Sepolia)
+
+| Contract | Address | Explorer |
+|----------|---------|----------|
+| **DLuzToken** | `0xBfeE6d11634376aB33E47d81531FE36522e051f9` | [View](https://sepolia.basescan.org/address/0xBfeE6d11634376aB33E47d81531FE36522e051f9#code) |
+| **DCarbonToken** | `0x60492A78113F655EFdC5aB88B6c86f152b23A2e2` | [View](https://sepolia.basescan.org/address/0x60492A78113F655EFdC5aB88B6c86f152b23A2e2#code) |
+| **DEnergyToken** | `0x3143C0F114224C7CdeF74CeD31306853E45B593A` | [View](https://sepolia.basescan.org/address/0x3143C0F114224C7CdeF74CeD31306853E45B593A#code) |
+| **CarbonRegistry** | `0x9cABBdD0B60A84Fc1034BEEa0E81900bf7fE3E65` | [View](https://sepolia.basescan.org/address/0x9cABBdD0B60A84Fc1034BEEa0E81900bf7fE3E65#code) |
+
+> All contracts verified on BaseScan ✅
 
 ### 🏗️ Architecture
 
@@ -51,17 +65,11 @@ We bring **transparency**, **accessibility**, and **liquidity** to the environme
 │  Base Network (Ethereum L2)                        │
 │                                                    │
 │  ┌─────────────┐ ┌─────────────┐ ┌──────────────┐ │
-│  │ DLuzFactory │ │ DLuzRouter  │ │    Tokens    │ │
-│  │ Creates     │ │ Executes    │ │ $DLUZ        │ │
-│  │ pairs       │ │ swaps       │ │ $dCARBON     │ │
-│  │             │ │             │ │ $dENERGY     │ │
+│  │    Tokens    │ │  CarbonReg  │ │   DEX (v2)    │ │
+│  │ $DLUZ        │ │ register   │ │ DLuzFactory  │ │
+│  │ $dCARBON     │ │ retire     │ │ DLuzRouter   │ │
+│  │ $dENERGY     │ │ revoke     │ │ DLuzFarm     │ │
 │  └─────────────┘ └─────────────┘ └──────────────┘ │
-│                                                    │
-│  ┌─────────────┐ ┌──────────────────────────────┐  │
-│  │ DLuzFarm    │ │ CarbonRetirement Registry    │  │
-│  │ Yield       │ │ Public record of retired     │  │
-│  │ Farming     │ │ carbon credits               │  │
-│  └─────────────┘ └──────────────────────────────┘  │
 └────────────────────────────────────────────────────┘
 ```
 
@@ -73,11 +81,26 @@ We bring **transparency**, **accessibility**, and **liquidity** to the environme
 | Carbon Credit | `$dCARBON` | Real-world asset backed | 1 token = 1 tonne CO₂ offset |
 | Renewable Energy | `$dENERGY` | Real-world asset backed | 1 token = 1 MWh clean energy |
 
+### 🧪 Test Coverage
+
+```
+64 passing (4s)
+
+File                 |  % Stmts | % Branch |  % Funcs |  % Lines
+---------------------|----------|----------|----------|----------
+ CarbonRegistry.sol  |    98.04 |    92.86 |      100 |      100
+ DCarbonToken.sol    |      100 |      100 |      100 |      100
+ DEnergyToken.sol    |      100 |      100 |      100 |      100
+ DLuzToken.sol       |      100 |      100 |      100 |      100
+---------------------|----------|----------|----------|----------
+ All files           |    98.46 |       94 |      100 |      100
+```
+
 ### 🛠 Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Smart Contracts | Solidity ^0.8.20 + OpenZeppelin + Hardhat |
+| Smart Contracts | Solidity ^0.8.20 + OpenZeppelin 5.x + Hardhat |
 | Frontend | Next.js 14 + TypeScript + Wagmi v2 + RainbowKit |
 | Network | Base (Ethereum L2 by Coinbase) |
 | Indexing | The Graph |
@@ -94,22 +117,37 @@ cd dluz-protocol
 # Install dependencies
 npm install
 
+# Configure environment
+cp .env.example .env
+# Edit .env with your keys
+
 # Compile smart contracts
 npx hardhat compile
 
 # Run tests
 npx hardhat test
 
+# Run coverage
+npx hardhat coverage
+
 # Deploy to Base Sepolia testnet
 npx hardhat run scripts/deploy.js --network baseSepolia
+```
+
+### 📋 Environment Variables
+
+```env
+PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
+ALCHEMY_API_KEY=your_alchemy_api_key
+BASESCAN_API_KEY=your_basescan_api_key
 ```
 
 ### 📋 Roadmap
 
 | Phase | Period | Deliverables | Status |
 |-------|--------|-------------|--------|
-| 🌱 Seed | Q1 2026 | Smart contracts on Base Sepolia. Frontend MVP. Whitepaper v1 | 🔄 In Progress |
-| 🌿 Sprout | Q2 2026 | Base mainnet deploy. Initial pools. $DLUZ airdrop | 📋 Planned |
+| 🌱 Seed | Q1 2026 | Smart contracts on Base Sepolia. Tests 98.5% coverage. Whitepaper v1 | ✅ Done |
+| 🌿 Sprout | Q2 2026 | Frontend MVP. Base mainnet deploy. Initial pools. $DLUZ airdrop | 📋 Planned |
 | 🌳 Growth | Q3 2026 | Yield Farming. Carbon certifier partnerships. Analytics | 📋 Planned |
 | 🌎 Canopy | Q4 2026 | DAO governance. Project marketplace. SBCE integration | 📋 Planned |
 
@@ -119,9 +157,9 @@ npx hardhat run scripts/deploy.js --network baseSepolia
 
 ### 🌍 O que é o dLuz?
 
-O dLuz é uma exchange descentralizada (DEX) construída na **Base** (Ethereum L2) especializada na negociação de ativos ambientais tokenizados — créditos de carbono e certificados de energia renovável (RECs).
+O dLuz é um protocolo descentralizado construído na **Base** (Ethereum L2) para registro, negociação e aposentadoria de ativos ambientais tokenizados — créditos de carbono e certificados de energia renovável (RECs).
 
-Trazemos **transparência**, **acessibilidade** e **liquidez** ao mercado de ativos ambientais através do modelo AMM (Automated Market Maker).
+Trazemos **transparência**, **acessibilidade** e **liquidez** ao mercado de ativos ambientais através do modelo AMM (Automated Market Maker) e registro on-chain.
 
 ### ❓ Por que dLuz?
 
@@ -134,12 +172,24 @@ Trazemos **transparência**, **acessibilidade** e **liquidez** ao mercado de ati
 
 ### 🔑 Funcionalidades
 
-- 🌿 **Negociação de Créditos de Carbono** — Compre e venda créditos tokenizados ($dCARBON)
-- ⚡ **Certificados de Energia Renovável** — Negocie RECs tokenizados ($dENERGY)
-- 🍀 **Yield Farming** — Ganhe $DLUZ fornecendo liquidez aos pools verdes
+- 🌿 **Registro de Créditos de Carbono** — Registro on-chain de créditos tokenizados ($dCARBON)
+- ⚡ **Certificados de Energia Renovável** — RECs tokenizados ($dENERGY)
+- 🍀 **Recompensas DLUZ** — Ganhe $DLUZ ao registrar projetos ambientais
 - 🗳 **Governança** — Holders de $DLUZ votam nas decisões do protocolo
+- 🔥 **Aposentadoria de Carbono** — Aposente créditos permanentemente com prova on-chain
 - 📊 **Carbon Dashboard** — Rastreamento em tempo real de créditos aposentados
 - 💸 **Taxas ultra-baixas** — Construído na Base (transações < $0.01)
+
+### 📜 Contratos Deployados (Base Sepolia)
+
+| Contrato | Endereço | Explorer |
+|----------|----------|----------|
+| **DLuzToken** | `0xBfeE6d11634376aB33E47d81531FE36522e051f9` | [Ver](https://sepolia.basescan.org/address/0xBfeE6d11634376aB33E47d81531FE36522e051f9#code) |
+| **DCarbonToken** | `0x60492A78113F655EFdC5aB88B6c86f152b23A2e2` | [Ver](https://sepolia.basescan.org/address/0x60492A78113F655EFdC5aB88B6c86f152b23A2e2#code) |
+| **DEnergyToken** | `0x3143C0F114224C7CdeF74CeD31306853E45B593A` | [Ver](https://sepolia.basescan.org/address/0x3143C0F114224C7CdeF74CeD31306853E45B593A#code) |
+| **CarbonRegistry** | `0x9cABBdD0B60A84Fc1034BEEa0E81900bf7fE3E65` | [Ver](https://sepolia.basescan.org/address/0x9cABBdD0B60A84Fc1034BEEa0E81900bf7fE3E65#code) |
+
+> Todos os contratos verificados no BaseScan ✅
 
 ### 🏗️ Arquitetura
 
@@ -152,17 +202,11 @@ Trazemos **transparência**, **acessibilidade** e **liquidez** ao mercado de ati
 │  Base Network (Ethereum L2)                        │
 │                                                    │
 │  ┌─────────────┐ ┌─────────────┐ ┌──────────────┐ │
-│  │ DLuzFactory │ │ DLuzRouter  │ │    Tokens    │ │
-│  │ Cria pares  │ │ Executa     │ │ $DLUZ        │ │
-│  │ de tokens   │ │ swaps       │ │ $dCARBON     │ │
-│  │             │ │             │ │ $dENERGY     │ │
+│  │    Tokens    │ │  CarbonReg  │ │   DEX (v2)    │ │
+│  │ $DLUZ        │ │ register   │ │ DLuzFactory  │ │
+│  │ $dCARBON     │ │ retire     │ │ DLuzRouter   │ │
+│  │ $dENERGY     │ │ revoke     │ │ DLuzFarm     │ │
 │  └─────────────┘ └─────────────┘ └──────────────┘ │
-│                                                    │
-│  ┌─────────────┐ ┌──────────────────────────────┐  │
-│  │ DLuzFarm    │ │ CarbonRetirement Registry    │  │
-│  │ Yield       │ │ Registro público de créditos │  │
-│  │ Farming     │ │ de carbono aposentados       │  │
-│  └─────────────┘ └──────────────────────────────┘  │
 └────────────────────────────────────────────────────┘
 ```
 
@@ -178,7 +222,7 @@ Trazemos **transparência**, **acessibilidade** e **liquidez** ao mercado de ati
 
 | Camada | Tecnologia |
 |--------|-----------|
-| Smart Contracts | Solidity ^0.8.20 + OpenZeppelin + Hardhat |
+| Smart Contracts | Solidity ^0.8.20 + OpenZeppelin 5.x + Hardhat |
 | Frontend | Next.js 14 + TypeScript + Wagmi v2 + RainbowKit |
 | Rede | Base (Ethereum L2 da Coinbase) |
 | Indexação | The Graph |
@@ -195,11 +239,18 @@ cd dluz-protocol
 # Instalar dependências
 npm install
 
+# Configurar ambiente
+cp .env.example .env
+# Edite .env com suas chaves
+
 # Compilar smart contracts
 npx hardhat compile
 
 # Rodar testes
 npx hardhat test
+
+# Cobertura de testes
+npx hardhat coverage
 
 # Deploy na testnet Base Sepolia
 npx hardhat run scripts/deploy.js --network baseSepolia
@@ -209,8 +260,8 @@ npx hardhat run scripts/deploy.js --network baseSepolia
 
 | Fase | Período | Entregas | Status |
 |------|---------|----------|--------|
-| 🌱 Seed | Q1 2026 | Smart contracts na Base Sepolia. Frontend MVP. Whitepaper v1 | 🔄 Em Andamento |
-| 🌿 Sprout | Q2 2026 | Deploy na Base mainnet. Pools iniciais. Airdrop de $DLUZ | 📋 Planejado |
+| 🌱 Seed | Q1 2026 | Smart contracts na Base Sepolia. Testes 98.5% coverage. Whitepaper v1 | ✅ Concluído |
+| 🌿 Sprout | Q2 2026 | Frontend MVP. Deploy na Base mainnet. Pools iniciais. Airdrop de $DLUZ | 📋 Planejado |
 | 🌳 Growth | Q3 2026 | Yield Farming. Parcerias com certificadoras. Analytics | 📋 Planejado |
 | 🌎 Canopy | Q4 2026 | Governança DAO. Marketplace de projetos. Integração SBCE | 📋 Planejado |
 
@@ -222,35 +273,22 @@ npx hardhat run scripts/deploy.js --network baseSepolia
 dluz-protocol/
 ├── contracts/
 │   ├── tokens/
-│   │   ├── DLuzToken.sol           # $DLUZ — Governance token
+│   │   ├── DLuzToken.sol           # $DLUZ — Governance & utility token
 │   │   ├── DCarbonToken.sol        # $dCARBON — Carbon credit token
 │   │   └── DEnergyToken.sol        # $dENERGY — Renewable energy token
-│   ├── dex/
-│   │   ├── DLuzFactory.sol         # Creates trading pairs
-│   │   └── DLuzRouter.sol          # Executes swaps
-│   ├── farming/
-│   │   └── DLuzFarm.sol            # Yield farming
 │   └── registry/
-│       └── CarbonRegistry.sol      # Carbon retirement registry
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   └── styles/
-│   ├── public/
-│   └── package.json
+│       └── CarbonRegistry.sol      # Carbon credit registry & retirement
 ├── scripts/
-│   ├── deploy.js                   # Main deploy script
-│   └── verify.js                   # Contract verification
+│   ├── deploy.js                   # Full deployment + verification
+│   ├── setup-roles.js              # Role configuration
+│   └── test-registry.js            # Registry interaction test
 ├── test/
-│   ├── DLuzToken.test.js
-│   ├── DCarbonToken.test.js
-│   └── DLuzFactory.test.js
-├── docs/
-│   ├── WHITEPAPER.md
-│   ├── WHITEPAPER_PT.md
-│   └── TOKENOMICS.md
+│   ├── CarbonRegistry.test.js      # Registry tests (39 tests)
+│   ├── DCarbonToken.test.js        # dCARBON tests (7 tests)
+│   ├── DEnergyToken.test.js        # dENERGY tests (7 tests)
+│   └── DLuzToken.test.js           # DLUZ tests (11 tests)
+├── deployments/
+│   └── baseSepolia.json            # Deployed addresses
 ├── .env.example
 ├── .gitignore
 ├── hardhat.config.js
