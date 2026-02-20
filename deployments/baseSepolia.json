@@ -2,11 +2,20 @@
   "network": "baseSepolia",
   "chainId": 84532,
   "deployer": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
-  "timestamp": "2026-02-14T01:19:30.744Z",
+  "timestamp": "2026-02-20T20:20:26.559Z",
   "contracts": {
-    "DLuzToken": "0x3eC8a7838aDBc38D022a793a221D4A4491cBba02",
+    "DLuzToken": "0xED21166a02685817Ef77f77Db42557576b4Fca5e",
     "DCarbonToken": "0xE7A1346F1Cf2762d72B01d5577232b2744a46DeB",
     "DEnergyToken": "0xD0C139cE2653a11Ece8a07B0e2834aEE7EF2E84F",
     "CarbonRegistry": "0x57FAC26a1e71244A0c50286a548CB40cDb7D8aA9"
-  }
+  },
+  "notes": [
+    {
+      "date": "2026-02-20T20:20:26.559Z",
+      "action": "Redeploy DLuzToken",
+      "reason": "Ownership do contrato anterior foi transferida para CarbonRegistry por engano",
+      "oldAddress": "0x3eC8a7838aDBc38D022a793a221D4A4491cBba02",
+      "newAddress": "0xED21166a02685817Ef77f77Db42557576b4Fca5e"
+    }
+  ]
 }
