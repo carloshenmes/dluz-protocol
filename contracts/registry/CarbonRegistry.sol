@@ -7,15 +7,33 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 /**
  * @title CarbonRegistry
- * @notice Public registry for dCARBON retirement (burn).
+ * @notice Public registry for dCARBON retirement (burn) with dENERGY mint and DLUZ rewards.
  *         Each retirement is permanently recorded on-chain.
  * @dev    Part of dLuz Protocol — https://dluz.cc
+ *
+ * Flow: retire dCARBON → burn → mint dENERGY (1:1) → transfer DLUZ reward (10:1)
  */
+
+interface IMintable {
+    function mint(address to, uint256 amount) external;
+}
+
 contract CarbonRegistry is Ownable {
 
     // ─── State ───────────────────────────────────────────────
 
     ERC20Burnable public immutable dCarbonToken;
+    IMintable public immutable dEnergyToken;
+    IERC20 public immutable dluzToken;
+
+    /// @notice dENERGY minted per 1 dCARBON retired (18 decimals). Default: 1e18 (1:1)
+    uint256 public energyRate = 1e18;
+
+    /// @notice DLUZ rewarded per 1 dCARBON retired (18 decimals). Default: 10e18 (10:1)
+    uint256 public dluzRewardRate = 10e18;
+
+    /// @notice Address holding DLUZ treasury for rewards
+    address public dluzTreasury;
 
     struct Retirement {
         address retiree;
@@ -40,26 +58,56 @@ contract CarbonRegistry is Ownable {
         uint256 timestamp
     );
 
+    event EnergyMinted(
+        address indexed retiree,
+        uint256 amount
+    );
+
+    event DluzRewarded(
+        address indexed retiree,
+        uint256 amount
+    );
+
+    event EnergyRateUpdated(uint256 oldRate, uint256 newRate);
+    event DluzRewardRateUpdated(uint256 oldRate, uint256 newRate);
+    event DluzTreasuryUpdated(address oldTreasury, address newTreasury);
+
     // ─── Errors ──────────────────────────────────────────────
 
     error ZeroAmount();
     error EmptyReason();
-    error InvalidToken();
+    error InvalidAddress();
+    error DluzTransferFailed();
 
     // ─── Constructor ─────────────────────────────────────────
 
     /**
-     * @param _dCarbonToken Address of the deployed DCarbonToken (ERC20Burnable)
+     * @param _dCarbonToken  Address of DCarbonToken (ERC20Burnable)
+     * @param _dEnergyToken  Address of DEnergyToken (IMintable)
+     * @param _dluzToken     Address of DLuzToken (IERC20)
+     * @param _dluzTreasury  Address holding DLUZ for rewards (must approve this contract)
      */
-    constructor(address _dCarbonToken) Ownable(msg.sender) {
-        if (_dCarbonToken == address(0)) revert InvalidToken();
+    constructor(
+        address _dCarbonToken,
+        address _dEnergyToken,
+        address _dluzToken,
+        address _dluzTreasury
+    ) Ownable(msg.sender) {
+        if (_dCarbonToken == address(0)) revert InvalidAddress();
+        if (_dEnergyToken == address(0)) revert InvalidAddress();
+        if (_dluzToken == address(0)) revert InvalidAddress();
+        if (_dluzTreasury == address(0)) revert InvalidAddress();
+
         dCarbonToken = ERC20Burnable(_dCarbonToken);
+        dEnergyToken = IMintable(_dEnergyToken);
+        dluzToken = IERC20(_dluzToken);
+        dluzTreasury = _dluzTreasury;
     }
 
     // ─── Core ────────────────────────────────────────────────
 
     /**
-     * @notice Retire (burn) dCARBON tokens and record on-chain.
+     * @notice Retire (burn) dCARBON, mint dENERGY, and receive DLUZ reward.
      * @param amount Amount of dCARBON to retire (18 decimals). 1 token = 1 tonne CO2.
      * @param reason Description or project name for the retirement.
      *
@@ -67,16 +115,17 @@ contract CarbonRegistry is Ownable {
      * - Caller must have approved this contract to spend `amount` of dCARBON.
      * - `amount` must be > 0.
      * - `reason` must not be empty.
+     * - DLUZ treasury must have approved this contract with sufficient allowance.
      */
     function retire(uint256 amount, string calldata reason) external {
         if (amount == 0) revert ZeroAmount();
         if (bytes(reason).length == 0) revert EmptyReason();
 
-        // Transfer dCARBON from caller to this contract, then burn
+        // 1. Transfer dCARBON from caller to this contract, then burn
         dCarbonToken.transferFrom(msg.sender, address(this), amount);
         dCarbonToken.burn(amount);
 
-        // Record retirement
+        // 2. Record retirement
         uint256 retirementId = _retirements.length;
 
         _retirements.push(Retirement({
@@ -91,6 +140,55 @@ contract CarbonRegistry is Ownable {
         totalRetired += amount;
 
         emit CarbonRetired(retirementId, msg.sender, amount, reason, block.timestamp);
+
+        // 3. Mint dENERGY to retiree
+        if (energyRate > 0) {
+            uint256 energyAmount = (amount * energyRate) / 1e18;
+            if (energyAmount > 0) {
+                dEnergyToken.mint(msg.sender, energyAmount);
+                emit EnergyMinted(msg.sender, energyAmount);
+            }
+        }
+
+        // 4. Transfer DLUZ reward from treasury
+        if (dluzRewardRate > 0 && dluzTreasury != address(0)) {
+            uint256 rewardAmount = (amount * dluzRewardRate) / 1e18;
+            if (rewardAmount > 0) {
+                bool success = dluzToken.transferFrom(dluzTreasury, msg.sender, rewardAmount);
+                if (!success) revert DluzTransferFailed();
+                emit DluzRewarded(msg.sender, rewardAmount);
+            }
+        }
+    }
+
+    // ─── Admin ───────────────────────────────────────────────
+
+    /**
+     * @notice Update dENERGY mint rate per dCARBON retired.
+     * @param newRate New rate (18 decimals). 1e18 = 1:1. Set 0 to disable.
+     */
+    function setEnergyRate(uint256 newRate) external onlyOwner {
+        emit EnergyRateUpdated(energyRate, newRate);
+        energyRate = newRate;
+    }
+
+    /**
+     * @notice Update DLUZ reward rate per dCARBON retired.
+     * @param newRate New rate (18 decimals). 10e18 = 10:1. Set 0 to disable.
+     */
+    function setDluzRewardRate(uint256 newRate) external onlyOwner {
+        emit DluzRewardRateUpdated(dluzRewardRate, newRate);
+        dluzRewardRate = newRate;
+    }
+
+    /**
+     * @notice Update DLUZ treasury address.
+     * @param newTreasury New treasury address (must approve this contract).
+     */
+    function setDluzTreasury(address newTreasury) external onlyOwner {
+        if (newTreasury == address(0)) revert InvalidAddress();
+        emit DluzTreasuryUpdated(dluzTreasury, newTreasury);
+        dluzTreasury = newTreasury;
     }
 
     // ─── Views ───────────────────────────────────────────────

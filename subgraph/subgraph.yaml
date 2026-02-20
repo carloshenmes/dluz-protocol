@@ -1,0 +1,28 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CarbonRegistry
+    network: base-sepolia
+    source:
+      address: "0x73fdbf1652Dc01b8104b127c48B064BE94bD4fBf"
+      abi: CarbonRegistry
+      startBlock: 37928416
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Retirement
+        - UserStats
+        - ProtocolStats
+      abis:
+        - name: CarbonRegistry
+          file: ./abis/CarbonRegistry.json
+      eventHandlers:
+        - event: CarbonRetired(indexed address,uint256,string)
+          handler: handleCarbonRetired
+      file: ./src/mapping.ts

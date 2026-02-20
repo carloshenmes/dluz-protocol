@@ -1,0 +1,27 @@
+type Retirement @entity {
+  id: Bytes!
+  user: Bytes!
+  amount: BigInt!
+  reason: String!
+  dluzReward: BigInt!
+  denergyMinted: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UserStats @entity {
+  id: Bytes!
+  totalRetired: BigInt!
+  totalDluzEarned: BigInt!
+  totalDenergyEarned: BigInt!
+  retirementCount: BigInt!
+}
+
+type ProtocolStats @entity {
+  id: Bytes!
+  totalCarbonRetired: BigInt!
+  totalDluzDistributed: BigInt!
+  totalDenergyMinted: BigInt!
+  totalRetirements: BigInt!
+}

@@ -2,7 +2,7 @@
 
 import { useReadContract, useAccount } from "wagmi";
 import { formatUnits } from "viem";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
 interface TokenBalanceProps {
@@ -38,11 +38,39 @@ const colorMap: Record<string, { border: string; hoverBorder: string; text: stri
   },
 };
 
+function formatTokenAmount(value: number): string {
+  if (value === 0) return "0";
+
+  // Números grandes: sem casas decimais
+  if (value >= 1_000_000) {
+    return value.toLocaleString("pt-BR", {
+      maximumFractionDigits: 0,
+    });
+  }
+
+  // Números médios: até 2 casas
+  if (value >= 1) {
+    return value.toLocaleString("pt-BR", {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 0,
+    });
+  }
+
+  // Números pequenos: até 6 casas
+  return value.toLocaleString("pt-BR", {
+    maximumFractionDigits: 6,
+    minimumFractionDigits: 2,
+  });
+}
+
 function AnimatedNumber({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    if (value === 0) { setDisplay(0); return; }
+    if (value === 0) {
+      setDisplay(0);
+      return;
+    }
 
     const duration = 1200;
     const steps = 40;
@@ -63,11 +91,7 @@ function AnimatedNumber({ value }: { value: number }) {
     return () => clearInterval(timer);
   }, [value]);
 
-  return (
-    <span>
-      {display.toLocaleString("pt-BR", { maximumFractionDigits: 4 })}
-    </span>
-  );
+  return <span>{formatTokenAmount(display)}</span>;
 }
 
 export function TokenBalance({ name, symbol, address, abi, icon, color }: TokenBalanceProps) {
