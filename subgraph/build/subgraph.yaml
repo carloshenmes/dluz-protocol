@@ -2,7 +2,7 @@ specVersion: 1.0.0
 indexerHints:
   prune: auto
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: CarbonRegistry
@@ -21,7 +21,7 @@ dataSources:
         - ProtocolStats
       abis:
         - name: CarbonRegistry
-          file: ./abis/CarbonRegistry.json
+          file: CarbonRegistry/CarbonRegistry.json
       eventHandlers:
         - event: CarbonRetired(indexed uint256,indexed address,uint256,string,uint256)
           handler: handleCarbonRetired
@@ -29,4 +29,4 @@ dataSources:
           handler: handleDluzRewarded
         - event: EnergyMinted(indexed address,uint256)
           handler: handleEnergyMinted
-      file: ./src/mapping.ts
+      file: CarbonRegistry/CarbonRegistry.wasm
