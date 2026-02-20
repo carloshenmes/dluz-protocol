@@ -10,6 +10,7 @@ const navLinks = [
   { label: "DEX", href: "#dex" },
   { label: "Amazônia", href: "#amazonia" },
   { label: "Energia", href: "#energia" },
+  { label: "Retire", href: "/retire" },
 ];
 
 export function Header() {
