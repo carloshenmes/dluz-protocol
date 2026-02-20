@@ -18,10 +18,10 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-800/50 bg-gray-950/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        <div className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <Logo size={32} />
           <h1 className="text-lg font-bold text-green-400">dLuz Protocol</h1>
-        </div>
+        </a>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
