@@ -1,32 +1,76 @@
 [
   {
-    "id": "brasil-regulamenta-sbce",
-    "title": "Brasil regulamenta mercado de carbono com o SBCE",
-    "source": "Carbon Credits",
-    "date": "2026-01-20",
-    "tag": "Regulação",
+    "id": "1",
+    "tag": "REGULAÇÃO",
+    "tagColor": "green",
+    "date": "2026-02-18",
+    "title": "SBCE entra em fase de Registro Piloto em 2026",
+    "excerpt": "O Sistema Brasileiro de Comércio de Emissões (Lei 15.042/2024) inicia sua Fase 2 com monitoramento obrigatório para empresas que emitem acima de 10 mil tCO₂e/ano. O Brasil se posiciona como referência entre países emergentes no modelo cap-and-trade.",
+    "source": "dLuz Protocol",
+    "url": "#protocolo"
+  },
+  {
+    "id": "2",
+    "tag": "MERCADO",
     "tagColor": "blue",
-    "excerpt": "A Lei 15.042/2024 cria o Sistema Brasileiro de Comércio de Emissões, colocando o Brasil no mapa global do mercado regulado de carbono.",
-    "url": "https://carboncredits.com"
+    "date": "2026-02-12",
+    "title": "Mercado voluntário de carbono deve atingir US$ 250 bilhões até 2030",
+    "excerpt": "Projeções do Banco Mundial e da McKinsey indicam crescimento de 15x no mercado voluntário. A tokenização é apontada como o principal vetor de liquidez, reduzindo custos de intermediação em até 80%.",
+    "source": "dLuz Protocol",
+    "url": "#protocolo"
   },
   {
-    "id": "tokenizacao-rec-energia",
-    "title": "Tokenização de REC: como blockchain transforma energia renovável",
-    "source": "CoinDesk",
-    "date": "2026-01-15",
-    "tag": "Energia",
-    "tagColor": "yellow",
-    "excerpt": "Certificados de energia renovável tokenizados permitem rastreabilidade e negociação peer-to-peer, eliminando intermediários.",
-    "url": "https://coindesk.com"
-  },
-  {
-    "id": "creditos-amazonia-premium",
-    "title": "Créditos de carbono da Amazônia ganham premium no mercado global",
-    "source": "Bloomberg Green",
-    "date": "2026-01-08",
-    "tag": "Amazônia",
+    "id": "3",
+    "tag": "AMAZÔNIA",
     "tagColor": "emerald",
-    "excerpt": "Projetos REDD+ na Amazônia brasileira estão sendo negociados com ágio de até 40% sobre créditos convencionais.",
-    "url": "https://bloomberg.com/green"
-  }
-]
+    "date": "2026-02-05",
+    "title": "Projetos REDD+ na Amazônia evitaram 30 milhões de tCO₂ em 2025",
+    "excerpt": "Iniciativas de preservação florestal registraram recorde de créditos verificados pelo Verra. Créditos amazônicos são negociados com ágio de até 40% sobre créditos convencionais no mercado global.",
+    "source": "dLuz Protocol",
+    "url": "#amazonia"
+  },
+  {
+    "id": "4",
+    "tag": "BLOCKCHAIN",
+    "tagColor": "purple",
+    "date": "2026-01-28",
+    "title": "Base (Ethereum L2) se consolida como rede para ativos ambientais",
+    "excerpt": "Com gas abaixo de US$ 0,01 e total compatibilidade EVM, a rede Base atrai protocolos de impacto climático. Tokenização de RWAs ambientais cresceu 340% na rede em 2025.",
+    "source": "dLuz Protocol",
+    "url": "#protocolo"
+  },
+  {
+    "id": "5",
+    "tag": "ENERGIA",
+    "tagColor": "yellow",
+    "date": "2026-01-20",
+    "title": "Brasil bate recorde: 93% da matriz elétrica é renovável",
+    "excerpt": "Dados da ANEEL confirmam a liderança brasileira em energia limpa. Certificados de Energia Renovável (RECs) tokenizados ganham força como ativo negociável, com rastreabilidade total on-chain.",
+    "source": "dLuz Protocol",
+    "url": "#energia"
+  },
+  {
+    "id": "6",
+    "tag": "DEFI",
+    "tagColor": "orange",
+    "date": "2026-01-14",
+    "title": "DeFi climático: pools de liquidez financiam preservação ambiental",
+    "excerpt": "Protocolos descentralizados criam um novo modelo de financiamento verde. Provedores de liquidez recebem rewards enquanto seus ativos financiam projetos de compensação de carbono verificados.",
+    "source": "dLuz Protocol",
+    "url": "#dex"
+  },
+  {
+    "id": "7",
+    "tag": "REGULAÇÃO",
+    "tagColor": "green",
+    "date": "2026-01-07",
+    "title": "CVM classifica Cotas Brasileiras de Emissão como valores mobiliários",
+    "excerpt": "A decisão da CVM traz segurança jurídica para o mercado de carbono tokenizado. CBEs e CRVEs passam a seguir regras de transparência e proteção ao investidor, abrindo caminho para listagem em exchanges reguladas.",
+    "source": "dLuz Protocol",
+    "url": "#protocolo"
+  },
+  {
+    "id": "8",
+    "tag": "AMAZÔNIA",
+    "tagColor": "emerald",
+    "date":](streamdown:incomplete-link)
