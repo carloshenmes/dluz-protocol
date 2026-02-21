@@ -3,26 +3,26 @@
 import { Logo } from "./Logo";
 
 const protocolLinks = [
-  { label: "Como Funciona", href: "#como-funciona" },
-  { label: "Tokens", href: "#tokens" },
-  { label: "DEX", href: "#dex" },
-  { label: "Amazônia", href: "#amazonia" },
-  { label: "Energia", href: "#energia" },
-  { label: "Dashboard", href: "#dashboard" },
+  { label: "Como Funciona", href: "/#como-funciona" },
+  { label: "Tokens", href: "/#tokens" },
+  { label: "DEX", href: "/#dex" },
+  { label: "Amazônia", href: "/#amazonia" },
+  { label: "Energia", href: "/#energia" },
+  { label: "Dashboard", href: "/#dashboard" },
 ];
 
 const devLinks = [
   { label: "GitHub", href: "https://github.com/carloshenmes/dluz-protocol" },
-  { label: "BaseScan Contracts", href: "https://basescan.org" },
-  { label: "Docs / Whitepaper", href: "#" },
-  { label: "Bug Bounty", href: "/bug-bounty" },
+  { label: "BaseScan Contracts", href: "https://sepolia.basescan.org/address/0xBfeE6d11634376aB33E47d81531FE36522e051f9#code" },
+  { label: "Docs / Whitepaper", href: "https://github.com/carloshenmes/dluz-protocol/blob/main/docs/WHITEPAPER.md" },
+  { label: "Bug Bounty", href: "https://github.com/carloshenmes/dluz-protocol/issues" },
 ];
 
 const communityLinks = [
   { label: "Twitter / X", href: "https://x.com/dluzprotocol" },
   { label: "Telegram", href: "https://t.me/dluzprotocol" },
-  { label: "Blog", href: "#blog" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Blog", href: "https://x.com/dluzprotocol" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function Footer() {
@@ -69,8 +69,8 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    target={link.href.startsWith("http") ? "_blank" : undefined}
-                    rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm text-gray-500 hover:text-green-400 transition-colors"
                   >
                     {link.label}
