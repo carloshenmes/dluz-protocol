@@ -135,7 +135,7 @@ export function CarbonMarketSection() {
               <p className="text-sm text-gray-400">Conecte sua wallet e comece a negociar créditos de carbono on-chain.</p>
             </div>
             <a
-              href="#dex"
+              href="#farm"
               className="px-6 py-3 rounded-xl bg-green-500 text-black font-bold hover:bg-green-400 transition-colors whitespace-nowrap"
             >
               Acessar DEX

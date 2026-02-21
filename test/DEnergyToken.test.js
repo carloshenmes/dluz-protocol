@@ -14,7 +14,7 @@ describe("DEnergyToken", function () {
 
   describe("Deployment", function () {
     it("Should set the correct name and symbol", async function () {
-      expect(await denergy.name()).to.equal("dLuz Renewable Energy");
+      expect(await denergy.name()).to.equal("dEnergy Token");
       expect(await denergy.symbol()).to.equal("dENERGY");
     });
 

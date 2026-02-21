@@ -11,14 +11,24 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @notice $DLUZ — Governance and utility token for the dLuz Protocol
  * @dev ERC20 with burn, permit (gasless approvals), and owner-controlled minting
  *
- * Tokenomics:
- * - Max supply: 1,000,000,000 DLUZ
- * - Initial mint to deployer (treasury): 300,000,000 DLUZ
- * - Remaining supply mintable by owner for farming rewards, airdrops, etc.
+ * Tokenomics (1,000,000,000 DLUZ):
+ * ┌─────────────────────────────────────────────────────────────┐
+ * │ INITIAL MINT: 500,000,000 (50%) — distributed post-deploy  │
+ * │  ├─ Presale:      250,000,000 (25%) → PinkSale/DLuzSale    │
+ * │  ├─ Liquidity:    100,000,000 (10%) → LP lock 12 months    │
+ * │  ├─ Team:         100,000,000 (10%) → TeamVesting (6m+18m) │
+ * │  ├─ Marketing:     50,000,000  (5%) → TeamVesting (12m)    │
+ * │  └─ Treasury:      50,000,000  (5%) → TeamVesting (3m+12m) │
+ * │                                                             │
+ * │ RESERVED MINT: 500,000,000 (50%) — minted on demand        │
+ * │  ├─ Rewards:      250,000,000 (25%) → DLuzFarming          │
+ * │  ├─ Ecosystem:    150,000,000 (15%) → Airdrops, CEX, etc.  │
+ * │  └─ Buffer:       100,000,000 (10%) → Marketing extra       │
+ * └─────────────────────────────────────────────────────────────┘
  */
 contract DLuzToken is ERC20, ERC20Burnable, ERC20Permit, Ownable {
     uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;
-    uint256 public constant INITIAL_SUPPLY = 300_000_000 * 10 ** 18;
+    uint256 public constant INITIAL_SUPPLY = 500_000_000 * 10 ** 18;
 
     error ExceedsMaxSupply(uint256 requested, uint256 available);
 

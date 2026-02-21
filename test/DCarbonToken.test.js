@@ -14,7 +14,7 @@ describe("DCarbonToken", function () {
 
   describe("Deployment", function () {
     it("Should set the correct name and symbol", async function () {
-      expect(await dcarbon.name()).to.equal("dLuz Carbon Credit");
+      expect(await dcarbon.name()).to.equal("dCarbon Token");
       expect(await dcarbon.symbol()).to.equal("dCARBON");
     });
 

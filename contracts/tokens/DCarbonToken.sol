@@ -25,7 +25,7 @@ contract DCarbonToken is ERC20, ERC20Burnable, AccessControl {
         string reason
     );
 
-    constructor() ERC20("dLuz Carbon Credit", "dCARBON") {
+    constructor() ERC20("dCarbon Token", "dCARBON") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
     }

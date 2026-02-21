@@ -2,6 +2,8 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
@@ -18,7 +20,7 @@ interface IMintable {
     function mint(address to, uint256 amount) external;
 }
 
-contract CarbonRegistry is Ownable {
+contract CarbonRegistry is Ownable, ReentrancyGuard, Pausable {
 
     // ─── State ───────────────────────────────────────────────
 
@@ -34,6 +36,10 @@ contract CarbonRegistry is Ownable {
 
     /// @notice Address holding DLUZ treasury for rewards
     address public dluzTreasury;
+
+    uint256 public constant MAX_ENERGY_RATE = 100e18;
+    uint256 public constant MAX_DLUZ_REWARD_RATE = 100e18;
+    uint256 public constant MAX_REASON_LENGTH = 280;
 
     struct Retirement {
         address retiree;
@@ -78,6 +84,8 @@ contract CarbonRegistry is Ownable {
     error EmptyReason();
     error InvalidAddress();
     error DluzTransferFailed();
+    error RateTooHigh();
+    error ReasonTooLong();
 
     // ─── Constructor ─────────────────────────────────────────
 
@@ -117,13 +125,13 @@ contract CarbonRegistry is Ownable {
      * - `reason` must not be empty.
      * - DLUZ treasury must have approved this contract with sufficient allowance.
      */
-    function retire(uint256 amount, string calldata reason) external {
+    function retire(uint256 amount, string calldata reason) external nonReentrant whenNotPaused {
         if (amount == 0) revert ZeroAmount();
         if (bytes(reason).length == 0) revert EmptyReason();
+        if (bytes(reason).length > MAX_REASON_LENGTH) revert ReasonTooLong();
 
-        // 1. Transfer dCARBON from caller to this contract, then burn
-        dCarbonToken.transferFrom(msg.sender, address(this), amount);
-        dCarbonToken.burn(amount);
+        // 1. Burn dCARBON directly from caller
+        dCarbonToken.burnFrom(msg.sender, amount);
 
         // 2. Record retirement
         uint256 retirementId = _retirements.length;
@@ -168,6 +176,7 @@ contract CarbonRegistry is Ownable {
      * @param newRate New rate (18 decimals). 1e18 = 1:1. Set 0 to disable.
      */
     function setEnergyRate(uint256 newRate) external onlyOwner {
+        if (newRate > MAX_ENERGY_RATE) revert RateTooHigh();
         emit EnergyRateUpdated(energyRate, newRate);
         energyRate = newRate;
     }
@@ -177,6 +186,7 @@ contract CarbonRegistry is Ownable {
      * @param newRate New rate (18 decimals). 10e18 = 10:1. Set 0 to disable.
      */
     function setDluzRewardRate(uint256 newRate) external onlyOwner {
+        if (newRate > MAX_DLUZ_REWARD_RATE) revert RateTooHigh();
         emit DluzRewardRateUpdated(dluzRewardRate, newRate);
         dluzRewardRate = newRate;
     }
@@ -189,6 +199,16 @@ contract CarbonRegistry is Ownable {
         if (newTreasury == address(0)) revert InvalidAddress();
         emit DluzTreasuryUpdated(dluzTreasury, newTreasury);
         dluzTreasury = newTreasury;
+    }
+
+    // ─── Emergency ─────────────────────────────────────────
+
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
     }
 
     // ─── Views ───────────────────────────────────────────────

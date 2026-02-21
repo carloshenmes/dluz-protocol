@@ -25,7 +25,7 @@ contract DEnergyToken is ERC20, ERC20Burnable, AccessControl {
         string reason
     );
 
-    constructor() ERC20("dLuz Renewable Energy", "dENERGY") {
+    constructor() ERC20("dEnergy Token", "dENERGY") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
     }

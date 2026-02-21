@@ -8,7 +8,7 @@ import { EnergySection } from "@/components/EnergySection";
 import { CarbonMarketSection } from "@/components/CarbonMarketSection";
 import { PartnersSection } from "@/components/PartnersSection";
 import { Dashboard } from "@/components/Dashboard";
-import { SwapPreview } from "@/components/SwapPreview";
+import { FarmPanel } from "@/components/FarmPanel";
 import { BuyDLuz } from "@/components/BuyDLuz";
 import { TeamSection } from "@/components/TeamSection";
 import { BlogSection } from "@/components/BlogSection";
@@ -29,7 +29,7 @@ export default function Home() {
       <PartnersSection />
       <Dashboard />
       <BuyDLuz />
-      <SwapPreview />
+      <FarmPanel />
       <TeamSection />
       <BlogSection />
       <FAQSection />

@@ -3,8 +3,8 @@ const { ethers } = require("hardhat");
 
 describe("DLuzToken", function () {
   let dluz, owner, addr1, addr2;
-  const INITIAL_SUPPLY = ethers.parseEther("30000000"); // 30M
-  const MAX_SUPPLY = ethers.parseEther("100000000"); // 100M
+  const INITIAL_SUPPLY = ethers.parseEther("500000000"); // 500M
+  const MAX_SUPPLY = ethers.parseEther("1000000000");    // 1B
 
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
