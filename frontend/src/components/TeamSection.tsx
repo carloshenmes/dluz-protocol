@@ -71,7 +71,7 @@ export function TeamSection() {
 
               {/* Info */}
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-xl font-bold text-white">Carlos Henmes</h3>
+                <h3 className="text-xl font-bold text-white">HENMES</h3>
                 <p className="text-sm text-green-400 font-medium mb-1">aka C2 · RCK Dev</p>
                 <p className="text-[11px] text-gray-500 uppercase tracking-wider mb-4">
                   Founder & Full-Stack Builder
