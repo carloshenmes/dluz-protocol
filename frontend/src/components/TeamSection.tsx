@@ -2,11 +2,20 @@
 
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
+const education = [
+  { degree: "Graphic Design", type: "Bachelor's Degree" },
+  { degree: "Information Technology", type: "Bachelor's Degree" },
+  { degree: "Digital Media", type: "Postgraduate" },
+  { degree: "Systems Development", type: "Professional Development" },
+];
+
 const skills = [
   { label: "Graphic Design", icon: "🎨" },
   { label: "Digital Media", icon: "📱" },
+  { label: "Photography", icon: "📷" },
   { label: "Front-end / Web3", icon: "⚡" },
   { label: "Smart Contracts", icon: "📜" },
+  { label: "UI/UX Design", icon: "🖥️" },
 ];
 
 const links = [
@@ -37,7 +46,7 @@ export function TeamSection() {
               </span>
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
-              Construído com convicção por quem acredita que tecnologia e sustentabilidade 
+              Construído com convicção por quem acredita que tecnologia e sustentabilidade
               andam juntas — sem comitê, sem burocracia.
             </p>
           </div>
@@ -45,7 +54,7 @@ export function TeamSection() {
 
         <AnimateOnScroll scale blur>
           <div className="relative bg-gray-900/60 border border-gray-800 rounded-2xl p-8 md:p-10 glow-hover">
-            {/* Tag lobo solitário */}
+            {/* Tag */}
             <div className="absolute -top-3 right-6">
               <span className="text-[10px] font-bold uppercase tracking-widest bg-green-500/20 text-green-400 border border-green-500/30 px-3 py-1 rounded-full">
                 Solo Builder
@@ -53,7 +62,7 @@ export function TeamSection() {
             </div>
 
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-              {/* Avatar placeholder */}
+              {/* Avatar */}
               <div className="shrink-0">
                 <div className="w-28 h-28 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/30 flex items-center justify-center">
                   <span className="text-5xl">🐺</span>
@@ -68,10 +77,32 @@ export function TeamSection() {
                   Founder & Full-Stack Builder
                 </p>
                 <p className="text-sm text-gray-400 mb-5 leading-relaxed max-w-lg">
-                  Designer turned Web3 developer. Built the dLuz Protocol from scratch — 
-                  concept, branding, smart contracts, and front-end. 
-                  Focused on bridging real-world sustainability with decentralized tech.
+                  Designer, photographer and developer with 15+ years of experience in visual
+                  communication and digital media. Transitioned to Web3 to build dLuz Protocol
+                  from scratch — concept, branding, smart contracts, DEX, and front-end.
+                  Bridging real-world sustainability with decentralized technology.
                 </p>
+
+                {/* Education */}
+                <div className="mb-5">
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2.5 font-semibold">
+                    Education
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {education.map((e) => (
+                      <div
+                        key={e.degree}
+                        className="flex items-center gap-2 text-xs text-gray-400"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500/60 shrink-0" />
+                        <span>
+                          <span className="text-gray-300 font-medium">{e.degree}</span>
+                          <span className="text-gray-600 ml-1">· {e.type}</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Skills */}
                 <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
@@ -104,11 +135,11 @@ export function TeamSection() {
               </div>
             </div>
 
-            {/* Stats mini */}
+            {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mt-8 pt-8 border-t border-gray-800/50">
               {[
-                { value: "1", label: "Builder" },
-                { value: "5+", label: "Deployed Contracts" },
+                { value: "7+", label: "Deployed Contracts" },
+                { value: "15+", label: "Years in Design & Media" },
                 { value: "100%", label: "Open Source" },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
