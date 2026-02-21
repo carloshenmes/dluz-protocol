@@ -1,4 +1,4 @@
-# dLuz Protocol — Whitepaper v1.0
+# dLuz Protocol — Whitepaper v1.1
 
 > Tokenizing carbon credits and renewable energy certificates on Base (Ethereum L2).
 
@@ -13,11 +13,13 @@
 5. [Tokens](#5-tokens)
 6. [Core Mechanics](#6-core-mechanics)
 7. [Tokenomics](#7-tokenomics)
-8. [Governance Roadmap](#8-governance-roadmap)
-9. [Revenue Model](#9-revenue-model)
-10. [Security](#10-security)
-11. [Roadmap](#11-roadmap)
-12. [Legal Disclaimer](#12-legal-disclaimer)
+8. [DEX & Liquidity](#8-dex--liquidity)
+9. [Farming & Rewards](#9-farming--rewards)
+10. [Governance Roadmap](#10-governance-roadmap)
+11. [Revenue Model](#11-revenue-model)
+12. [Security](#12-security)
+13. [Roadmap](#13-roadmap)
+14. [Legal Disclaimer](#14-legal-disclaimer)
 
 ---
 
@@ -57,19 +59,22 @@ dLuz unifies carbon credits and RECs into a single on-chain protocol with:
 
 ## 4. Protocol Architecture
 
-┌─────────────────────────────────────────────────────┐ │ dLuz Protocol │ ├──────────┬──────────┬──────────┬────────────────────┤ │ DLuzToken│DCarbonTkn│DEnergyTkn│ CarbonRegistry │ │ (ERC-20) │ (ERC-20) │ (ERC-20) │ (Core Logic) │ │ Governance│ Carbon │ RECs │ Retire / Mint │ │ + Utility│ Credits │ │ Rates / Treasury │ ├──────────┴──────────┴──────────┴────────────────────┤ │ Base (Ethereum L2) │ ├─────────────────────────────────────────────────────┤ │ Ethereum L1 (Settlement) │ └─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐ │ dLuz Protocol │ ├──────────┬──────────┬──────────┬────────────────────────────┤ │ DLuzToken│DCarbonTkn│DEnergyTkn│ CarbonRegistry │ │ (ERC-20) │ (ERC-20) │ (ERC-20) │ (Core Logic) │ │Governance│ Carbon │ RECs │ Retire / Mint │ │+ Utility │ Credits │ │ Rates / Treasury │ ├──────────┴──────────┴──────────┴────────────────────────────┤ │ DLuzDEX │ DLuzFarming │ DLuzSale │ │ Swap & Liquidity │ Yield Farming │ Token Pre-Sale │ ├──────────────────┴──────────────────┴───────────────────────┤ │ Base (Ethereum L2) │ ├─────────────────────────────────────────────────────────────┤ │ Ethereum L1 (Settlement) │ └─────────────────────────────────────────────────────────────┘
 
 
 
 
 ### Smart Contracts
 
-| Contract | Role | Standard |
+| Contract | Address | Role |
 |---|---|---|
-| `DLuzToken` | Governance + utility + rewards | ERC-20, ERC-20Permit, Ownable |
-| `DCarbonToken` | Tokenized carbon credits | ERC-20, AccessControl (MINTER_ROLE) |
-| `DEnergyToken` | Tokenized RECs | ERC-20, AccessControl (MINTER_ROLE) |
-| `CarbonRegistry` | Retirement logic, rate management, event logging | Ownable, Pausable |
+| `DLuzToken` | `0xF080...950c` | Governance + utility + rewards |
+| `DCarbonToken` | `0x8760...1C45D` | Tokenized carbon credits |
+| `DEnergyToken` | `0x8919...E1934` | Tokenized RECs |
+| `CarbonRegistry` | `0x73fd...4bBf` | Retirement logic, rate management |
+| `DLuzDEX` | `0xc928...E6f3` | Swap & liquidity pools |
+| `DLuzFarming` | `0x2ef3...b30a` | Yield farming rewards |
+| `DLuzSale` | `0xc6a5...d35` | Token pre-sale |
 
 All contracts use **OpenZeppelin v5** audited libraries. Compiled with Solidity 0.8.28, EVM target Paris.
 
@@ -83,8 +88,8 @@ All contracts use **OpenZeppelin v5** audited libraries. Compiled with Solidity 
 |---|---|
 | Name | dLuz Token |
 | Symbol | DLUZ |
-| Max Supply | 100,000,000 (100M) |
-| Initial Mint | 10,000,000 (10M) to deployer |
+| Max Supply | **1,000,000,000 (1B)** |
+| Initial Mint | **300,000,000 (300M)** to deployer |
 | Mintable | Yes, by owner, up to max supply |
 | Burnable | Yes, by any holder |
 | Permit | ERC-2612 (gasless approvals) |
@@ -94,6 +99,7 @@ All contracts use **OpenZeppelin v5** audited libraries. Compiled with Solidity 
 - DEX liquidity provision
 - Farming rewards
 - Future governance voting
+- Pre-sale via DLuzSale contract
 
 ### 5.2 dCARBON — Carbon Credits
 
@@ -101,14 +107,14 @@ All contracts use **OpenZeppelin v5** audited libraries. Compiled with Solidity 
 |---|---|
 | Name | dCarbon Token |
 | Symbol | dCARBON |
-| Max Supply | Uncapped (mint on demand) |
+| Max Supply | **Unlimited** (mint on demand by verified entities) |
 | Mintable | MINTER_ROLE only |
 | Burnable | By holder (retire) or via CarbonRegistry |
 | Peg | 1 dCARBON = 1 tCO₂e compensated |
 
 **Lifecycle:**
 1. Verified project submits credits to dLuz Foundation
-2. Foundation validates against registry (Verra, Gold Standard)
+2. Foundation validates against registry (Verra, Gold Standard, Moss)
 3. MINTER_ROLE mints dCARBON 1:1
 4. User trades, holds, or retires (burns)
 5. Burn is permanent and irreversible
@@ -119,7 +125,7 @@ All contracts use **OpenZeppelin v5** audited libraries. Compiled with Solidity 
 |---|---|
 | Name | dEnergy Token |
 | Symbol | dENERGY |
-| Max Supply | Uncapped (mint on demand) |
+| Max Supply | **Unlimited** (minted on retirement events) |
 | Mintable | MINTER_ROLE only |
 | Burnable | By holder (redeem) |
 | Peg | 1 dENERGY = 1 MWh renewable energy generated |
@@ -162,19 +168,20 @@ Retirements are queryable via `getRetirements(user, offset, limit)` for gas-effi
 
 ## 7. Tokenomics
 
-### 7.1 DLUZ Distribution
+### 7.1 DLUZ Distribution (1,000,000,000 total)
 
 | Allocation | Amount | % | Vesting |
 |---|---|---|---|
-| Treasury (Retire rewards + LP incentives) | 40,000,000 | 40% | Programmatic release |
-| Team & Founders | 15,000,000 | 15% | 12-month cliff, 36-month linear |
-| Ecosystem & Partnerships | 20,000,000 | 20% | Milestone-based |
-| Community (Farming, Airdrops) | 15,000,000 | 15% | Halving schedule |
-| Liquidity (DEX pools) | 10,000,000 | 10% | At launch |
+| Treasury (Retire rewards + LP incentives) | 400,000,000 | 40% | Programmatic release |
+| Pre-Sale (DLuzSale contract) | 150,000,000 | 15% | Available at launch |
+| Team & Founders | 100,000,000 | 10% | 12-month cliff, 36-month linear |
+| Ecosystem & Partnerships | 150,000,000 | 15% | Milestone-based |
+| Community (Farming, Airdrops) | 100,000,000 | 10% | Halving schedule |
+| DEX Liquidity Pools | 100,000,000 | 10% | At launch |
 
 ### 7.2 Deflationary Pressure
 
-DLUZ has a hard cap of 100M. Supply decreases over time through:
+DLUZ has a hard cap of **1 billion**. Supply decreases over time through:
 
 1. **Retire fee burn** — 2% of each dCARBON retirement is routed to Treasury, converted to DLUZ, and burned.
 2. **Voluntary burn** — any holder can burn DLUZ at any time.
@@ -191,7 +198,64 @@ This ensures tokens are always backed by verified environmental assets.
 
 ---
 
-## 8. Governance Roadmap
+## 8. DEX & Liquidity
+
+The protocol includes a native DEX (`DLuzDEX`) for seamless trading of environmental tokens.
+
+### 8.1 Available Pairs
+
+| Pair | Description |
+|---|---|
+| dLuz ↔ dCARBON | Trade governance token for carbon credits |
+| dLuz ↔ dENERGY | Trade governance token for energy certificates |
+| dCARBON ↔ dENERGY | Direct swap between environmental assets |
+
+### 8.2 Pool Mechanics
+
+- **AMM model** — Constant product (x × y = k)
+- **Swap fee** — 0.3% per trade
+- **Fee split** — 0.25% to LPs, 0.05% to Treasury
+- **No KYC** — connect wallet and trade
+
+### 8.3 Liquidity Provision
+
+- LPs deposit token pairs and receive LP tokens
+- LP tokens represent proportional pool ownership
+- Fees are auto-compounded into pool reserves
+- LPs can stake LP tokens in Farming for additional dLuz rewards
+
+---
+
+## 9. Farming & Rewards
+
+The `DLuzFarming` contract incentivizes long-term liquidity and participation.
+
+### 9.1 Farm Pools
+
+| Pool | Stake | Earn | Estimated APY |
+|---|---|---|---|
+| dLuz/dCARBON LP | LP Token | dLuz | Variable |
+| dLuz/dENERGY LP | LP Token | dLuz | Variable |
+| dCARBON Staking | dCARBON | dLuz | Variable |
+
+### 9.2 Reward Schedule
+
+- Rewards emitted from Treasury allocation (400M dLuz)
+- Halving every 6 months to maintain long-term sustainability
+- APY adjusts dynamically based on total staked value
+
+### 9.3 Retirement Rewards
+
+| Action | Reward |
+|---|---|
+| Retire 1 dCARBON | 10 dLuz + 1 dENERGY |
+| Retire 100 dCARBON | 1,000 dLuz + 100 dENERGY |
+
+Rates are adjustable by governance within security caps.
+
+---
+
+## 10. Governance Roadmap
 
 ### Phase 1 — Foundation (Current)
 
@@ -218,13 +282,14 @@ This ensures tokens are always backed by verified environmental assets.
 
 ---
 
-## 9. Revenue Model
+## 11. Revenue Model
 
 | Source | Fee | Destination |
 |---|---|---|
 | DEX swap | 0.30% | 0.25% to LPs, 0.05% to Treasury |
 | dCARBON retirement | 2.00% | Treasury → DLUZ buyback & burn |
 | dCARBON minting (verifier) | 1.00% | Treasury |
+| Pre-sale | ETH raised | Treasury (development + liquidity) |
 
 ### Treasury Management
 
@@ -234,9 +299,9 @@ This ensures tokens are always backed by verified environmental assets.
 
 ---
 
-## 10. Security
+## 12. Security
 
-### 10.1 Smart Contract Security
+### 12.1 Smart Contract Security
 
 - **OpenZeppelin v5** — battle-tested, audited base contracts
 - **AccessControl** — role-based permissions (MINTER_ROLE, DEFAULT_ADMIN_ROLE)
@@ -245,19 +310,19 @@ This ensures tokens are always backed by verified environmental assets.
 - **Input validation** — zero-amount, empty-reason, zero-address checks
 - **No proxy/upgradeable** — immutable contracts, no admin rug vector
 
-### 10.2 Operational Security
+### 12.2 Operational Security
 
 - Deployer keys in hardware wallet
 - Multisig for treasury operations
 - Bug bounty program (critical: up to $50,000)
 
-### 10.3 Test Coverage
+### 12.3 Test Coverage
 
 - 76 tests covering all contracts
 - Branch coverage for edge cases (zero rates, truncation, failed transfers)
 - Security-specific test suite (pausable, rate caps, reason length)
 
-### 10.4 Audit Plan
+### 12.4 Audit Plan
 
 | Phase | Scope | Target |
 |---|---|---|
@@ -267,19 +332,19 @@ This ensures tokens are always backed by verified environmental assets.
 
 ---
 
-## 11. Roadmap
+## 13. Roadmap
 
 | Quarter | Milestone |
 |---|---|
-| **Q1 2026** | Testnet deploy (Base Sepolia). Core contracts audited. Landing page live. |
-| **Q2 2026** | Mainnet launch. DEX live. First dCARBON minting from verified project. |
-| **Q3 2026** | Farming pools. Oracle integration for verifiers. Mobile app. |
+| **Q1 2026** | Testnet deploy (Base Sepolia). Core contracts + DEX + Farming + Sale deployed. Landing page live. |
+| **Q2 2026** | Mainnet launch (Base). DEX live. First dCARBON minting from verified project. Token launch via launchpad. |
+| **Q3 2026** | Farming pools active. Oracle integration for verifiers. Mobile app. |
 | **Q4 2026** | DAO governance. Cross-chain bridge (Arbitrum, Polygon). |
 | **2027** | Institutional API. RWA marketplace. Carbon credit futures. |
 
 ---
 
-## 12. Legal Disclaimer
+## 14. Legal Disclaimer
 
 dLuz Protocol tokens (DLUZ, dCARBON, dENERGY) are **utility tokens**. They do not represent securities, equity, debt, or ownership in any entity.
 
@@ -293,11 +358,11 @@ Users are responsible for compliance with local regulations. dLuz Foundation doe
 
 ## Contact
 
-- **Website:** [dluz.io](https://dluz.io)
-- **GitHub:** [github.com/dluz-protocol](https://github.com/dluz-protocol)
-- **X (Twitter):** [@dluz_protocol](https://x.com/dluz_protocol)
+- **Website:** [dluz.cc](https://dluz.cc)
+- **GitHub:** [github.com/carloshenmes/dluz-protocol](https://github.com/carloshenmes/dluz-protocol)
+- **X (Twitter):** [@dluzprotocol](https://x.com/dluzprotocol)
 
 ---
 
-*dLuz Protocol — Whitepaper v1.0 — February 2026*
+*dLuz Protocol — Whitepaper v1.1 — February 2026*
 *© 2026 dLuz Foundation. All rights reserved.*
