@@ -15,13 +15,13 @@ const devLinks = [
   { label: "GitHub", href: "https://github.com/carloshenmes/dluz-protocol" },
   { label: "BaseScan Contracts", href: "https://sepolia.basescan.org/address/0xBfeE6d11634376aB33E47d81531FE36522e051f9#code" },
   { label: "Docs / Whitepaper", href: "https://github.com/carloshenmes/dluz-protocol/blob/main/docs/WHITEPAPER.md" },
-  { label: "Bug Bounty", href: "https://github.com/carloshenmes/dluz-protocol/issues" },
+  { label: "Bug Bounty", href: "/bug-bounty" },
 ];
 
 const communityLinks = [
   { label: "Twitter / X", href: "https://x.com/dluzprotocol" },
   { label: "Telegram", href: "https://t.me/dluzprotocol" },
-  { label: "Blog", href: "https://x.com/dluzprotocol" },
+  { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/#faq" },
 ];
 
