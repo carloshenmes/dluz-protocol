@@ -5,7 +5,7 @@ import { Logo } from "./Logo";
 const protocolLinks = [
   { label: "Como Funciona", href: "/#como-funciona" },
   { label: "Tokens", href: "/#tokens" },
-  { label: "DEX", href: "/#dex" },
+  { label: "DEX", href: "/#comprar" },
   { label: "Amazônia", href: "/#amazonia" },
   { label: "Energia", href: "/#energia" },
   { label: "Dashboard", href: "/#dashboard" },
