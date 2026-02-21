@@ -29,8 +29,8 @@ export default function Home() {
       <CarbonMarketSection />
       <PartnersSection />
       <Dashboard />
-      <BuyDLuz />
       <SwapPreview />
+      <BuyDLuz />
       <FarmPanel />
       <TeamSection />
       <BlogSection />
