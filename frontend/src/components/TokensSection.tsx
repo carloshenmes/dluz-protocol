@@ -19,7 +19,7 @@ interface TokenData {
 const tokens: TokenData[] = [
   {
     name: "dLuz",
-    symbol: "dLUZ",
+    symbol: "dLuz",
     logo: <Logo size={48} />,
     border: "border-yellow-500/30",
     hoverBorder: "hover:border-yellow-500/60",

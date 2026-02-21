@@ -10,7 +10,7 @@ import { LogoDEnergy } from "./LogoDEnergy";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
 const tokens = [
-  { name: "dLuz Token", symbol: "dLUZ", contract: "DLuzToken", color: "yellow" },
+  { name: "dLuz Token", symbol: "dLuz", contract: "DLuzToken", color: "yellow" },
   { name: "dCarbon Token", symbol: "dCARBON", contract: "DCarbonToken", color: "green" },
   { name: "dEnergy Token", symbol: "dENERGY", contract: "DEnergyToken", color: "blue" },
 ] as const;

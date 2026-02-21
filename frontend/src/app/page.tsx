@@ -1,3 +1,4 @@
+// frontend/src/app/page.tsx
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { AmazonSection } from "@/components/AmazonSection";
@@ -8,6 +9,7 @@ import { CarbonMarketSection } from "@/components/CarbonMarketSection";
 import { PartnersSection } from "@/components/PartnersSection";
 import { Dashboard } from "@/components/Dashboard";
 import { SwapPreview } from "@/components/SwapPreview";
+import { BuyDLuz } from "@/components/BuyDLuz";
 import { TeamSection } from "@/components/TeamSection";
 import { BlogSection } from "@/components/BlogSection";
 import { FAQSection } from "@/components/FAQSection";
@@ -26,6 +28,7 @@ export default function Home() {
       <CarbonMarketSection />
       <PartnersSection />
       <Dashboard />
+      <BuyDLuz />
       <SwapPreview />
       <TeamSection />
       <BlogSection />

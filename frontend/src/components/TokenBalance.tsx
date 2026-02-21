@@ -98,12 +98,15 @@ export function TokenBalance({ name, symbol, address, abi, icon, color }: TokenB
   const { address: userAddress, isConnected } = useAccount();
   const colors = colorMap[color] || colorMap.green;
 
-  const { data: balance, isLoading } = useReadContract({
+  const { data: balance, isLoading, refetch } = useReadContract({
     address,
     abi,
     functionName: "balanceOf",
     args: userAddress ? [userAddress] : undefined,
-    query: { enabled: isConnected && !!userAddress },
+    query: {
+      enabled: isConnected && !!userAddress,
+      refetchInterval: 10_000,
+    },
   });
 
   const formatted = balance ? formatUnits(balance as bigint, 18) : "0.0";

@@ -1,0 +1,30 @@
+{
+  "network": "baseSepolia",
+  "chainId": 84532,
+  "deployer": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+  "timestamp": "2026-02-20T22:48:56.273Z",
+  "contracts": {
+    "DLuzDEX": "0xc9284747A7DC88C08CD7A8051c262a101F24E6f3",
+    "DLuzFarming": "0x2ef3BFE8C997e031fff8992658C2Ac653b29b30a"
+  },
+  "pools": {
+    "dex": [
+      "DLUZ/dCARBON",
+      "DLUZ/dENERGY"
+    ],
+    "farming": [
+      {
+        "id": 0,
+        "stake": "DLUZ",
+        "reward": "dCARBON",
+        "rate": "0.01/sec"
+      },
+      {
+        "id": 1,
+        "stake": "DLUZ",
+        "reward": "dENERGY",
+        "rate": "0.005/sec"
+      }
+    ]
+  }
+}

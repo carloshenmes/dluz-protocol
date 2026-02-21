@@ -18,12 +18,12 @@ export function SwapPreview() {
             </h2>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Negocie tokens ambientais com liquidez, sem intermediários e com taxas mínimas.
-              Pools de liquidez incentivadas com rewards em dLUZ.
+              Pools de liquidez incentivadas com rewards em dLuz.
             </p>
             <ul className="space-y-3 text-sm text-gray-300">
               {[
-                "Swap instantâneo entre dLUZ ↔ dCARBON ↔ dENERGY",
-                "Pools de liquidez com APY em dLUZ",
+                "Swap instantâneo entre dLuz ↔ dCARBON ↔ dENERGY",
+                "Pools de liquidez com APY em dLuz",
                 "Sem KYC — conecte a wallet e negocie",
                 "Taxas de 0.3% revertidas para holders",
               ].map((item) => (
@@ -56,7 +56,7 @@ export function SwapPreview() {
                   disabled
                 />
                 <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-700 text-sm font-medium text-white">
-                  <Logo size={22} /> dLUZ
+                  <Logo size={22} /> dLuz
                 </button>
               </div>
             </div>
@@ -90,7 +90,7 @@ export function SwapPreview() {
             </button>
 
             <p className="text-center text-xs text-gray-600 mt-3">
-              1 dLUZ ≈ 0.42 dCARBON • Slippage: 0.5%
+              1 dLuz ≈ 0.42 dCARBON • Slippage: 0.5%
             </p>
           </div>
         </AnimateOnScroll>

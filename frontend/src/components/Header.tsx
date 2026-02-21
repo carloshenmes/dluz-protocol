@@ -9,6 +9,7 @@ import { useState } from "react";
 const navLinks = [
   { label: "Protocolo", href: "/#como-funciona" },
   { label: "Tokens", href: "/#tokens" },
+  { label: "Comprar", href: "/#comprar" },
   { label: "DEX", href: "/#dex" },
   { label: "Amazônia", href: "/#amazonia" },
   { label: "Energia", href: "/#energia" },
@@ -68,16 +69,27 @@ export function Header() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden border-t border-gray-800 bg-gray-950/95 backdrop-blur-md px-6 py-4 space-y-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="block text-sm text-gray-400 hover:text-green-400 transition-colors py-2"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive =
+              link.href === "/retire"
+                ? pathname === "/retire"
+                : pathname === "/" && link.href.startsWith("/#");
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className={`block text-sm py-2 transition-colors ${
+                  isActive
+                    ? "text-green-400 font-medium"
+                    : "text-gray-400 hover:text-green-400"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <div className="pt-2">
             <ConnectButton />
           </div>

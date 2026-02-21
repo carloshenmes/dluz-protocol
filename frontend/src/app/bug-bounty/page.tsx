@@ -5,10 +5,10 @@ const severityLevels = [
   {
     level: "Crítica",
     color: "red",
-    reward: "1.000 – 5.000 dLUZ",
+    reward: "1.000 – 5.000 dLuz",
     examples: [
       "Drain de fundos dos contratos ou pools",
-      "Mint infinito de tokens (dLUZ, dCARBON, dENERGY)",
+      "Mint infinito de tokens (dLuz, dCARBON, dENERGY)",
       "Bypass de controle de ownership / admin",
       "Manipulação de oráculos de preço",
     ],
@@ -16,7 +16,7 @@ const severityLevels = [
   {
     level: "Alta",
     color: "orange",
-    reward: "500 – 1.000 dLUZ",
+    reward: "500 – 1.000 dLuz",
     examples: [
       "Bypass de permissões em funções protegidas",
       "Falha na lógica de swap que cause perda parcial",
@@ -27,7 +27,7 @@ const severityLevels = [
   {
     level: "Média",
     color: "yellow",
-    reward: "100 – 500 dLUZ",
+    reward: "100 – 500 dLuz",
     examples: [
       "Denial of Service (DoS) em funções críticas",
       "Erros de cálculo em taxas ou slippage",
@@ -38,7 +38,7 @@ const severityLevels = [
   {
     level: "Baixa",
     color: "green",
-    reward: "25 – 100 dLUZ",
+    reward: "25 – 100 dLuz",
     examples: [
       "Bugs visuais no frontend que afetem usabilidade",
       "Erros de exibição de saldo ou preço",
@@ -60,7 +60,7 @@ const rules = [
 ];
 
 const inScope = [
-  { name: "Smart Contracts", desc: "dLUZ, dCARBON, dENERGY tokens — Router, Factory e Pools da DEX" },
+  { name: "Smart Contracts", desc: "dLuz, dCARBON, dENERGY tokens — Router, Factory e Pools da DEX" },
   { name: "Frontend", desc: "Aplicação Next.js — lógica de conexão de wallet, execução de swaps, exibição de dados on-chain" },
   { name: "Integrações", desc: "Interações com RainbowKit, wagmi, e contratos deployados na Base" },
 ];
@@ -121,7 +121,7 @@ export default function BugBountyPage() {
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Ajude a proteger o dLuz Protocol. Encontre vulnerabilidades, reporte
-            com responsabilidade e seja recompensado em dLUZ.
+            com responsabilidade e seja recompensado em dLuz.
           </p>
         </div>
       </section>
@@ -131,7 +131,7 @@ export default function BugBountyPage() {
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-4">Níveis de Severidade & Recompensas</h2>
           <p className="text-gray-500 text-center mb-12 max-w-xl mx-auto">
-            Recompensas pagas em dLUZ. O valor final depende da qualidade do report, impacto real e clareza do PoC.
+            Recompensas pagas em dLuz. O valor final depende da qualidade do report, impacto real e clareza do PoC.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

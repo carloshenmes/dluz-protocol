@@ -27,7 +27,7 @@ const steps = [
     icon: "🔄",
     title: "Negocie na DEX",
     description:
-      "Troque dCARBON, dLUZ e dENERGY na DEX nativa com liquidez, sem intermediários. Pools incentivadas com rewards em dLUZ para provedores de liquidez.",
+      "Troque dCARBON, dLuz e dENERGY na DEX nativa com liquidez, sem intermediários. Pools incentivadas com rewards em dLuz para provedores de liquidez.",
     detail: "AMM com taxas de 0.3%",
   },
   {
@@ -66,7 +66,7 @@ export function HowItWorks() {
           <div className="flex items-center justify-center gap-4 mb-16 flex-wrap">
             <div className="flex items-center gap-2 bg-gray-900/60 border border-gray-800 rounded-full px-4 py-2">
               <Logo size={24} />
-              <span className="text-sm text-gray-300">dLUZ</span>
+              <span className="text-sm text-gray-300">dLuz</span>
             </div>
             <span className="text-green-500">↔</span>
             <div className="flex items-center gap-2 bg-gray-900/60 border border-gray-800 rounded-full px-4 py-2">

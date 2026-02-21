@@ -7,14 +7,19 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CONTRACTS } from "@/config/contracts";
+import ProtocolDashboard from "@/components/ProtocolDashboard";
+import RetirementHistory from "@/components/RetirementHistory";
 
 type Step = "approve" | "retire" | "done";
+type Tab = "my" | "all";
 
 export default function RetirePage() {
   const { address, isConnected } = useAccount();
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const [step, setStep] = useState<Step>("approve");
+  const [historyTab, setHistoryTab] = useState<Tab>("my");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const { data: balance } = useReadContract({
     ...CONTRACTS.DCarbonToken,
@@ -64,6 +69,8 @@ export default function RetirePage() {
   useEffect(() => {
     if (isRetireConfirmed) {
       setStep("done");
+      // Aguarda indexação do subgraph e recarrega stats + histórico
+      setTimeout(() => setRefreshKey((k) => k + 1), 5000);
     }
   }, [isRetireConfirmed]);
 
@@ -104,12 +111,19 @@ export default function RetirePage() {
     <main className="min-h-screen bg-gray-950 text-white flex flex-col">
       <Header />
 
-      <div className="flex-1 flex items-center justify-center px-6 py-16">
-        <div className="w-full max-w-md space-y-6">
+      <div className="flex-1 px-6 py-12 max-w-5xl mx-auto w-full space-y-10">
+
+        {/* Stats Dashboard */}
+        <section key={`stats-${refreshKey}`}>
+          <ProtocolDashboard />
+        </section>
+
+        {/* Retire Form */}
+        <section className="max-w-md mx-auto space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-green-400">Aposentar Carbono</h1>
             <p className="text-sm text-gray-400 mt-1">
-              Queime dCARBON e receba dLUZ como recompensa
+              Queime dCARBON e receba dLuz como recompensa
             </p>
           </div>
 
@@ -123,7 +137,7 @@ export default function RetirePage() {
               <div className="text-4xl">🌱</div>
               <h2 className="text-lg font-semibold text-green-400">Carbono aposentado!</h2>
               <p className="text-sm text-gray-400">
-                {amount} dCARBON queimados. Recompensa dLUZ creditada.
+                {amount} dCARBON queimados. Recompensa dLuz creditada.
               </p>
               {retireTxHash && (
                 <a
@@ -225,7 +239,39 @@ export default function RetirePage() {
               )}
             </div>
           )}
-        </div>
+        </section>
+
+        {/* Retirement History */}
+        <section key={`history-${refreshKey}`}>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-200">📜 Histórico de Retirements</h2>
+            <div className="flex gap-1 bg-gray-800 rounded-lg p-1">
+              <button
+                onClick={() => setHistoryTab("my")}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  historyTab === "my"
+                    ? "bg-green-600 text-white"
+                    : "text-gray-400 hover:text-gray-200"
+                }`}
+              >
+                Meus
+              </button>
+              <button
+                onClick={() => setHistoryTab("all")}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  historyTab === "all"
+                    ? "bg-green-600 text-white"
+                    : "text-gray-400 hover:text-gray-200"
+                }`}
+              >
+                Todos
+              </button>
+            </div>
+          </div>
+          <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+            <RetirementHistory userOnly={historyTab === "my"} />
+          </div>
+        </section>
       </div>
 
       <Footer />

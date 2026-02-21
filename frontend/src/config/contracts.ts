@@ -3,6 +3,8 @@ import CarbonRegistryABI from "./abis/CarbonRegistry.json";
 import DLuzTokenABI from "./abis/DLuzToken.json";
 import DCarbonTokenABI from "./abis/DCarbonToken.json";
 import DEnergyTokenABI from "./abis/DEnergyToken.json";
+import DLuzDEXABI from "./abis/DLuzDEX.json";
+import DLuzFarmingABI from "./abis/DLuzFarming.json";
 
 export const CONTRACTS = {
   CarbonRegistry: {
@@ -20,5 +22,13 @@ export const CONTRACTS = {
   DEnergyToken: {
     address: deployment.contracts.DEnergyToken as `0x${string}`,
     abi: DEnergyTokenABI.abi,
+  },
+  DLuzDEX: {
+    address: deployment.contracts.DLuzDEX as `0x${string}`,
+    abi: DLuzDEXABI.abi,
+  },
+  DLuzFarming: {
+    address: deployment.contracts.DLuzFarming as `0x${string}`,
+    abi: DLuzFarmingABI.abi,
   },
 } as const;
