@@ -2,19 +2,18 @@
   "network": "baseSepolia",
   "chainId": 84532,
   "deployer": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
-  "timestamp": "2026-02-20T21:59:16.383Z",
-  "tokenomics": {
-    "dluzMaxSupply": "1,000,000,000",
-    "dluzInitialSupply": "300,000,000",
-    "dluzRewardRate": "10:1 (per dCARBON retired)",
-    "energyMintRate": "1:1 (per dCARBON retired)",
-    "dcarbonMaxSupply": "unlimited (minted by verified entities)",
-    "denergyMaxSupply": "unlimited (minted on retirement)"
-  },
+  "treasury": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+  "timestamp": "2026-02-21T22:09:06.979Z",
+  "phase": 2,
   "contracts": {
     "DLuzToken": "0xF0807462147C10Eae2B53fa64C736d73A541950c",
     "DCarbonToken": "0x87605261111208e9f57CbA884d7c2bEcFe81C45D",
     "DEnergyToken": "0x8919646FAe7283842090eb86BA02D4683e501934",
-    "CarbonRegistry": "0x73fdbf1652Dc01b8104b127c48B064BE94bD4fBf"
+    "CarbonRegistry": "0x73fdbf1652Dc01b8104b127c48B064BE94bD4fBf",
+    "RetirementVault": "0x38F5f08bF4A86aD60A565582007ee4B00A65d948",
+    "DLuzDEX": "0xC3a8406D8Ffa3d09964db497e6Edeea697Eedb77",
+    "DLuzFarming": "0xda88543b80Bbe0eD52405D3F86B8a4520990d7ea",
+    "DLuzSale": "0x7f37c4525B041e70F233248dfEd2b463F6ba21B0",
+    "TeamVesting": "0x3Dc0e3f3C292C9FA7cEe1039e4fbc7a0b6D61B6f"
   }
 }

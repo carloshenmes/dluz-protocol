@@ -3,11 +3,22 @@
   "chainId": 31337,
   "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
   "treasury": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  "timestamp": "2026-02-21T04:36:48.241Z",
+  "timestamp": "2026-02-21T22:07:14.711Z",
+  "phase": 2,
   "contracts": {
-    "DLuzToken": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-    "DCarbonToken": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-    "DEnergyToken": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-    "CarbonRegistry": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+    "DLuzToken": "0xF0807462147C10Eae2B53fa64C736d73A541950c",
+    "DCarbonToken": "0x87605261111208e9f57CbA884d7c2bEcFe81C45D",
+    "DEnergyToken": "0x8919646FAe7283842090eb86BA02D4683e501934",
+    "CarbonRegistry": "0x73fdbf1652Dc01b8104b127c48B064BE94bD4fBf",
+    "RetirementVault": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "DLuzDEX": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "DLuzFarming": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "DLuzSale": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "TeamVesting": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+  },
+  "config": {
+    "saleRate": "10000000000000000000000",
+    "vaultFunding": "1000000000000000000000000",
+    "saleFunding": "5000000000000000000000000"
   }
 }
