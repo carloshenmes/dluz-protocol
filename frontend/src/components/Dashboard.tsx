@@ -8,6 +8,7 @@ import { Logo } from "./Logo";
 import { LogoDCarbon } from "./LogoDCarbon";
 import { LogoDEnergy } from "./LogoDEnergy";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import { useTranslation } from "@/i18n";
 
 const tokens = [
   { name: "dLuz Token", symbol: "dLuz", contract: "DLuzToken", color: "yellow" },
@@ -23,12 +24,13 @@ const icons: Record<string, (size: number) => JSX.Element> = {
 
 export function Dashboard() {
   const { isConnected } = useAccount();
+  const { t } = useTranslation();
 
   return (
     <section id="dashboard" className="max-w-5xl mx-auto px-6 py-10">
       <AnimateOnScroll>
         <h2 className="text-lg font-semibold text-gray-300 mb-6">
-          {isConnected ? "Seus Saldos" : "Conecte sua wallet para começar"}
+          {isConnected ? t("dashboard.connected") : t("dashboard.disconnected")}
         </h2>
       </AnimateOnScroll>
 

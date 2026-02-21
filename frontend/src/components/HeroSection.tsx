@@ -4,8 +4,11 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Logo } from "./Logo";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/i18n";
 
 export function HeroSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative overflow-hidden min-h-screen flex items-center justify-center px-6">
       <video
@@ -42,7 +45,7 @@ export function HeroSection() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-sm mb-8 backdrop-blur-sm"
         >
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          Construído na Base • Powered by Ethereum
+          {t("hero.badge")}
         </motion.div>
 
         <motion.h1
@@ -51,14 +54,14 @@ export function HeroSection() {
           transition={{ duration: 0.7, delay: 0.5 }}
           className="text-5xl md:text-7xl font-bold leading-tight mb-6"
         >
-          <span className="text-white">Da </span>
+          <span className="text-white">{t("hero.title.1")}</span>
           <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent animate-shimmer">
-            Amazônia
+            {t("hero.title.amazonia")}
           </span>
-          <span className="text-white"> para o</span>
+          <span className="text-white">{t("hero.title.2")}</span>
           <br />
           <span className="bg-gradient-to-r from-emerald-300 to-green-400 bg-clip-text text-transparent animate-shimmer">
-            Blockchain
+            {t("hero.title.blockchain")}
           </span>
         </motion.h1>
 
@@ -68,9 +71,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.7 }}
           className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          O primeiro protocolo brasileiro descentralizado para tokenização e negociação
-          de créditos de carbono. Protegendo florestas, incentivando energia limpa e
-          gerando valor real para o planeta.
+          {t("hero.desc")}
         </motion.p>
 
         <motion.div
@@ -84,7 +85,7 @@ export function HeroSection() {
             href="#como-funciona"
             className="px-6 py-3 rounded-xl border border-green-500/30 text-green-400 hover:bg-green-500/10 transition-all backdrop-blur-sm"
           >
-            Explorar Protocolo →
+            {t("hero.cta")}
           </a>
         </motion.div>
 
@@ -95,10 +96,10 @@ export function HeroSection() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
         >
           {[
-            { label: "Hectares Protegidos", value: "12,500+" },
-            { label: "tCO₂ Tokenizados", value: "50,000+" },
-            { label: "Energia Limpa (MWh)", value: "3,200" },
-            { label: "Holders", value: "128" },
+            { label: t("hero.stat.hectares"), value: "12,500+" },
+            { label: t("hero.stat.tco2"), value: "50,000+" },
+            { label: t("hero.stat.energy"), value: "3,200" },
+            { label: t("hero.stat.holders"), value: "128" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}

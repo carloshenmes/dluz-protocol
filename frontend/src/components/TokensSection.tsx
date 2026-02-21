@@ -5,6 +5,7 @@ import { LogoDCarbon } from "./LogoDCarbon";
 import { LogoDEnergy } from "./LogoDEnergy";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { ReactNode } from "react";
+import { useTranslation } from "@/i18n";
 
 interface TokenData {
   name: string;
@@ -16,50 +17,49 @@ interface TokenData {
   features: string[];
 }
 
-const tokens: TokenData[] = [
-  {
-    name: "dLuz",
-    symbol: "dLuz",
-    logo: <Logo size={48} />,
-    border: "border-yellow-500/30",
-    hoverBorder: "hover:border-yellow-500/60",
-    description:
-      "Token de governança do protocolo. Holders votam em propostas, validam projetos e recebem rewards.",
-    features: ["Governança", "Staking", "Rewards"],
-  },
-  {
-    name: "dCarbon",
-    symbol: "dCARBON",
-    logo: <LogoDCarbon size={48} />,
-    border: "border-green-500/30",
-    hoverBorder: "hover:border-green-500/60",
-    description:
-      "1 dCARBON = 1 tonelada de CO₂ compensada. Lastreado em créditos de carbono verificados on-chain.",
-    features: ["Lastro Real", "Offsetting", "Burn to Retire"],
-  },
-  {
-    name: "dEnergy",
-    symbol: "dENERGY",
-    logo: <LogoDEnergy size={48} />,
-    border: "border-blue-500/30",
-    hoverBorder: "hover:border-blue-500/60",
-    description:
-      "Representa certificados de energia renovável (RECs). Cada token prova geração limpa verificada.",
-    features: ["RECs On-Chain", "Rastreável", "Certificável"],
-  },
-];
-
 export function TokensSection() {
+  const { t } = useTranslation();
+
+  const tokens: TokenData[] = [
+    {
+      name: "dLuz",
+      symbol: "dLuz",
+      logo: <Logo size={48} />,
+      border: "border-yellow-500/30",
+      hoverBorder: "hover:border-yellow-500/60",
+      description: t("tokens.dluz.desc"),
+      features: [t("tokens.dluz.f1"), t("tokens.dluz.f2"), t("tokens.dluz.f3")],
+    },
+    {
+      name: "dCarbon",
+      symbol: "dCARBON",
+      logo: <LogoDCarbon size={48} />,
+      border: "border-green-500/30",
+      hoverBorder: "hover:border-green-500/60",
+      description: t("tokens.dcarbon.desc"),
+      features: [t("tokens.dcarbon.f1"), t("tokens.dcarbon.f2"), t("tokens.dcarbon.f3")],
+    },
+    {
+      name: "dEnergy",
+      symbol: "dENERGY",
+      logo: <LogoDEnergy size={48} />,
+      border: "border-blue-500/30",
+      hoverBorder: "hover:border-blue-500/60",
+      description: t("tokens.denergy.desc"),
+      features: [t("tokens.denergy.f1"), t("tokens.denergy.f2"), t("tokens.denergy.f3")],
+    },
+  ];
+
   return (
     <section id="tokens" className="py-20 px-6 border-t border-gray-800/50">
       <div className="max-w-6xl mx-auto">
         <AnimateOnScroll>
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Nossos Tokens
+              {t("tokens.title")}
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
-              Três tokens com propósito real — governança, compensação de carbono e energia renovável.
+              {t("tokens.desc")}
             </p>
           </div>
         </AnimateOnScroll>

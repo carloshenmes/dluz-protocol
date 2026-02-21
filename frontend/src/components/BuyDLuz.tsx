@@ -1,4 +1,3 @@
-// frontend/src/components/BuyDLuz.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,14 +8,15 @@ import { Logo } from "./Logo";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import deployment from "@/config/deployment.json";
 import saleAbi from "@/config/abis/DLuzSale.json";
+import { useTranslation } from "@/i18n";
 
 const SALE_ADDRESS = deployment.contracts.DLuzSale as `0x${string}`;
 
 export function BuyDLuz() {
   const [ethAmount, setEthAmount] = useState("");
   const { address, isConnected } = useAccount();
+  const { t } = useTranslation();
 
-  // Lê dados do contrato
   const { data: rate } = useReadContract({
     address: SALE_ADDRESS,
     abi: saleAbi.abi,
@@ -47,7 +47,6 @@ export function BuyDLuz() {
     functionName: "totalRaised",
   });
 
-  // Estimativa de dLuz que o usuário vai receber
   const { data: estimate } = useReadContract({
     address: SALE_ADDRESS,
     abi: saleAbi.abi,
@@ -56,7 +55,6 @@ export function BuyDLuz() {
     query: { enabled: !!ethAmount && parseFloat(ethAmount) > 0 },
   });
 
-  // Escrita: comprar
   const { data: txHash, writeContract, isPending, error: writeError } = useWriteContract();
 
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
@@ -100,46 +98,39 @@ export function BuyDLuz() {
         <AnimateOnScroll direction="left">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Compre{" "}
+              {t("buy.title.1")}
               <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                dLuz
+                {t("buy.title.highlight")}
               </span>{" "}
-              na Pré-Venda
+              {t("buy.title.2")}
             </h2>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Adquira tokens dLuz diretamente com ETH. Preço fixo durante a fase de pré-venda
-              — sem slippage, sem intermediários.
+              {t("buy.desc")}
             </p>
 
-            {/* Stats */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="rounded-xl bg-gray-900/60 border border-gray-800 p-4">
-                <p className="text-xs text-gray-500 mb-1">Preço</p>
+                <p className="text-xs text-gray-500 mb-1">{t("buy.stat.price")}</p>
                 <p className="text-lg font-bold text-green-400">
                   1 ETH = {formattedRate} dLuz
                 </p>
               </div>
               <div className="rounded-xl bg-gray-900/60 border border-gray-800 p-4">
-                <p className="text-xs text-gray-500 mb-1">Disponível</p>
+                <p className="text-xs text-gray-500 mb-1">{t("buy.stat.available")}</p>
                 <p className="text-lg font-bold text-white">{formattedAvailable} dLuz</p>
               </div>
               <div className="rounded-xl bg-gray-900/60 border border-gray-800 p-4">
-                <p className="text-xs text-gray-500 mb-1">Total Vendido</p>
+                <p className="text-xs text-gray-500 mb-1">{t("buy.stat.sold")}</p>
                 <p className="text-lg font-bold text-white">{formattedSold} dLuz</p>
               </div>
               <div className="rounded-xl bg-gray-900/60 border border-gray-800 p-4">
-                <p className="text-xs text-gray-500 mb-1">ETH Arrecadado</p>
+                <p className="text-xs text-gray-500 mb-1">{t("buy.stat.raised")}</p>
                 <p className="text-lg font-bold text-white">{formattedRaised} ETH</p>
               </div>
             </div>
 
             <ul className="space-y-3 text-sm text-gray-300">
-              {[
-                "Preço fixo — sem variação durante a pré-venda",
-                "Tokens enviados instantaneamente para sua wallet",
-                "Contrato verificado na Base Sepolia",
-                "Sem lock-up — tokens livres após a compra",
-              ].map((item) => (
+              {[t("buy.feat1"), t("buy.feat2"), t("buy.feat3"), t("buy.feat4")].map((item) => (
                 <li key={item} className="flex items-start gap-2">
                   <span className="text-green-400 mt-0.5">✓</span>
                   {item}
@@ -152,22 +143,21 @@ export function BuyDLuz() {
         <AnimateOnScroll direction="right">
           <div className="rounded-2xl border border-gray-800 bg-gray-900/80 p-6 max-w-sm mx-auto w-full hover:border-green-500/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-white">Comprar dLuz</h3>
+              <h3 className="text-lg font-semibold text-white">{t("buy.card.title")}</h3>
               {saleActive ? (
                 <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400 font-medium">
-                  ● Ativa
+                  {t("buy.sale.active")}
                 </span>
               ) : (
                 <span className="text-xs px-2 py-1 rounded-full bg-red-500/20 text-red-400 font-medium">
-                  ● Pausada
+                  {t("buy.sale.paused")}
                 </span>
               )}
             </div>
 
-            {/* Input ETH */}
             <div className="rounded-xl bg-gray-800/60 p-4 mb-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-500">Você paga</span>
+                <span className="text-xs text-gray-500">{t("buy.input.pay")}</span>
               </div>
               <div className="flex items-center justify-between">
                 <input
@@ -185,17 +175,15 @@ export function BuyDLuz() {
               </div>
             </div>
 
-            {/* Seta */}
             <div className="flex justify-center -my-1 z-10 relative">
               <div className="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-green-400 text-lg">
                 ↓
               </div>
             </div>
 
-            {/* Output dLuz */}
             <div className="rounded-xl bg-gray-800/60 p-4 mt-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-500">Você recebe</span>
+                <span className="text-xs text-gray-500">{t("buy.input.receive")}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-bold text-white">
@@ -207,7 +195,6 @@ export function BuyDLuz() {
               </div>
             </div>
 
-            {/* Botão */}
             {!isConnected ? (
               <div className="mt-6">
                 <ConnectButton.Custom>
@@ -216,7 +203,7 @@ export function BuyDLuz() {
                       onClick={openConnectModal}
                       className="w-full py-3.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 text-black font-bold text-lg hover:opacity-90 transition-opacity"
                     >
-                      Conectar Wallet
+                      {t("buy.btn.connect")}
                     </button>
                   )}
                 </ConnectButton.Custom>
@@ -228,31 +215,30 @@ export function BuyDLuz() {
                 className="w-full mt-6 py-3.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 text-black font-bold text-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {isPending
-                  ? "Confirme na wallet..."
+                  ? t("buy.btn.confirm")
                   : isConfirming
-                  ? "Processando..."
+                  ? t("buy.btn.processing")
                   : !saleActive
-                  ? "Venda Pausada"
-                  : "Comprar dLuz"}
+                  ? t("buy.btn.paused")
+                  : t("buy.btn.buy")}
               </button>
             )}
 
-            {/* Feedback */}
             {isSuccess && (
               <p className="text-center text-sm text-green-400 mt-3">
-                ✅ Compra realizada com sucesso!
+                {t("buy.success")}
               </p>
             )}
             {writeError && (
               <p className="text-center text-xs text-red-400 mt-3 break-all">
                 {writeError.message.includes("User rejected")
-                  ? "Transação cancelada pelo usuário."
-                  : "Erro na transação. Verifique seu saldo."}
+                  ? t("buy.error.rejected")
+                  : t("buy.error.generic")}
               </p>
             )}
 
             <p className="text-center text-xs text-gray-600 mt-3">
-              Taxa: 0% • Rede: Base Sepolia
+              {t("buy.fee")}
             </p>
           </div>
         </AnimateOnScroll>

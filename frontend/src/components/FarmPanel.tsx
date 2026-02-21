@@ -1,4 +1,3 @@
-// frontend/src/components/FarmPanel.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -15,6 +14,7 @@ import { AnimateOnScroll } from "./AnimateOnScroll";
 import deployment from "@/config/deployment.json";
 import farmingAbi from "@/config/abis/DLuzFarming.json";
 import erc20Abi from "@/config/abis/DLuzToken.json";
+import { useTranslation } from "@/i18n";
 
 const FARMING_ADDRESS = deployment.contracts.DLuzFarming as `0x${string}`;
 const DLUZ_ADDRESS = deployment.contracts.DLuzToken as `0x${string}`;
@@ -40,8 +40,8 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
   const [amount, setAmount] = useState("");
   const [mode, setMode] = useState<"stake" | "unstake">("stake");
   const meta = POOL_NAMES[pool.id] || { stake: "DLUZ", reward: "???", color: "from-gray-400 to-gray-300" };
+  const { t } = useTranslation();
 
-  // Allowance check
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: DLUZ_ADDRESS,
     abi: erc20Abi.abi,
@@ -50,7 +50,6 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
     query: { enabled: !!address },
   });
 
-  // dLuz balance
   const { data: dluzBalance } = useReadContract({
     address: DLUZ_ADDRESS,
     abi: erc20Abi.abi,
@@ -59,31 +58,18 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
     query: { enabled: !!address },
   });
 
-  // Approve
   const { writeContract: approve, data: approveTx } = useWriteContract();
-  const { isLoading: isApproving, isSuccess: approveConfirmed } = useWaitForTransactionReceipt({
-    hash: approveTx,
-  });
+  const { isLoading: isApproving, isSuccess: approveConfirmed } = useWaitForTransactionReceipt({ hash: approveTx });
 
-  // Stake
   const { writeContract: stakeWrite, data: stakeTx } = useWriteContract();
-  const { isLoading: isStaking, isSuccess: stakeConfirmed } = useWaitForTransactionReceipt({
-    hash: stakeTx,
-  });
+  const { isLoading: isStaking, isSuccess: stakeConfirmed } = useWaitForTransactionReceipt({ hash: stakeTx });
 
-  // Unstake
   const { writeContract: unstakeWrite, data: unstakeTx } = useWriteContract();
-  const { isLoading: isUnstaking, isSuccess: unstakeConfirmed } = useWaitForTransactionReceipt({
-    hash: unstakeTx,
-  });
+  const { isLoading: isUnstaking, isSuccess: unstakeConfirmed } = useWaitForTransactionReceipt({ hash: unstakeTx });
 
-  // Claim
   const { writeContract: claimWrite, data: claimTx } = useWriteContract();
-  const { isLoading: isClaiming, isSuccess: claimConfirmed } = useWaitForTransactionReceipt({
-    hash: claimTx,
-  });
+  const { isLoading: isClaiming, isSuccess: claimConfirmed } = useWaitForTransactionReceipt({ hash: claimTx });
 
-  // Refresh after tx
   useEffect(() => {
     if (approveConfirmed) refetchAllowance();
     if (stakeConfirmed || unstakeConfirmed || claimConfirmed) {
@@ -139,21 +125,18 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
     }
   };
 
-  // APY calc — reward e stake ambos em 18 decimais
   const rewardPerYearNum = Number(formatUnits(pool.rewardPerSecond, 18)) * 365 * 86400;
   const totalStakedNum = Number(formatUnits(pool.totalStaked, 18));
-  console.log("DEBUG APY:", {rewardPerYearNum, totalStakedNum, rawTotalStaked: pool.totalStaked.toString(), rawRewardPerSec: pool.rewardPerSecond.toString()});
   const apy = totalStakedNum > 0 ? (rewardPerYearNum / totalStakedNum) * 100 : 0;
 
   const isLoading = isApproving || isStaking || isUnstaking || isClaiming;
 
   return (
     <div className="bg-gray-900/60 backdrop-blur border border-gray-700/50 rounded-2xl p-6 hover:border-gray-600/50 transition-all">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-lg font-bold text-white">
-            Stake {meta.stake} → Earn{" "}
+            {t("farm.btn.stake")} {meta.stake} → Earn{" "}
             <span className={`bg-gradient-to-r ${meta.color} bg-clip-text text-transparent`}>
               {meta.reward}
             </span>
@@ -168,35 +151,27 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-400">Total Staked</p>
+          <p className="text-xs text-gray-400">{t("farm.pool.total")}</p>
           <p className="text-sm font-semibold text-white">
-            {Number(formatUnits(pool.totalStaked, 18)).toLocaleString("pt-BR", {
-              maximumFractionDigits: 2,
-            })}
+            {Number(formatUnits(pool.totalStaked, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 2 })}
           </p>
         </div>
         <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-400">Seu Stake</p>
+          <p className="text-xs text-gray-400">{t("farm.pool.yours")}</p>
           <p className="text-sm font-semibold text-white">
-            {Number(formatUnits(pool.userStaked, 18)).toLocaleString("pt-BR", {
-              maximumFractionDigits: 4,
-            })}
+            {Number(formatUnits(pool.userStaked, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 4 })}
           </p>
         </div>
         <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-400">Rewards</p>
+          <p className="text-xs text-gray-400">{t("farm.pool.rewards")}</p>
           <p className="text-sm font-semibold text-green-400">
-            {Number(formatUnits(pool.userPending, 18)).toLocaleString("pt-BR", {
-              maximumFractionDigits: 6,
-            })}
+            {Number(formatUnits(pool.userPending, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 6 })}
           </p>
         </div>
       </div>
 
-      {/* Claim button */}
       {pool.userPending > 0n && (
         <button
           onClick={handleClaim}
@@ -204,36 +179,30 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
           className="w-full mb-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold text-sm hover:from-green-400 hover:to-emerald-400 disabled:opacity-50 transition-all"
         >
           {isClaiming
-            ? "Coletando..."
-            : `Coletar ${Number(formatUnits(pool.userPending, 18)).toFixed(4)} ${meta.reward}`}
+            ? t("farm.btn.collecting")
+            : `${t("farm.btn.collect")} ${Number(formatUnits(pool.userPending, 18)).toFixed(4)} ${meta.reward}`}
         </button>
       )}
 
-      {/* Mode toggle */}
       <div className="flex bg-gray-800/50 rounded-lg p-1 mb-4">
         <button
           onClick={() => setMode("stake")}
           className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${
-            mode === "stake"
-              ? "bg-green-600 text-white"
-              : "text-gray-400 hover:text-white"
+            mode === "stake" ? "bg-green-600 text-white" : "text-gray-400 hover:text-white"
           }`}
         >
-          Stake
+          {t("farm.btn.stake")}
         </button>
         <button
           onClick={() => setMode("unstake")}
           className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${
-            mode === "unstake"
-              ? "bg-red-600 text-white"
-              : "text-gray-400 hover:text-white"
+            mode === "unstake" ? "bg-red-600 text-white" : "text-gray-400 hover:text-white"
           }`}
         >
-          Unstake
+          {t("farm.btn.unstake")}
         </button>
       </div>
 
-      {/* Input */}
       <div className="relative mb-4">
         <input
           type="number"
@@ -250,14 +219,12 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
         </button>
       </div>
 
-      {/* Balance info */}
       <p className="text-xs text-gray-500 mb-4">
         {mode === "stake"
-          ? `Disponível: ${dluzBalance ? Number(formatUnits(dluzBalance as bigint, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 4 }) : "0"} DLUZ`
-          : `Staked: ${Number(formatUnits(pool.userStaked, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 4 })} DLUZ`}
+          ? `${t("farm.available")} ${dluzBalance ? Number(formatUnits(dluzBalance as bigint, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 4 }) : "0"} DLUZ`
+          : `${t("farm.staked")} ${Number(formatUnits(pool.userStaked, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 4 })} DLUZ`}
       </p>
 
-      {/* Action button */}
       {!isConnected ? (
         <ConnectButton />
       ) : mode === "stake" ? (
@@ -267,7 +234,7 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
             disabled={isApproving || !parsedAmount}
             className="w-full py-3 rounded-lg bg-yellow-600 text-white font-semibold hover:bg-yellow-500 disabled:opacity-50 transition-all"
           >
-            {isApproving ? "Aprovando..." : "Aprovar DLUZ"}
+            {isApproving ? t("farm.btn.approving") : t("farm.btn.approve")}
           </button>
         ) : (
           <button
@@ -275,7 +242,7 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
             disabled={isStaking || !parsedAmount || !pool.active}
             className="w-full py-3 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold hover:from-green-500 hover:to-emerald-500 disabled:opacity-50 transition-all"
           >
-            {isStaking ? "Staking..." : "Stake DLUZ"}
+            {isStaking ? t("farm.btn.staking") : `${t("farm.btn.stake")} DLUZ`}
           </button>
         )
       ) : (
@@ -284,11 +251,10 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
           disabled={isUnstaking || !parsedAmount || pool.userStaked === 0n}
           className="w-full py-3 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white font-semibold hover:from-red-500 hover:to-rose-500 disabled:opacity-50 transition-all"
         >
-          {isUnstaking ? "Retirando..." : "Unstake DLUZ"}
+          {isUnstaking ? t("farm.btn.unstaking") : `${t("farm.btn.unstake")} DLUZ`}
         </button>
       )}
 
-      {/* Rate info */}
       <p className="text-xs text-gray-600 text-center mt-3">
         Rate: {formatUnits(pool.rewardPerSecond, 18)} {meta.reward}/seg
       </p>
@@ -298,8 +264,8 @@ function PoolCard({ pool, onAction }: { pool: PoolData; onAction: () => void }) 
 
 export function FarmPanel() {
   const { address } = useAccount();
+  const { t } = useTranslation();
 
-  // Pool count
   const { data: poolCount } = useReadContract({
     address: FARMING_ADDRESS,
     abi: farmingAbi.abi,
@@ -308,7 +274,6 @@ export function FarmPanel() {
 
   const count = Number(poolCount || 0);
 
-  // Batch read all pools
   const poolContracts = Array.from({ length: count }, (_, i) => [
     {
       address: FARMING_ADDRESS,
@@ -341,14 +306,12 @@ export function FarmPanel() {
     query: { enabled: count > 0 },
   });
 
-  // Auto-refresh pending rewards every 10s
   useEffect(() => {
     if (count === 0) return;
     const interval = setInterval(() => refetchPools(), 10000);
     return () => clearInterval(interval);
   }, [count, refetchPools]);
 
-  // Parse pool data
   const pools: PoolData[] = [];
   if (poolResults && poolResults.length > 0) {
     for (let i = 0; i < count; i++) {
@@ -373,46 +336,40 @@ export function FarmPanel() {
     }
   }
 
-  // Total staked across all pools
   const totalStakedAll = pools.reduce((sum, p) => sum + p.totalStaked, 0n);
 
   return (
     <section id="farm" className="py-20 px-6 border-t border-gray-800/50">
       <div className="max-w-5xl mx-auto">
         <AnimateOnScroll direction="up">
-          {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              🌱 dLuz{" "}
+              {t("farm.title.1")}
               <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                Farm
+                {t("farm.title.highlight")}
               </span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Faça stake de DLUZ e ganhe rewards em tokens ambientais. Quanto mais tempo, mais você colhe.
+              {t("farm.desc")}
             </p>
 
-            {/* Global stats */}
             <div className="flex justify-center gap-8 mt-6">
               <div>
                 <p className="text-2xl font-bold text-white">
-                  {Number(formatUnits(totalStakedAll, 18)).toLocaleString("pt-BR", {
-                    maximumFractionDigits: 0,
-                  })}
+                  {Number(formatUnits(totalStakedAll, 18)).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}
                 </p>
-                <p className="text-xs text-gray-400">Total DLUZ Staked</p>
+                <p className="text-xs text-gray-400">{t("farm.total.staked")}</p>
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">{pools.length}</p>
-                <p className="text-xs text-gray-400">Pools Ativas</p>
+                <p className="text-xs text-gray-400">{t("farm.pools.active")}</p>
               </div>
             </div>
           </div>
 
-          {/* Pool cards */}
           {pools.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500">Carregando pools...</p>
+              <p className="text-gray-500">{t("farm.loading")}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -422,7 +379,6 @@ export function FarmPanel() {
             </div>
           )}
 
-          {/* Footer info */}
           <div className="mt-8 text-center">
             <p className="text-xs text-gray-600">
               Contrato: {FARMING_ADDRESS.slice(0, 6)}...{FARMING_ADDRESS.slice(-4)} • Base Sepolia

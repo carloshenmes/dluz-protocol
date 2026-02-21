@@ -5,20 +5,24 @@ import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Logo } from "./Logo";
 import { useState } from "react";
-
-const navLinks = [
-  { label: "Protocolo", href: "/#como-funciona" },
-  { label: "Tokens", href: "/#tokens" },
-  { label: "Comprar", href: "/#comprar" },
-  { label: "DEX", href: "/#dex" },
-  { label: "Amazônia", href: "/#amazonia" },
-  { label: "Energia", href: "/#energia" },
-  { label: "Retire", href: "/retire" },
-];
+import { useTranslation, Lang } from "@/i18n";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { lang, setLang, t } = useTranslation();
+
+  const navLinks = [
+    { label: t("nav.protocolo"), href: "/#como-funciona" },
+    { label: t("nav.tokens"), href: "/#tokens" },
+    { label: t("nav.comprar"), href: "/#comprar" },
+    { label: t("nav.dex"), href: "/#dex" },
+    { label: t("nav.amazonia"), href: "/#amazonia" },
+    { label: t("nav.energia"), href: "/#energia" },
+    { label: t("nav.retire"), href: "/retire" },
+  ];
+
+  const toggleLang = () => setLang(lang === "pt" ? "en" : "pt");
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-800/50 bg-gray-950/80 backdrop-blur-md">
@@ -52,7 +56,17 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-3">
+          {/* Language Toggle */}
+          <button
+            onClick={toggleLang}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/60 hover:border-green-500/40 transition-colors text-sm"
+            aria-label="Toggle language"
+          >
+            <span className="text-base">{lang === "pt" ? "🇧🇷" : "🇺🇸"}</span>
+            <span className="text-gray-300 font-medium text-xs uppercase">{lang}</span>
+          </button>
+
           <ConnectButton />
         </div>
 
@@ -90,6 +104,16 @@ export function Header() {
               </Link>
             );
           })}
+
+          {/* Mobile language toggle */}
+          <button
+            onClick={toggleLang}
+            className="flex items-center gap-2 py-2 text-sm text-gray-400 hover:text-green-400 transition-colors"
+          >
+            <span className="text-base">{lang === "pt" ? "🇧🇷" : "🇺🇸"}</span>
+            <span>{lang === "pt" ? "English" : "Português"}</span>
+          </button>
+
           <div className="pt-2">
             <ConnectButton />
           </div>

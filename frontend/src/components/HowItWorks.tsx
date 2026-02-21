@@ -4,43 +4,42 @@ import { AnimateOnScroll } from "./AnimateOnScroll";
 import { Logo } from "./Logo";
 import { LogoDCarbon } from "./LogoDCarbon";
 import { LogoDEnergy } from "./LogoDEnergy";
-
-const steps = [
-  {
-    number: "01",
-    icon: "📋",
-    title: "Registro & Verificação",
-    description:
-      "Projetos REDD+, energia solar, eólica ou biomassa registram créditos de carbono no smart contract. Dados verificados por auditores independentes conforme padrões Verra/Gold Standard.",
-    detail: "Compatível com UNFCCC e Acordo de Paris",
-  },
-  {
-    number: "02",
-    icon: "🪙",
-    title: "Tokenização On-Chain",
-    description:
-      "Cada crédito verificado gera tokens dCARBON (1 token = 1 tCO₂) ou dENERGY (1 token = 1 MWh REC). Imutáveis, rastreáveis e auditáveis na Base (Ethereum L2).",
-    detail: "ERC-20 na rede Base • Gas < $0.01",
-  },
-  {
-    number: "03",
-    icon: "🔄",
-    title: "Negocie na DEX",
-    description:
-      "Troque dCARBON, dLuz e dENERGY na DEX nativa com liquidez, sem intermediários. Pools incentivadas com rewards em dLuz para provedores de liquidez.",
-    detail: "AMM com taxas de 0.3%",
-  },
-  {
-    number: "04",
-    icon: "🔥",
-    title: "Retire & Compense",
-    description:
-      "Queime (burn) tokens dCARBON para compensar emissões. Um certificado on-chain imutável é gerado automaticamente, servindo como prova auditável de offsetting.",
-    detail: "Burn-to-Retire • Certificado NFT",
-  },
-];
+import { useTranslation } from "@/i18n";
 
 export function HowItWorks() {
+  const { t } = useTranslation();
+
+  const steps = [
+    {
+      number: "01",
+      icon: "📋",
+      title: t("how.step1.title"),
+      description: t("how.step1.desc"),
+      detail: t("how.step1.detail"),
+    },
+    {
+      number: "02",
+      icon: "🪙",
+      title: t("how.step2.title"),
+      description: t("how.step2.desc"),
+      detail: t("how.step2.detail"),
+    },
+    {
+      number: "03",
+      icon: "🔄",
+      title: t("how.step3.title"),
+      description: t("how.step3.desc"),
+      detail: t("how.step3.detail"),
+    },
+    {
+      number: "04",
+      icon: "🔥",
+      title: t("how.step4.title"),
+      description: t("how.step4.desc"),
+      detail: t("how.step4.detail"),
+    },
+  ];
+
   return (
     <section id="como-funciona" className="py-24 px-6 border-t border-gray-800/50 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-green-500/5 rounded-full blur-3xl" />
@@ -49,14 +48,13 @@ export function HowItWorks() {
         <AnimateOnScroll>
           <div className="text-center mb-6">
             <span className="text-xs font-semibold text-green-400 uppercase tracking-widest mb-4 block">
-              ⚙️ Protocolo
+              {t("how.tag")}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Como Funciona
+              {t("how.title")}
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Do registro ao offsetting em 4 etapas — tudo on-chain, auditável e transparente.
-              Baseado nos padrões internacionais do Protocolo de Kyoto e do Acordo de Paris.
+              {t("how.desc")}
             </p>
           </div>
         </AnimateOnScroll>

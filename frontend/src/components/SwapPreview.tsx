@@ -3,29 +3,31 @@
 import { Logo } from "./Logo";
 import { LogoDCarbon } from "./LogoDCarbon";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import { useTranslation } from "@/i18n";
 
 export function SwapPreview() {
+  const { t } = useTranslation();
+
   return (
     <section id="dex" className="py-20 px-6 border-t border-gray-800/50 bg-gradient-to-b from-transparent via-teal-950/10 to-transparent">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <AnimateOnScroll direction="left">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              🔄 DEX Nativa para{" "}
+              {t("swap.title.1")}
               <span className="bg-gradient-to-r from-teal-400 to-cyan-300 bg-clip-text text-transparent">
-                Créditos de Carbono
+                {t("swap.title.highlight")}
               </span>
             </h2>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Negocie tokens ambientais com liquidez, sem intermediários e com taxas mínimas.
-              Pools de liquidez incentivadas com rewards em dLuz.
+              {t("swap.desc")}
             </p>
             <ul className="space-y-3 text-sm text-gray-300">
               {[
-                { icon: "🔄", text: "Swap instantâneo entre dLuz ↔ dCARBON ↔ dENERGY" },
-                { icon: "💧", text: "Pools de liquidez com APY em dLuz" },
-                { icon: "🔓", text: "Sem KYC — conecte a wallet e negocie" },
-                { icon: "💎", text: "Taxas de 0.3% revertidas para holders" },
+                { icon: "🔄", text: t("swap.feat1") },
+                { icon: "💧", text: t("swap.feat2") },
+                { icon: "🔓", text: t("swap.feat3") },
+                { icon: "💎", text: t("swap.feat4") },
               ].map((item) => (
                 <li key={item.text} className="flex items-start gap-2">
                   <span className="mt-0.5">{item.icon}</span>
@@ -47,8 +49,8 @@ export function SwapPreview() {
 
             <div className="rounded-xl bg-gray-800/60 p-4 mb-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-500">De</span>
-                <span className="text-xs text-gray-500">Saldo: 1,000.00</span>
+                <span className="text-xs text-gray-500">{t("swap.from")}</span>
+                <span className="text-xs text-gray-500">{t("swap.balance")} 1,000.00</span>
               </div>
               <div className="flex items-center justify-between">
                 <input
@@ -71,8 +73,8 @@ export function SwapPreview() {
 
             <div className="rounded-xl bg-gray-800/60 p-4 mt-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-500">Para</span>
-                <span className="text-xs text-gray-500">Saldo: 250.00</span>
+                <span className="text-xs text-gray-500">{t("swap.to")}</span>
+                <span className="text-xs text-gray-500">{t("swap.balance")} 250.00</span>
               </div>
               <div className="flex items-center justify-between">
                 <input
@@ -88,11 +90,11 @@ export function SwapPreview() {
             </div>
 
             <button className="w-full mt-6 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-400 text-black font-bold text-lg hover:opacity-90 transition-opacity">
-              Conectar Wallet
+              {t("swap.connect")}
             </button>
 
             <p className="text-center text-xs text-gray-600 mt-3">
-              1 dLuz ≈ 0.42 dCARBON • Slippage: 0.5%
+              {t("swap.rate")}
             </p>
           </div>
         </AnimateOnScroll>

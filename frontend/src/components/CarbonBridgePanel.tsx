@@ -5,6 +5,7 @@ import { useAccount, useReadContract, useWriteContract, useWaitForTransactionRec
 import { parseEther, formatEther } from "viem";
 import { CONTRACTS } from "@/config/contracts";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import { useTranslation } from "@/i18n";
 
 type TabType = "deposit" | "retire";
 
@@ -14,6 +15,7 @@ export function CarbonBridgePanel() {
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const [needsApproval, setNeedsApproval] = useState(true);
+  const { t } = useTranslation();
 
   // ─── Read: dCARBON total supply ───
   const { data: dcarbonSupply } = useReadContract({
@@ -145,11 +147,10 @@ export function CarbonBridgePanel() {
       <AnimateOnScroll>
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-white mb-2">
-            🌉 Carbon<span className="text-green-400">Bridge</span>
+            🌉 {t("bridge.title")}<span className="text-green-400">{t("bridge.title.green")}</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Deposite créditos de carbono (BCT) e receba dCARBON 1:1. 
-            Aposente dCARBON para compensar emissões de forma verificável e permanente.
+            {t("bridge.desc")}
           </p>
         </div>
       </AnimateOnScroll>
@@ -158,19 +159,19 @@ export function CarbonBridgePanel() {
       <AnimateOnScroll delay={0.1}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">BCT Backing</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t("bridge.bct.label")}</p>
             <p className="text-2xl font-bold text-green-400">{fmt(bctBacking)}</p>
-            <p className="text-xs text-gray-600 mt-1">toneladas travadas</p>
+            <p className="text-xs text-gray-600 mt-1">{t("bridge.bct.sub")}</p>
           </div>
           <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">dCARBON Supply</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t("bridge.supply.label")}</p>
             <p className="text-2xl font-bold text-yellow-400">{fmt(dcarbonSupply)}</p>
-            <p className="text-xs text-gray-600 mt-1">em circulação</p>
+            <p className="text-xs text-gray-600 mt-1">{t("bridge.supply.sub")}</p>
           </div>
           <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Backing Ratio</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t("bridge.ratio.label")}</p>
             <p className="text-2xl font-bold text-emerald-300">{backingRatio()}</p>
-            <p className="text-xs text-gray-600 mt-1">lastro verificável</p>
+            <p className="text-xs text-gray-600 mt-1">{t("bridge.ratio.sub")}</p>
           </div>
         </div>
       </AnimateOnScroll>
@@ -188,7 +189,7 @@ export function CarbonBridgePanel() {
                   : "text-gray-500 hover:text-gray-300"
               }`}
             >
-              ⬇️ Deposit BCT → dCARBON
+              {t("bridge.tab.deposit")}
             </button>
             <button
               onClick={() => { setActiveTab("retire"); setAmount(""); setReason(""); setNeedsApproval(true); }}
@@ -198,25 +199,25 @@ export function CarbonBridgePanel() {
                   : "text-gray-500 hover:text-gray-300"
               }`}
             >
-              🔥 Retire dCARBON
+              {t("bridge.tab.retire")}
             </button>
           </div>
 
           <div className="p-6">
             {!isConnected ? (
-              <p className="text-center text-gray-500 py-8">Conecte sua wallet para usar o Bridge</p>
+              <p className="text-center text-gray-500 py-8">{t("bridge.connect")}</p>
             ) : (
               <>
                 {/* User balances */}
                 <div className="flex justify-between text-sm text-gray-400 mb-4">
-                  <span>Seu saldo MockBCT: <strong className="text-green-300">{fmt(userBCT)}</strong></span>
-                  <span>Seu saldo dCARBON: <strong className="text-yellow-300">{fmt(userDCarbon)}</strong></span>
+                  <span>{t("bridge.balance.bct")} <strong className="text-green-300">{fmt(userBCT)}</strong></span>
+                  <span>{t("bridge.balance.dcarbon")} <strong className="text-yellow-300">{fmt(userDCarbon)}</strong></span>
                 </div>
 
                 {/* Amount input */}
                 <div className="mb-4">
                   <label className="text-xs text-gray-500 uppercase tracking-wider mb-1 block">
-                    {activeTab === "deposit" ? "Quantidade de BCT" : "Quantidade de dCARBON"}
+                    {activeTab === "deposit" ? t("bridge.input.deposit") : t("bridge.input.retire")}
                   </label>
                   <div className="relative">
                     <input
@@ -243,13 +244,13 @@ export function CarbonBridgePanel() {
                 {activeTab === "retire" && (
                   <div className="mb-4">
                     <label className="text-xs text-gray-500 uppercase tracking-wider mb-1 block">
-                      Motivo da aposentadoria
+                      {t("bridge.reason")}
                     </label>
                     <input
                       type="text"
                       value={reason}
                       onChange={(e) => setReason(e.target.value)}
-                      placeholder="Ex: Compensação de emissões 2026 - Empresa XYZ"
+                      placeholder={t("bridge.reason.placeholder")}
                       className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors"
                       disabled={isLoading}
                     />
@@ -261,24 +262,24 @@ export function CarbonBridgePanel() {
                   <div className="bg-gray-800/50 rounded-lg p-4 mb-4 border border-gray-700">
                     {activeTab === "deposit" ? (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-400">Você deposita</span>
+                        <span className="text-gray-400">{t("bridge.preview.deposit")}</span>
                         <span className="text-green-400 font-semibold">{amount} BCT</span>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-400">Você aposenta</span>
+                        <span className="text-gray-400">{t("bridge.preview.retire")}</span>
                         <span className="text-orange-400 font-semibold">{amount} dCARBON</span>
                       </div>
                     )}
                     <div className="flex items-center justify-center my-2 text-gray-600">↓</div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-400">
-                        {activeTab === "deposit" ? "Você recebe" : "Resultado"}
+                        {activeTab === "deposit" ? t("bridge.preview.receive") : t("bridge.preview.result")}
                       </span>
                       <span className={`font-semibold ${activeTab === "deposit" ? "text-yellow-400" : "text-red-400"}`}>
                         {activeTab === "deposit"
                           ? `${amount} dCARBON`
-                          : `${amount} dCARBON queimados permanentemente 🔥`}
+                          : `${amount} ${t("bridge.preview.burned")}`}
                       </span>
                     </div>
                   </div>
@@ -292,7 +293,7 @@ export function CarbonBridgePanel() {
                       disabled={!amount || Number(amount) <= 0 || isLoading}
                       className="flex-1 py-3 rounded-lg font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-700 hover:bg-gray-600 text-white"
                     >
-                      {approving || waitingApprove ? "Aprovando..." : "1. Approve"}
+                      {approving || waitingApprove ? t("bridge.btn.approving") : t("bridge.btn.approve")}
                     </button>
                   )}
                   <button
@@ -311,39 +312,39 @@ export function CarbonBridgePanel() {
                     }`}
                   >
                     {depositing || waitingDeposit
-                      ? "Depositando..."
+                      ? t("bridge.btn.depositing")
                       : retiring || waitingRetire
-                        ? "Aposentando..."
+                        ? t("bridge.btn.retiring")
                         : activeTab === "deposit"
-                          ? `${needsApproval ? "2. " : ""}Deposit`
-                          : `${needsApproval ? "2. " : ""}Retire 🔥`}
+                          ? `${needsApproval ? "2. " : ""}${t("bridge.btn.deposit")}`
+                          : `${needsApproval ? "2. " : ""}${t("bridge.btn.retire")}`}
                   </button>
                 </div>
 
                 {/* Success messages */}
                 {depositSuccess && (
                   <div className="mt-4 p-3 bg-green-900/30 border border-green-700 rounded-lg text-center">
-                    <p className="text-green-400 text-sm font-semibold">✅ Deposit realizado com sucesso!</p>
+                    <p className="text-green-400 text-sm font-semibold">{t("bridge.success.deposit")}</p>
                     <a
                       href={`https://sepolia.basescan.org/tx/${depositTx}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-green-600 hover:text-green-400 underline"
                     >
-                      Ver transação →
+                      {t("bridge.tx.link")}
                     </a>
                   </div>
                 )}
                 {retireSuccess && (
                   <div className="mt-4 p-3 bg-orange-900/30 border border-orange-700 rounded-lg text-center">
-                    <p className="text-orange-400 text-sm font-semibold">🔥 dCARBON aposentado permanentemente!</p>
+                    <p className="text-orange-400 text-sm font-semibold">{t("bridge.success.retire")}</p>
                     <a
                       href={`https://sepolia.basescan.org/tx/${retireTx}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-orange-600 hover:text-orange-400 underline"
                     >
-                      Ver transação →
+                      {t("bridge.tx.link")}
                     </a>
                   </div>
                 )}
@@ -353,14 +354,14 @@ export function CarbonBridgePanel() {
 
           {/* Footer - contract link */}
           <div className="border-t border-gray-800 px-6 py-3 flex justify-between items-center">
-            <span className="text-xs text-gray-600">CarbonBridge v1.0</span>
+            <span className="text-xs text-gray-600">{t("bridge.footer.version")}</span>
             <a
               href={`https://sepolia.basescan.org/address/${CONTRACTS.CarbonBridge.address}#code`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-gray-500 hover:text-green-400 transition-colors"
             >
-              📄 Contrato verificado →
+              {t("bridge.footer.contract")}
             </a>
           </div>
         </div>
