@@ -22,11 +22,11 @@ const faqs = [
   },
   {
     q: "Preciso de KYC para usar o protocolo?",
-    a: "Não. O dLuz Protocol é descentralizado e permissionless. Basta conectar sua wallet (MetaMask, Coinbase Wallet, etc.) para negociar tokens. Para registrar novos projetos, há um processo de verificação off-chain.",
+    a: "Não. Para negociar tokens, basta conectar sua wallet (MetaMask, Coinbase Wallet, etc.). O protocolo é descentralizado e permissionless. Para registrar novos projetos de crédito, há um processo de verificação off-chain.",
   },
   {
     q: "Como funciona o Burn-to-Retire?",
-    a: "Ao queimar tokens dCARBON, um certificado NFT de offsetting é gerado automaticamente on-chain. Esse certificado é a prova imutável de que aquela tonelada de CO₂ foi permanentemente compensada.",
+    a: "Ao queimar tokens dCARBON, um certificado NFT de offsetting é gerado automaticamente on-chain, vinculado à wallet que realizou a queima. Esse certificado é a prova imutável e rastreável de que aquela tonelada de CO₂ foi permanentemente compensada.",
   },
 ];
 

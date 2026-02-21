@@ -250,7 +250,7 @@ export default function BugBountyPage() {
                 href="mailto:dluzprotocol@gmail.com"
                 className="text-sm text-green-400 hover:text-green-300 break-all"
               >
-                security@dluzprotocol.com
+                security@dluz.cc
               </a>
             </div>
 
