@@ -8,9 +8,9 @@
 [![Built on Base](https://img.shields.io/badge/Built%20on-Base-0052FF.svg)](https://base.org)
 [![Solidity](https://img.shields.io/badge/Solidity-^0.8.20-363636.svg)](https://soliditylang.org)
 [![Coverage](https://img.shields.io/badge/Coverage-98.5%25-brightgreen.svg)](#-test-coverage)
-[![Tests](https://img.shields.io/badge/Tests-64%20passing-brightgreen.svg)](#-test-coverage)
+[![Tests](https://img.shields.io/badge/Tests-76%20passing-brightgreen.svg)](#-test-coverage)
 
-[Website](https://dluz.cc) · [Whitepaper](./docs/WHITEPAPER.md) · [Whitepaper PT](./docs/WHITEPAPER_PT.md) · [Tokenomics](./docs/TOKENOMICS.md)
+[Website](https://dluz.cc) · [Whitepaper](./docs/WHITEPAPER.md) · [Whitepaper PT](./docs/WHITEPAPER_PT.md)
 
 </div>
 
@@ -84,7 +84,7 @@ We bring **transparency**, **accessibility**, and **liquidity** to the environme
 ### 🧪 Test Coverage
 
 ```
-64 passing (4s)
+76 passing (5s)
 
 File                 |  % Stmts | % Branch |  % Funcs |  % Lines
 ---------------------|----------|----------|----------|----------
