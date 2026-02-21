@@ -10,6 +10,7 @@ import { PartnersSection } from "@/components/PartnersSection";
 import { Dashboard } from "@/components/Dashboard";
 import { FarmPanel } from "@/components/FarmPanel";
 import { BuyDLuz } from "@/components/BuyDLuz";
+import { SwapPreview } from "@/components/SwapPreview";
 import { TeamSection } from "@/components/TeamSection";
 import { BlogSection } from "@/components/BlogSection";
 import { FAQSection } from "@/components/FAQSection";
@@ -29,6 +30,7 @@ export default function Home() {
       <PartnersSection />
       <Dashboard />
       <BuyDLuz />
+      <SwapPreview />
       <FarmPanel />
       <TeamSection />
       <BlogSection />
