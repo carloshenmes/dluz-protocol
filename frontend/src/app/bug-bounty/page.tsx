@@ -247,7 +247,7 @@ export default function BugBountyPage() {
               <div className="text-3xl mb-3">📧</div>
               <h3 className="font-semibold text-white mb-2">Email</h3>
               <a
-                href="mailto:security@dluzprotocol.com"
+                href="mailto:dluzprotocol@gmail.com"
                 className="text-sm text-green-400 hover:text-green-300 break-all"
               >
                 security@dluzprotocol.com
@@ -295,7 +295,7 @@ export default function BugBountyPage() {
               comunidade. Seu trabalho é valorizado.
             </p>
             <a
-              href="mailto:security@dluzprotocol.com"
+              href="mailto:dluzprotocol@gmail.com"
               className="inline-flex items-center gap-2 px-8 py-3 bg-green-500 hover:bg-green-400 text-gray-950 font-semibold rounded-xl transition-colors"
             >
               🛡️ Reportar Vulnerabilidade
