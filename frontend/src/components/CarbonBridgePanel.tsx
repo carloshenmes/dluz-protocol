@@ -9,6 +9,48 @@ import { useTranslation } from "@/i18n";
 
 type TabType = "deposit" | "retire";
 
+function BackingNote() {
+  const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+
+  return (
+    <div className="mt-6">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-5 py-3 rounded-xl border border-green-500/20 bg-green-500/5 hover:bg-green-500/10 transition-colors"
+      >
+        <span className="text-sm font-medium text-green-400">{t("bridge.note.toggle")}</span>
+        <span className={`text-green-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+          ▾
+        </span>
+      </button>
+
+      {open && (
+        <div className="mt-3 px-5 py-5 rounded-xl border border-gray-700 bg-gray-900/60 space-y-4 text-sm text-gray-400 leading-relaxed animate-fadeIn">
+          <p>{t("bridge.note.p1")}</p>
+          <p>{t("bridge.note.p2")}</p>
+          <p>{t("bridge.note.p3")}</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="flex items-start gap-2 bg-green-500/5 border border-green-500/15 rounded-lg p-3">
+              <span className="text-green-400 mt-0.5">📥</span>
+              <span className="text-xs text-gray-300">{t("bridge.note.deposit")}</span>
+            </div>
+            <div className="flex items-start gap-2 bg-orange-500/5 border border-orange-500/15 rounded-lg p-3">
+              <span className="text-orange-400 mt-0.5">🔥</span>
+              <span className="text-xs text-gray-300">{t("bridge.note.retire")}</span>
+            </div>
+          </div>
+
+          <p className="text-xs text-gray-600 pt-2 border-t border-gray-800">
+            {t("bridge.note.source")}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function CarbonBridgePanel() {
   const { address, isConnected } = useAccount();
   const [activeTab, setActiveTab] = useState<TabType>("deposit");
@@ -17,41 +59,35 @@ export function CarbonBridgePanel() {
   const [needsApproval, setNeedsApproval] = useState(true);
   const { t } = useTranslation();
 
-  // ─── Read: dCARBON total supply ───
   const { data: dcarbonSupply } = useReadContract({
     ...CONTRACTS.DCarbonToken,
     functionName: "totalSupply",
   });
 
-  // ─── Read: BCT backing in bridge ───
   const { data: bctBacking } = useReadContract({
     ...CONTRACTS.CarbonBridge,
     functionName: "getBackingBalance",
     args: [CONTRACTS.MockBCT.address],
   });
 
-  // ─── Read: user MockBCT balance ───
   const { data: userBCT } = useReadContract({
     ...CONTRACTS.MockBCT,
     functionName: "balanceOf",
     args: address ? [address] : undefined,
   });
 
-  // ─── Read: user dCARBON balance ───
   const { data: userDCarbon } = useReadContract({
     ...CONTRACTS.DCarbonToken,
     functionName: "balanceOf",
     args: address ? [address] : undefined,
   });
 
-  // ─── Read: MockBCT allowance ───
   const { data: allowance } = useReadContract({
     ...CONTRACTS.MockBCT,
     functionName: "allowance",
     args: address ? [address, CONTRACTS.CarbonBridge.address] : undefined,
   });
 
-  // ─── Read: dCARBON allowance for bridge ───
   const { data: dcarbonAllowance } = useReadContract({
     ...CONTRACTS.DCarbonToken,
     functionName: "allowance",
@@ -76,15 +112,12 @@ export function CarbonBridgePanel() {
     }
   }, [allowance, dcarbonAllowance, amount, activeTab]);
 
-  // ─── Write: approve ───
   const { writeContract: approve, data: approveTx, isPending: approving } = useWriteContract();
   const { isLoading: waitingApprove, isSuccess: approveSuccess } = useWaitForTransactionReceipt({ hash: approveTx });
 
-  // ─── Write: deposit ───
   const { writeContract: deposit, data: depositTx, isPending: depositing } = useWriteContract();
   const { isLoading: waitingDeposit, isSuccess: depositSuccess } = useWaitForTransactionReceipt({ hash: depositTx });
 
-  // ─── Write: retire ───
   const { writeContract: retire, data: retireTx, isPending: retiring } = useWriteContract();
   const { isLoading: waitingRetire, isSuccess: retireSuccess } = useWaitForTransactionReceipt({ hash: retireTx });
 
@@ -96,7 +129,6 @@ export function CarbonBridgePanel() {
     if (depositSuccess || retireSuccess) setAmount("");
   }, [depositSuccess, retireSuccess]);
 
-  // ─── Handlers ───
   function handleApprove() {
     if (!amount) return;
     const contract = activeTab === "deposit" ? CONTRACTS.MockBCT : CONTRACTS.DCarbonToken;
@@ -125,7 +157,6 @@ export function CarbonBridgePanel() {
     });
   }
 
-  // ─── Helpers ───
   const fmt = (val: unknown) => {
     if (!val) return "0.00";
     try { return Number(formatEther(val as bigint)).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -155,7 +186,6 @@ export function CarbonBridgePanel() {
         </div>
       </AnimateOnScroll>
 
-      {/* ─── Stats Cards ─── */}
       <AnimateOnScroll delay={0.1}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 text-center">
@@ -176,10 +206,8 @@ export function CarbonBridgePanel() {
         </div>
       </AnimateOnScroll>
 
-      {/* ─── Main Panel ─── */}
       <AnimateOnScroll delay={0.2}>
         <div className="bg-gray-900/80 border border-gray-700 rounded-2xl overflow-hidden">
-          {/* Tabs */}
           <div className="flex border-b border-gray-700">
             <button
               onClick={() => { setActiveTab("deposit"); setAmount(""); setNeedsApproval(true); }}
@@ -208,13 +236,11 @@ export function CarbonBridgePanel() {
               <p className="text-center text-gray-500 py-8">{t("bridge.connect")}</p>
             ) : (
               <>
-                {/* User balances */}
                 <div className="flex justify-between text-sm text-gray-400 mb-4">
                   <span>{t("bridge.balance.bct")} <strong className="text-green-300">{fmt(userBCT)}</strong></span>
                   <span>{t("bridge.balance.dcarbon")} <strong className="text-yellow-300">{fmt(userDCarbon)}</strong></span>
                 </div>
 
-                {/* Amount input */}
                 <div className="mb-4">
                   <label className="text-xs text-gray-500 uppercase tracking-wider mb-1 block">
                     {activeTab === "deposit" ? t("bridge.input.deposit") : t("bridge.input.retire")}
@@ -240,7 +266,6 @@ export function CarbonBridgePanel() {
                   </div>
                 </div>
 
-                {/* Reason (retire only) */}
                 {activeTab === "retire" && (
                   <div className="mb-4">
                     <label className="text-xs text-gray-500 uppercase tracking-wider mb-1 block">
@@ -257,7 +282,6 @@ export function CarbonBridgePanel() {
                   </div>
                 )}
 
-                {/* Preview */}
                 {amount && Number(amount) > 0 && (
                   <div className="bg-gray-800/50 rounded-lg p-4 mb-4 border border-gray-700">
                     {activeTab === "deposit" ? (
@@ -285,7 +309,6 @@ export function CarbonBridgePanel() {
                   </div>
                 )}
 
-                {/* Action buttons */}
                 <div className="flex gap-3">
                   {needsApproval && (
                     <button
@@ -321,7 +344,6 @@ export function CarbonBridgePanel() {
                   </button>
                 </div>
 
-                {/* Success messages */}
                 {depositSuccess && (
                   <div className="mt-4 p-3 bg-green-900/30 border border-green-700 rounded-lg text-center">
                     <p className="text-green-400 text-sm font-semibold">{t("bridge.success.deposit")}</p>
@@ -352,7 +374,6 @@ export function CarbonBridgePanel() {
             )}
           </div>
 
-          {/* Footer - contract link */}
           <div className="border-t border-gray-800 px-6 py-3 flex justify-between items-center">
             <span className="text-xs text-gray-600">{t("bridge.footer.version")}</span>
             <a
@@ -365,6 +386,9 @@ export function CarbonBridgePanel() {
             </a>
           </div>
         </div>
+
+        {/* ─── Nota explicativa do lastro 1:1 ─── */}
+        <BackingNote />
       </AnimateOnScroll>
     </section>
   );
