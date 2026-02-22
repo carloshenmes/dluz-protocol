@@ -1,41 +1,27 @@
 const hre = require("hardhat");
-const fs = require("fs");
-
+const dep = require("../deployments/baseSepolia.json");
 async function main() {
-  const deployment = JSON.parse(fs.readFileSync("deployments/baseSepolia.json", "utf8"));
-  console.log("🔍 dLuz Protocol — Estado dos contratos na Base Sepolia\n");
-
-  // 1. DLuzToken — Owner
-  const dluz = await hre.ethers.getContractAt("DLuzToken", deployment.contracts.DLuzToken);
-  const owner = await dluz.owner();
-  console.log("DLuzToken owner:", owner);
-  console.log("  É o deployer?", owner.toLowerCase() === deployment.deployer.toLowerCase());
-  console.log("  É o Registry?", owner.toLowerCase() === deployment.contracts.CarbonRegistry.toLowerCase());
-
-  // 2. DCarbonToken — Roles
-  const MINTER_ROLE = hre.ethers.keccak256(hre.ethers.toUtf8Bytes("MINTER_ROLE"));
-  const dcarbon = await hre.ethers.getContractAt("DCarbonToken", deployment.contracts.DCarbonToken);
-  console.log("\nDCarbonToken MINTER_ROLE:");
-  console.log("  Registry é minter?", await dcarbon.hasRole(MINTER_ROLE, deployment.contracts.CarbonRegistry));
-  console.log("  Deployer é minter?", await dcarbon.hasRole(MINTER_ROLE, deployment.deployer));
-
-  // 3. DEnergyToken — Roles
-  const denergy = await hre.ethers.getContractAt("DEnergyToken", deployment.contracts.DEnergyToken);
-  console.log("\nDEnergyToken MINTER_ROLE:");
-  console.log("  Registry é minter?", await denergy.hasRole(MINTER_ROLE, deployment.contracts.CarbonRegistry));
-  console.log("  Deployer é minter?", await denergy.hasRole(MINTER_ROLE, deployment.deployer));
-
-  // 4. Supply
-  console.log("\nSupply atual:");
-  console.log("  DLUZ:", hre.ethers.formatUnits(await dluz.totalSupply(), 18));
-  console.log("  dCARBON:", hre.ethers.formatUnits(await dcarbon.totalSupply(), 18));
-  console.log("  dENERGY:", hre.ethers.formatUnits(await denergy.totalSupply(), 18));
-
-  // 5. Registry
-  const registry = await hre.ethers.getContractAt("CarbonRegistry", deployment.contracts.CarbonRegistry);
-  console.log("\nCarbonRegistry:");
-  console.log("  Total retired:", hre.ethers.formatUnits(await registry.totalRetired(), 18), "tCO2");
-  console.log("  Total retirements:", (await registry.totalRetirements()).toString());
+  const c = dep.contracts;
+  const [s] = await hre.ethers.getSigners();
+  const fmt = hre.ethers.formatEther;
+  const dluz = await hre.ethers.getContractAt("DLuzToken", c.DLuzToken);
+  const dc = await hre.ethers.getContractAt("IERC20", c.DCarbonToken);
+  const de = await hre.ethers.getContractAt("IERC20", c.DEnergyToken);
+  const bct = await hre.ethers.getContractAt("IERC20", c.MockBCT);
+  console.log("=== Saldos do Signer ===");
+  console.log("DLUZ:", fmt(await dluz.balanceOf(s.address)));
+  console.log("dCARBON:", fmt(await dc.balanceOf(s.address)));
+  console.log("dENERGY:", fmt(await de.balanceOf(s.address)));
+  console.log("MockBCT:", fmt(await bct.balanceOf(s.address)));
+  console.log("\n=== Saldos dos Contratos ===");
+  console.log("DLUZ no Sale:", fmt(await dluz.balanceOf(c.DLuzSale)));
+  console.log("DLUZ no Farming:", fmt(await dluz.balanceOf(c.DLuzFarming)));
+  console.log("MockBCT no Bridge:", fmt(await bct.balanceOf(c.CarbonBridge)));
+  console.log("\n=== Bridge Config ===");
+  const bridge = await hre.ethers.getContractAt("CarbonBridge", c.CarbonBridge);
+  try { console.log("MockBCT accepted:", await bridge.acceptedTokens(c.MockBCT)); } catch(e) { console.log("acceptedTokens failed:", e.message.slice(0,120)); }
+  console.log("\n=== Farming Pending ===");
+  const farming = await hre.ethers.getContractAt("DLuzFarming", c.DLuzFarming);
+  try { console.log("Pending pool 0:", fmt(await farming.pendingReward(0, s.address))); } catch(e) { console.log("pendingReward failed:", e.message.slice(0,120)); }
 }
-
-main().catch((e) => { console.error("❌", e.message); process.exit(1); });
+main().catch(console.error);
