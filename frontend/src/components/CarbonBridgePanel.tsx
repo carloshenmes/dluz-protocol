@@ -14,7 +14,7 @@ function BackingNote() {
   const { t } = useTranslation();
 
   return (
-    <div className="mt-6">
+    <div id="bridge" className="mt-6">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-5 py-3 rounded-xl border border-green-500/20 bg-green-500/5 hover:bg-green-500/10 transition-colors"
