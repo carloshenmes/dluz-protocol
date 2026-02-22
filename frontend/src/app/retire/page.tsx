@@ -69,8 +69,7 @@ export default function RetirePage() {
   useEffect(() => {
     if (isRetireConfirmed) {
       setStep("done");
-      // Aguarda indexação do subgraph e recarrega stats + histórico
-      setTimeout(() => setRefreshKey((k) => k + 1), 5000);
+      setTimeout(() => setRefreshKey((k) => k + 1), 3000);
     }
   }, [isRetireConfirmed]);
 
@@ -121,23 +120,23 @@ export default function RetirePage() {
         {/* Retire Form */}
         <section className="max-w-md mx-auto space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-green-400">Aposentar Carbono</h1>
+            <h1 className="text-2xl font-bold text-green-400">Retire Carbon</h1>
             <p className="text-sm text-gray-400 mt-1">
-              Queime dCARBON e receba dLuz como recompensa
+              Burn dCARBON and earn dLuz as a reward
             </p>
           </div>
 
           {!isConnected ? (
             <div className="rounded-xl border border-gray-800 bg-gray-900 p-8 text-center space-y-4">
-              <p className="text-gray-400">Conecte sua wallet para continuar</p>
+              <p className="text-gray-400">Connect your wallet to continue</p>
               <ConnectButton />
             </div>
           ) : step === "done" ? (
             <div className="rounded-xl border border-green-800/50 bg-green-950/30 p-8 text-center space-y-4">
               <div className="text-4xl">🌱</div>
-              <h2 className="text-lg font-semibold text-green-400">Carbono aposentado!</h2>
+              <h2 className="text-lg font-semibold text-green-400">Carbon retired!</h2>
               <p className="text-sm text-gray-400">
-                {amount} dCARBON queimados. Recompensa dLuz creditada.
+                {amount} dCARBON burned. dLuz reward credited.
               </p>
               {retireTxHash && (
                 <a
@@ -146,27 +145,27 @@ export default function RetirePage() {
                   rel="noopener noreferrer"
                   className="text-sm text-green-400 underline hover:text-green-300"
                 >
-                  Ver transacao ↗
+                  View transaction ↗
                 </a>
               )}
               <button
                 onClick={handleReset}
                 className="mt-4 w-full rounded-lg bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-300 hover:bg-gray-700 transition-colors"
               >
-                Aposentar mais
+                Retire more
               </button>
             </div>
           ) : (
             <div className="rounded-xl border border-gray-800 bg-gray-900 p-6 space-y-5">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">Saldo dCARBON</span>
+                <span className="text-gray-400">dCARBON Balance</span>
                 <span className="text-white font-mono">
-                  {Number(formattedBalance).toLocaleString("pt-BR", { maximumFractionDigits: 4 })}
+                  {Number(formattedBalance).toLocaleString("en-US", { maximumFractionDigits: 4 })}
                 </span>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm text-gray-400">Quantidade</label>
+                <label className="text-sm text-gray-400">Amount</label>
                 <div className="relative">
                   <input
                     type="number"
@@ -193,10 +192,10 @@ export default function RetirePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm text-gray-400">Motivo (opcional)</label>
+                <label className="text-sm text-gray-400">Reason (optional)</label>
                 <input
                   type="text"
-                  placeholder="Ex: Compensacao voluntaria 2026"
+                  placeholder="E.g. Voluntary offset 2026"
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   disabled={isProcessing}
@@ -221,12 +220,12 @@ export default function RetirePage() {
                   className="w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {isApproving || isApproveTxLoading
-                    ? "Aprovando..."
+                    ? "Approving..."
                     : !amount || parsedAmount === BigInt(0)
-                      ? "Insira um valor"
+                      ? "Enter an amount"
                       : !hasEnoughBalance
-                        ? "Saldo insuficiente"
-                        : "Aprovar dCARBON"}
+                        ? "Insufficient balance"
+                        : "Approve dCARBON"}
                 </button>
               ) : (
                 <button
@@ -234,7 +233,7 @@ export default function RetirePage() {
                   disabled={isProcessing}
                   className="w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  {isRetiring || isRetireTxLoading ? "Aposentando..." : "Aposentar Carbono"}
+                  {isRetiring || isRetireTxLoading ? "Retiring..." : "Retire Carbon"}
                 </button>
               )}
             </div>
@@ -244,7 +243,7 @@ export default function RetirePage() {
         {/* Retirement History */}
         <section key={`history-${refreshKey}`}>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-200">📜 Histórico de Retirements</h2>
+            <h2 className="text-xl font-bold text-gray-200">📜 Retirement History</h2>
             <div className="flex gap-1 bg-gray-800 rounded-lg p-1">
               <button
                 onClick={() => setHistoryTab("my")}
@@ -254,7 +253,7 @@ export default function RetirePage() {
                     : "text-gray-400 hover:text-gray-200"
                 }`}
               >
-                Meus
+                Mine
               </button>
               <button
                 onClick={() => setHistoryTab("all")}
@@ -264,7 +263,7 @@ export default function RetirePage() {
                     : "text-gray-400 hover:text-gray-200"
                 }`}
               >
-                Todos
+                All
               </button>
             </div>
           </div>

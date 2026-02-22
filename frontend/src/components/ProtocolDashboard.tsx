@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract, useReadContracts } from "wagmi";
 import { formatUnits } from "viem";
-import {
-  fetchProtocolStats,
-  fetchUserStats,
-  ProtocolStats,
-  UserStatsData,
-} from "@/hooks/useSubgraph";
+import { CONTRACTS } from "@/config/contracts";
 
-function StatCard({ label, value, unit, color = "text-white" }: {
+// ─── Helpers ─────────────────────────────────────────────────
+
+function StatCard({
+  label,
+  value,
+  unit,
+  color = "text-white",
+}: {
   label: string;
   value: string;
   unit?: string;
@@ -20,44 +21,98 @@ function StatCard({ label, value, unit, color = "text-white" }: {
     <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-5">
       <p className="text-gray-400 text-sm mb-1">{label}</p>
       <p className={`text-2xl font-bold ${color}`}>
-        {value} {unit && <span className="text-sm font-normal text-gray-400">{unit}</span>}
+        {value}{" "}
+        {unit && (
+          <span className="text-sm font-normal text-gray-400">{unit}</span>
+        )}
       </p>
     </div>
   );
 }
 
-function formatWei(value: string, decimals: number = 18, precision: number = 2): string {
-  return parseFloat(formatUnits(BigInt(value), decimals)).toFixed(precision);
+function fmt(value: bigint | undefined, decimals = 18, precision = 2): string {
+  if (value === undefined) return "0";
+  return parseFloat(formatUnits(value, decimals)).toFixed(precision);
 }
+
+// ─── Component ───────────────────────────────────────────────
 
 export default function ProtocolDashboard() {
   const { address } = useAccount();
-  const [protocol, setProtocol] = useState<ProtocolStats | null>(null);
-  const [user, setUser] = useState<UserStatsData | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function load() {
-      setLoading(true);
-      try {
-        const [p, u] = await Promise.all([
-          fetchProtocolStats(),
-          address ? fetchUserStats(address) : Promise.resolve(null),
-        ]);
-        setProtocol(p);
-        setUser(u);
-      } catch (e) {
-        console.error("Failed to fetch stats:", e);
-      }
-      setLoading(false);
-    }
-    load();
-  }, [address]);
+  // --- Protocol-level reads (no address dependency) ---
+  const {
+    data: protocolData,
+    isLoading: protocolLoading,
+    isError: protocolError,
+  } = useReadContracts({
+    contracts: [
+      {
+        ...CONTRACTS.CarbonRegistry,
+        functionName: "totalRetired",
+      },
+      {
+        ...CONTRACTS.CarbonRegistry,
+        functionName: "totalRetirements",
+      },
+      {
+        ...CONTRACTS.DLuzToken,
+        functionName: "totalSupply",
+      },
+      {
+        ...CONTRACTS.DEnergyToken,
+        functionName: "totalSupply",
+      },
+    ],
+  });
 
-  if (loading) {
+  // --- User-level reads (individual hooks, enabled only when connected) ---
+  const { data: userRetiredData, isLoading: userRetiredLoading } = useReadContract({
+    ...CONTRACTS.CarbonRegistry,
+    functionName: "totalRetiredBy",
+    args: address ? [address] : undefined,
+    query: { enabled: !!address },
+  });
+
+  const { data: userDluzData, isLoading: userDluzLoading } = useReadContract({
+    ...CONTRACTS.DLuzToken,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+    query: { enabled: !!address },
+  });
+
+  const { data: userDenergyData, isLoading: userDenergyLoading } = useReadContract({
+    ...CONTRACTS.DEnergyToken,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+    query: { enabled: !!address },
+  });
+
+  // --- Parse protocol results ---
+  const totalCarbonRetired = protocolData?.[0]?.result as bigint | undefined;
+  const totalRetirements = protocolData?.[1]?.result as bigint | undefined;
+  const totalDluzSupply = protocolData?.[2]?.result as bigint | undefined;
+  const totalDenergySupply = protocolData?.[3]?.result as bigint | undefined;
+
+  // --- Parse user results ---
+  const userCarbonRetired = userRetiredData as bigint | undefined;
+  const userDluzBalance = userDluzData as bigint | undefined;
+  const userDenergyBalance = userDenergyData as bigint | undefined;
+  const userLoading = userRetiredLoading || userDluzLoading || userDenergyLoading;
+
+  // --- Loading state ---
+  if (protocolLoading) {
     return (
       <div className="animate-pulse text-center py-8 text-gray-400">
-        Carregando stats...
+        Loading on-chain stats...
+      </div>
+    );
+  }
+
+  if (protocolError) {
+    return (
+      <div className="text-center py-8 text-red-400">
+        Failed to read contracts. Check your network connection.
       </div>
     );
   }
@@ -66,29 +121,29 @@ export default function ProtocolDashboard() {
     <div className="space-y-8">
       {/* Protocol Stats */}
       <div>
-        <h2 className="text-xl font-bold mb-4 text-gray-200">📊 Protocolo</h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-200">📊 Protocol</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard
             label="Total Carbon Retired"
-            value={protocol ? formatWei(protocol.totalCarbonRetired) : "0"}
+            value={fmt(totalCarbonRetired)}
             unit="TCO₂"
             color="text-green-400"
           />
           <StatCard
-            label="DLUZ Distribuído"
-            value={protocol ? formatWei(protocol.totalDluzDistributed) : "0"}
+            label="DLUZ Supply"
+            value={fmt(totalDluzSupply)}
             unit="DLUZ"
             color="text-yellow-400"
           />
           <StatCard
-            label="dEnergy Mintado"
-            value={protocol ? formatWei(protocol.totalDenergyMinted) : "0"}
+            label="dEnergy Minted"
+            value={fmt(totalDenergySupply)}
             unit="dEnergy"
             color="text-purple-400"
           />
           <StatCard
             label="Total Retirements"
-            value={protocol ? protocol.totalRetirements : "0"}
+            value={totalRetirements?.toString() ?? "0"}
             color="text-blue-400"
           />
         </div>
@@ -97,35 +152,36 @@ export default function ProtocolDashboard() {
       {/* User Stats */}
       {address && (
         <div>
-          <h2 className="text-xl font-bold mb-4 text-gray-200">👤 Suas Stats</h2>
-          {user ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <h2 className="text-xl font-bold mb-4 text-gray-200">
+            👤 Your Stats
+          </h2>
+          {userLoading ? (
+            <div className="animate-pulse text-gray-400">Loading...</div>
+          ) : userCarbonRetired !== undefined && userCarbonRetired > 0n ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <StatCard
-                label="Seu Carbon Retired"
-                value={formatWei(user.totalRetired)}
+                label="Your Carbon Retired"
+                value={fmt(userCarbonRetired)}
                 unit="TCO₂"
                 color="text-green-400"
               />
               <StatCard
-                label="DLUZ Ganho"
-                value={formatWei(user.totalDluzEarned)}
+                label="DLUZ Balance"
+                value={fmt(userDluzBalance)}
                 unit="DLUZ"
                 color="text-yellow-400"
               />
               <StatCard
-                label="dEnergy Ganho"
-                value={formatWei(user.totalDenergyEarned)}
+                label="dEnergy Balance"
+                value={fmt(userDenergyBalance)}
                 unit="dEnergy"
                 color="text-purple-400"
               />
-              <StatCard
-                label="Seus Retirements"
-                value={user.retirementCount}
-                color="text-blue-400"
-              />
             </div>
           ) : (
-            <p className="text-gray-500">Nenhum retirement registrado ainda.</p>
+            <p className="text-gray-500">
+              No retirements recorded yet.
+            </p>
           )}
         </div>
       )}

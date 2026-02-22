@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Logo } from "./Logo";
 import { useState, useRef, useEffect } from "react";
-import { useTranslation, Lang } from "@/i18n";
+import { useTranslation } from "@/i18n";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -17,7 +17,7 @@ export function Header() {
   const mainLinks = [
     { label: t("nav.howItWorks"), href: "/#como-funciona" },
     { label: t("nav.tokens"), href: "/#tokens" },
-    { label: lang === "pt" ? "Comprar" : "Buy", href: "/#comprar" },
+    { label: t("nav.buy"), href: "/#comprar" },
     { label: "Dashboard", href: "/#dashboard" },
     { label: "Farm", href: "/#farm" },
     { label: "Retire", href: "/retire" },
@@ -56,6 +56,8 @@ export function Header() {
     }`;
   };
 
+  const moreLabel = lang === "pt" ? "Mais" : "More";
+
   return (
     <header className="sticky top-0 z-50 border-b border-gray-800/50 bg-gray-950/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
@@ -72,7 +74,7 @@ export function Header() {
             </Link>
           ))}
 
-          {/* Dropdown "Mais" */}
+          {/* Dropdown More */}
           <div ref={moreRef} className="relative">
             <button
               onClick={() => setMoreOpen(!moreOpen)}
@@ -80,7 +82,7 @@ export function Header() {
                 moreOpen ? "text-green-400" : "text-gray-400 hover:text-green-400"
               }`}
             >
-              {lang === "pt" ? "Mais" : "More"}
+              {moreLabel}
               <svg
                 className={`w-3.5 h-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`}
                 fill="none"

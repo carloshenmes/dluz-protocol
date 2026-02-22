@@ -2,24 +2,64 @@
   "network": "baseSepolia",
   "chainId": 84532,
   "deployer": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
-  "timestamp": "2026-02-21T22:30:00.000Z",
-  "tokenomics": {
-    "dluzMaxSupply": "1,000,000,000",
-    "dluzInitialSupply": "300,000,000",
-    "dluzRewardRate": "10:1 (per dCARBON retired)",
-    "energyMintRate": "1:1 (per dCARBON retired)",
-    "dcarbonMaxSupply": "unlimited (minted by verified entities)",
-    "denergyMaxSupply": "unlimited (minted on retirement)"
-  },
+  "timestamp": "2026-02-22T00:35:08.252Z",
   "contracts": {
-    "DLuzToken": "0xF0807462147C10Eae2B53fa64C736d73A541950c",
-    "DCarbonToken": "0x87605261111208e9f57CbA884d7c2bEcFe81C45D",
-    "DEnergyToken": "0x8919646FAe7283842090eb86BA02D4683e501934",
-    "CarbonRegistry": "0x73fdbf1652Dc01b8104b127c48B064BE94bD4fBf",
-    "DLuzDEX": "0xc9284747A7DC88C08CD7A8051c262a101F24E6f3",
-    "DLuzFarming": "0x2ef3BFE8C997e031fff8992658C2Ac653b29b30a",
-    "DLuzSale": "0xc6a59D50BE58FA91b430b3a6baA3a51Dc1194d35",
-    "MockBCT": "0x313c8F9B7cFFcE27FE0AF4b12344d3b66cFf5F2E",
-    "CarbonBridge": "0xB7a98b07DD1D73b111D2679ED219eE4693F9505B"
+    "DLuzToken": "0xF4FEECc50A0D3b81931AC8A1638fa419C0217Dd3",
+    "DCarbonToken": "0x1fA05a3c388066069A500157B9B43b287deA973f",
+    "DEnergyToken": "0x6519F9b10C598652945c7b4cAc113251cf108b92",
+    "CarbonBridge": "0xA31Ecd8968AE3fa35969918c5e0F89D1d76c4c78",
+    "CarbonRegistry": "0x9dbCfA6FF1357C4Af642464bBe2FeBf17aCcD1bc",
+    "DLuzSale": "0xBC3D26485f76d3a4BE14a4dfE7840c4afa62184a",
+    "TeamVesting": "0x24E7A346e396d9D783dBaf306eDa3579696CA525",
+    "DLuzDEX": "0x576a60085100D2d2Ec612B28E6cCAF63E7CCa277",
+    "DLuzFarming": "0xd9021f25aA780753484484A9c874b4a222F3e7Cb",
+    "MockBCT": "0x00Da85D253E8cD86435dEe081B0FD318e645667a"
+  },
+  "tokenomics": {
+    "maxSupply": "1,000,000,000 DLUZ",
+    "initialMint": "500,000,000 DLUZ",
+    "deployerBalance": "250000000.0 DLUZ",
+    "saleBalance": "250000000.0 DLUZ",
+    "remainingMintable": "500000000.0 DLUZ"
+  },
+  "roles": {
+    "DCarbonToken.MINTER_ROLE": [
+      "0xA31Ecd8968AE3fa35969918c5e0F89D1d76c4c78",
+      "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E"
+    ],
+    "DEnergyToken.MINTER_ROLE": [
+      "0x9dbCfA6FF1357C4Af642464bBe2FeBf17aCcD1bc",
+      "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E"
+    ],
+    "DLuzToken.owner": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+    "CarbonBridge.MANAGER_ROLE": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+    "CarbonRegistry.owner": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+    "DLuzSale.owner": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+    "DLuzDEX.owner": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+    "DLuzFarming.owner": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E",
+    "TeamVesting.owner": "0x4aF510c05cf652341d4870Fabd6f25Ceff881B0E"
+  },
+  "dex": {
+    "pools": [
+      "DLUZ/dCARBON",
+      "DLUZ/dENERGY"
+    ],
+    "fee": "0.3%"
+  },
+  "farming": {
+    "pools": [
+      {
+        "id": 0,
+        "stake": "DLUZ",
+        "reward": "dCARBON",
+        "rate": "0.01/sec"
+      },
+      {
+        "id": 1,
+        "stake": "DLUZ",
+        "reward": "dENERGY",
+        "rate": "0.005/sec"
+      }
+    ]
   }
 }

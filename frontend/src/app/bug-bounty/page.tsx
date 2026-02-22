@@ -3,74 +3,74 @@ import { Footer } from "@/components/Footer";
 
 const severityLevels = [
   {
-    level: "Crítica",
+    level: "Critical",
     color: "red",
-    reward: "1.000 – 5.000 dLuz",
+    reward: "1,000 – 5,000 dLuz",
     examples: [
-      "Drain de fundos dos contratos ou pools",
-      "Mint infinito de tokens (dLuz, dCARBON, dENERGY)",
-      "Bypass de controle de ownership / admin",
-      "Manipulação de oráculos de preço",
+      "Drain of funds from contracts or pools",
+      "Infinite minting of tokens (dLuz, dCARBON, dENERGY)",
+      "Bypass of ownership / admin controls",
+      "Price oracle manipulation",
     ],
   },
   {
-    level: "Alta",
+    level: "High",
     color: "orange",
-    reward: "500 – 1.000 dLuz",
+    reward: "500 – 1,000 dLuz",
     examples: [
-      "Bypass de permissões em funções protegidas",
-      "Falha na lógica de swap que cause perda parcial",
-      "Reentrancy explorável em contratos de pool",
-      "Front-running com impacto financeiro direto",
+      "Permission bypass on protected functions",
+      "Swap logic flaw causing partial loss of funds",
+      "Exploitable reentrancy in pool contracts",
+      "Front-running with direct financial impact",
     ],
   },
   {
-    level: "Média",
+    level: "Medium",
     color: "yellow",
     reward: "100 – 500 dLuz",
     examples: [
-      "Denial of Service (DoS) em funções críticas",
-      "Erros de cálculo em taxas ou slippage",
-      "Falhas em validações de input",
-      "Problemas de gas optimization que travem transações",
+      "Denial of Service (DoS) on critical functions",
+      "Fee or slippage calculation errors",
+      "Input validation failures",
+      "Gas optimization issues that block transactions",
     ],
   },
   {
-    level: "Baixa",
+    level: "Low",
     color: "green",
     reward: "25 – 100 dLuz",
     examples: [
-      "Bugs visuais no frontend que afetem usabilidade",
-      "Erros de exibição de saldo ou preço",
-      "Links quebrados ou navegação inconsistente",
-      "Melhorias de UX com impacto em segurança",
+      "Frontend visual bugs affecting usability",
+      "Balance or price display errors",
+      "Broken links or inconsistent navigation",
+      "UX improvements with security impact",
     ],
   },
 ];
 
 const rules = [
-  "Não explore vulnerabilidades em produção — use a testnet Base Sepolia.",
-  "Reporte uma vulnerabilidade por submission. Não agrupe múltiplos bugs.",
-  "Forneça passos claros de reprodução (PoC) com código quando possível.",
-  "Dê ao time 90 dias para corrigir antes de qualquer disclosure pública.",
-  "Não faça engenharia social, phishing ou ataques a infraestrutura.",
-  "Não acesse ou modifique dados de outros usuários.",
-  "Primeira submission válida tem prioridade — duplicatas não são recompensadas.",
-  "Vulnerabilidades já conhecidas ou em componentes de terceiros estão fora do escopo.",
+  "Do not exploit vulnerabilities in production — use the Base Sepolia testnet.",
+  "Report one vulnerability per submission. Do not bundle multiple bugs.",
+  "Provide clear reproduction steps (PoC) with code when possible.",
+  "Allow the team 90 days to patch before any public disclosure.",
+  "Do not engage in social engineering, phishing, or infrastructure attacks.",
+  "Do not access or modify other users' data.",
+  "First valid submission takes priority — duplicates are not rewarded.",
+  "Known vulnerabilities or issues in third-party components are out of scope.",
 ];
 
 const inScope = [
-  { name: "Smart Contracts", desc: "dLuz, dCARBON, dENERGY tokens — Router, Factory e Pools da DEX" },
-  { name: "Frontend", desc: "Aplicação Next.js — lógica de conexão de wallet, execução de swaps, exibição de dados on-chain" },
-  { name: "Integrações", desc: "Interações com RainbowKit, wagmi, e contratos deployados na Base" },
+  { name: "Smart Contracts", desc: "dLuz, dCARBON, dENERGY tokens — DEX Router, Factory, and Pools" },
+  { name: "Frontend", desc: "Next.js application — wallet connection logic, swap execution, on-chain data display" },
+  { name: "Integrations", desc: "Interactions with RainbowKit, wagmi, and contracts deployed on Base" },
 ];
 
 const outOfScope = [
-  "Infraestrutura do Vercel, GitHub ou provedores terceiros",
-  "Ataques que exijam acesso físico ao dispositivo do usuário",
-  "Vulnerabilidades em dependências sem impacto demonstrável",
-  "Bugs já reportados ou listados em issues públicas",
-  "Resultados de scanners automatizados sem PoC manual",
+  "Vercel, GitHub, or third-party provider infrastructure",
+  "Attacks requiring physical access to the user's device",
+  "Dependency vulnerabilities without demonstrable impact",
+  "Bugs already reported or listed in public issues",
+  "Automated scanner results without a manual PoC",
 ];
 
 const colorMap: Record<string, { border: string; bg: string; text: string; dot: string }> = {
@@ -111,7 +111,7 @@ export default function BugBountyPage() {
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-sm font-medium mb-6">
             <span>🛡️</span>
-            <span>SEGURANÇA</span>
+            <span>SECURITY</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Bug Bounty{" "}
@@ -120,8 +120,8 @@ export default function BugBountyPage() {
             </span>
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Ajude a proteger o dLuz Protocol. Encontre vulnerabilidades, reporte
-            com responsabilidade e seja recompensado em dLuz.
+            Help protect the dLuz Protocol. Find vulnerabilities, report
+            responsibly, and earn dLuz rewards.
           </p>
         </div>
       </section>
@@ -129,9 +129,9 @@ export default function BugBountyPage() {
       {/* Severity Levels */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-4">Níveis de Severidade & Recompensas</h2>
+          <h2 className="text-2xl font-bold text-center mb-4">Severity Levels & Rewards</h2>
           <p className="text-gray-500 text-center mb-12 max-w-xl mx-auto">
-            Recompensas pagas em dLuz. O valor final depende da qualidade do report, impacto real e clareza do PoC.
+            Rewards paid in dLuz. Final amount depends on report quality, actual impact, and PoC clarity.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -169,13 +169,13 @@ export default function BugBountyPage() {
       {/* Scope */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-12">Escopo do Programa</h2>
+          <h2 className="text-2xl font-bold text-center mb-12">Program Scope</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* In Scope */}
             <div>
               <h3 className="text-lg font-semibold text-green-400 mb-4 flex items-center gap-2">
-                <span>✅</span> Em Escopo
+                <span>✅</span> In Scope
               </h3>
               <div className="space-y-4">
                 {inScope.map((item) => (
@@ -193,7 +193,7 @@ export default function BugBountyPage() {
             {/* Out of Scope */}
             <div>
               <h3 className="text-lg font-semibold text-gray-500 mb-4 flex items-center gap-2">
-                <span>⛔</span> Fora do Escopo
+                <span>⛔</span> Out of Scope
               </h3>
               <div className="rounded-lg border border-gray-800 bg-gray-900/30 p-5">
                 <ul className="space-y-3">
@@ -213,9 +213,9 @@ export default function BugBountyPage() {
       {/* Rules */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-4">Regras de Participação</h2>
+          <h2 className="text-2xl font-bold text-center mb-4">Participation Rules</h2>
           <p className="text-gray-500 text-center mb-10">
-            Responsible Disclosure — reporte com ética, seja recompensado com justiça.
+            Responsible Disclosure — report ethically, get rewarded fairly.
           </p>
 
           <div className="rounded-xl border border-gray-800 bg-gray-900/30 p-8">
@@ -236,9 +236,9 @@ export default function BugBountyPage() {
       {/* How to Report */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Como Reportar</h2>
+          <h2 className="text-2xl font-bold mb-4">How to Report</h2>
           <p className="text-gray-500 mb-10 max-w-xl mx-auto">
-            Envie seu report detalhado por um dos canais abaixo. Inclua sempre: descrição da vulnerabilidade, passos de reprodução e impacto estimado.
+            Send a detailed report through one of the channels below. Always include: vulnerability description, reproduction steps, and estimated impact.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -289,16 +289,16 @@ export default function BugBountyPage() {
       <section className="py-20 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <div className="rounded-2xl border border-green-500/20 bg-gradient-to-b from-green-500/5 to-transparent p-12">
-            <h2 className="text-2xl font-bold mb-4">Encontrou algo?</h2>
+            <h2 className="text-2xl font-bold mb-4">Found something?</h2>
             <p className="text-gray-400 mb-8">
-              Cada vulnerabilidade reportada fortalece o protocolo e protege a
-              comunidade. Seu trabalho é valorizado.
+              Every reported vulnerability strengthens the protocol and protects
+              the community. Your work is valued.
             </p>
             <a
               href="mailto:dluzprotocol@gmail.com"
               className="inline-flex items-center gap-2 px-8 py-3 bg-green-500 hover:bg-green-400 text-gray-950 font-semibold rounded-xl transition-colors"
             >
-              🛡️ Reportar Vulnerabilidade
+              🛡️ Report Vulnerability
             </a>
           </div>
         </div>

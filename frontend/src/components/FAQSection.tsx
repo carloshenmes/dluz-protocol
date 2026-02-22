@@ -2,33 +2,7 @@
 
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { useState } from "react";
-
-const faqs = [
-  {
-    q: "O que é um crédito de carbono?",
-    a: "Um crédito de carbono representa 1 tonelada de CO₂ equivalente que foi evitada ou removida da atmosfera. É verificado por entidades como Verra ou Gold Standard e pode ser negociado no mercado voluntário ou regulado.",
-  },
-  {
-    q: "Como o dLuz Protocol tokeniza créditos?",
-    a: "Projetos verificados registram seus créditos no smart contract. Cada crédito gera 1 token dCARBON (ERC-20) na rede Base. O token é rastreável, imutável e pode ser negociado na DEX ou queimado para compensar emissões.",
-  },
-  {
-    q: "O que é o SBCE?",
-    a: "O Sistema Brasileiro de Comércio de Emissões (SBCE) foi criado pela Lei 15.042/2024. Opera no modelo cap-and-trade: empresas que emitem acima de 10 mil tCO₂e/ano recebem cotas de emissão (CBEs) e podem negociá-las. O dLuz é compatível com CBEs e CRVEs tokenizados.",
-  },
-  {
-    q: "Qual a diferença entre dCARBON e dENERGY?",
-    a: "dCARBON representa créditos de carbono (1 token = 1 tCO₂ compensada). dENERGY representa Certificados de Energia Renovável — RECs (1 token = 1 MWh de energia limpa gerada). Ambos são negociáveis na DEX.",
-  },
-  {
-    q: "Preciso de KYC para usar o protocolo?",
-    a: "Não. Para negociar tokens, basta conectar sua wallet (MetaMask, Coinbase Wallet, etc.). O protocolo é descentralizado e permissionless. Para registrar novos projetos de crédito, há um processo de verificação off-chain.",
-  },
-  {
-    q: "Como funciona o Burn-to-Retire?",
-    a: "Ao queimar tokens dCARBON, um certificado NFT de offsetting é gerado automaticamente on-chain, vinculado à wallet que realizou a queima. Esse certificado é a prova imutável e rastreável de que aquela tonelada de CO₂ foi permanentemente compensada.",
-  },
-];
+import { useTranslation } from "@/i18n";
 
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
@@ -65,19 +39,30 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 export function FAQSection() {
+  const { t } = useTranslation();
+
+  const faqs = [
+    { q: t("faq.q1"), a: t("faq.a1") },
+    { q: t("faq.q2"), a: t("faq.a2") },
+    { q: t("faq.q3"), a: t("faq.a3") },
+    { q: t("faq.q4"), a: t("faq.a4") },
+    { q: t("faq.q5"), a: t("faq.a5") },
+    { q: t("faq.q6"), a: t("faq.a6") },
+  ];
+
   return (
     <section id="faq" className="py-24 px-6 border-t border-gray-800/50">
       <div className="max-w-3xl mx-auto">
         <AnimateOnScroll>
           <div className="text-center mb-12">
             <span className="text-xs font-semibold text-green-400 uppercase tracking-widest mb-4 block">
-              ❓ Dúvidas Frequentes
+              ❓ {t("faq.tag")}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              FAQ
+              {t("faq.title")}
             </h2>
             <p className="text-gray-400">
-              As perguntas mais comuns sobre o protocolo, tokens e mercado de carbono.
+              {t("faq.desc")}
             </p>
           </div>
         </AnimateOnScroll>

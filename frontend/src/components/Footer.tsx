@@ -1,31 +1,34 @@
 "use client";
 
 import { Logo } from "./Logo";
-
-const protocolLinks = [
-  { label: "Como Funciona", href: "/#como-funciona" },
-  { label: "Tokens", href: "/#tokens" },
-  { label: "DEX", href: "/#comprar" },
-  { label: "Amazônia", href: "/#amazonia" },
-  { label: "Energia", href: "/#energia" },
-  { label: "Dashboard", href: "/#dashboard" },
-];
-
-const devLinks = [
-  { label: "GitHub", href: "https://github.com/carloshenmes/dluz-protocol" },
-  { label: "BaseScan Contracts", href: "https://sepolia.basescan.org/address/0xBfeE6d11634376aB33E47d81531FE36522e051f9#code" },
-  { label: "Docs / Whitepaper", href: "https://github.com/carloshenmes/dluz-protocol/blob/main/docs/WHITEPAPER.md" },
-  { label: "Bug Bounty", href: "/bug-bounty" },
-];
-
-const communityLinks = [
-  { label: "Twitter / X", href: "https://x.com/dluzprotocol" },
-  { label: "Telegram", href: "https://t.me/dluzprotocol" },
-  { label: "Blog", href: "/blog" },
-  { label: "FAQ", href: "/#faq" },
-];
+import { useTranslation } from "@/i18n";
 
 export function Footer() {
+  const { t } = useTranslation();
+
+  const protocolLinks = [
+    { label: t("footer.link.howItWorks"), href: "/#como-funciona" },
+    { label: t("footer.link.tokens"), href: "/#tokens" },
+    { label: t("footer.link.dex"), href: "/#comprar" },
+    { label: t("footer.link.amazon"), href: "/#amazonia" },
+    { label: t("footer.link.energy"), href: "/#energia" },
+    { label: t("footer.link.dashboard"), href: "/#dashboard" },
+  ];
+
+  const devLinks = [
+    { label: "GitHub", href: "https://github.com/carloshenmes/dluz-protocol" },
+    { label: "BaseScan Contracts", href: "https://sepolia.basescan.org/address/0xBfeE6d11634376aB33E47d81531FE36522e051f9#code" },
+    { label: "Docs / Whitepaper", href: "https://github.com/carloshenmes/dluz-protocol/blob/main/docs/WHITEPAPER.md" },
+    { label: "Bug Bounty", href: "/bug-bounty" },
+  ];
+
+  const communityLinks = [
+    { label: "Twitter / X", href: "https://x.com/dluzprotocol" },
+    { label: "Telegram", href: "https://t.me/dluzprotocol" },
+    { label: t("nav.blog"), href: "/blog" },
+    { label: t("nav.faq"), href: "/#faq" },
+  ];
+
   return (
     <footer className="border-t border-gray-800/50 bg-gray-950">
       <div className="max-w-6xl mx-auto px-6 py-16">
@@ -39,14 +42,13 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Protocolo descentralizado para tokenização e negociação de créditos
-              de carbono e certificados de energia renovável na Base.
+              {t("footer.desc")}
             </p>
           </div>
 
-          {/* Protocolo */}
+          {/* Protocol */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Protocolo</h4>
+            <h4 className="text-sm font-semibold text-white mb-4">{t("footer.protocol")}</h4>
             <ul className="space-y-2.5">
               {protocolLinks.map((link) => (
                 <li key={link.label}>
@@ -61,9 +63,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Desenvolvedores */}
+          {/* Developers */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Desenvolvedores</h4>
+            <h4 className="text-sm font-semibold text-white mb-4">{t("footer.developers")}</h4>
             <ul className="space-y-2.5">
               {devLinks.map((link) => (
                 <li key={link.label}>
@@ -80,9 +82,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Comunidade */}
+          {/* Community */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Comunidade</h4>
+            <h4 className="text-sm font-semibold text-white mb-4">{t("footer.community")}</h4>
             <ul className="space-y-2.5">
               {communityLinks.map((link) => (
                 <li key={link.label}>

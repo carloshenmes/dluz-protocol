@@ -2,6 +2,7 @@
 
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/i18n";
 
 interface BlogPost {
   id: string;
@@ -24,16 +25,16 @@ const tagColorMap: Record<string, string> = {
   purple: "bg-purple-500/20 text-purple-400",
 };
 
-function formatDate(iso: string) {
-  return new Date(iso + "T12:00:00").toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
-
 export function BlogSection() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const { t, lang } = useTranslation();
+
+  function formatDate(iso: string) {
+    return new Date(iso + "T12:00:00").toLocaleDateString(
+      lang === "pt" ? "pt-BR" : "en-US",
+      { day: "2-digit", month: "short", year: "numeric" }
+    );
+  }
 
   useEffect(() => {
     fetch("/data/blog-posts.json")
@@ -53,17 +54,16 @@ export function BlogSection() {
         <AnimateOnScroll>
           <div className="text-center mb-14">
             <span className="text-xs font-semibold text-green-400 uppercase tracking-widest mb-4 block">
-              📰 Blog & Notícias
+              📰 {t("blog.tag")}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Fique por dentro do{" "}
+              {t("blog.title.1")}
               <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                mercado verde
+                {t("blog.title.highlight")}
               </span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Conteúdo curado sobre mercado de carbono, energia renovável e Web3
-              — sempre com crédito aos autores originais.
+              {t("blog.desc")}
             </p>
           </div>
         </AnimateOnScroll>
@@ -101,7 +101,7 @@ export function BlogSection() {
                 <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-800/50">
                   <span className="w-2 h-2 rounded-full bg-green-500/60"></span>
                   <span className="text-xs text-gray-500">
-                    Fonte:{" "}
+                    {t("blog.source")}{" "}
                     <span className="text-gray-400 font-medium">
                       {post.source}
                     </span>
@@ -120,7 +120,7 @@ export function BlogSection() {
             >
               <span className="text-orange-400 text-sm">📡</span>
               <span className="text-xs text-gray-400">
-                Feed automatizado via RSS — ver todos os posts
+                {t("blog.feed")}
               </span>
             </a>
           </div>
