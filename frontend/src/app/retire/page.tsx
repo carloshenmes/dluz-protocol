@@ -9,12 +9,14 @@ import { Footer } from "@/components/Footer";
 import { CONTRACTS } from "@/config/contracts";
 import ProtocolDashboard from "@/components/ProtocolDashboard";
 import RetirementHistory from "@/components/RetirementHistory";
+import { useTranslation } from "@/i18n";
 
 type Step = "approve" | "retire" | "done";
 type Tab = "my" | "all";
 
 export default function RetirePage() {
   const { address, isConnected } = useAccount();
+  const { t } = useTranslation();
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const [step, setStep] = useState<Step>("approve");
@@ -120,23 +122,21 @@ export default function RetirePage() {
         {/* Retire Form */}
         <section className="max-w-md mx-auto space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-green-400">Retire Carbon</h1>
-            <p className="text-sm text-gray-400 mt-1">
-              Burn dCARBON and earn dLuz as a reward
-            </p>
+            <h1 className="text-2xl font-bold text-green-400">{t("retire.title")}</h1>
+            <p className="text-sm text-gray-400 mt-1">{t("retire.desc")}</p>
           </div>
 
           {!isConnected ? (
             <div className="rounded-xl border border-gray-800 bg-gray-900 p-8 text-center space-y-4">
-              <p className="text-gray-400">Connect your wallet to continue</p>
+              <p className="text-gray-400">{t("retire.connect")}</p>
               <ConnectButton />
             </div>
           ) : step === "done" ? (
             <div className="rounded-xl border border-green-800/50 bg-green-950/30 p-8 text-center space-y-4">
               <div className="text-4xl">🌱</div>
-              <h2 className="text-lg font-semibold text-green-400">Carbon retired!</h2>
+              <h2 className="text-lg font-semibold text-green-400">{t("retire.success.title")}</h2>
               <p className="text-sm text-gray-400">
-                {amount} dCARBON burned. dLuz reward credited.
+                {t("retire.success.desc.1")}{amount}{t("retire.success.desc.2")}
               </p>
               {retireTxHash && (
                 <a
@@ -145,27 +145,27 @@ export default function RetirePage() {
                   rel="noopener noreferrer"
                   className="text-sm text-green-400 underline hover:text-green-300"
                 >
-                  View transaction ↗
+                  {t("retire.success.tx")}
                 </a>
               )}
               <button
                 onClick={handleReset}
                 className="mt-4 w-full rounded-lg bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-300 hover:bg-gray-700 transition-colors"
               >
-                Retire more
+                {t("retire.btn.more")}
               </button>
             </div>
           ) : (
             <div className="rounded-xl border border-gray-800 bg-gray-900 p-6 space-y-5">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">dCARBON Balance</span>
+                <span className="text-gray-400">{t("retire.balance")}</span>
                 <span className="text-white font-mono">
                   {Number(formattedBalance).toLocaleString("en-US", { maximumFractionDigits: 4 })}
                 </span>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm text-gray-400">Amount</label>
+                <label className="text-sm text-gray-400">{t("retire.amount")}</label>
                 <div className="relative">
                   <input
                     type="number"
@@ -192,10 +192,10 @@ export default function RetirePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm text-gray-400">Reason (optional)</label>
+                <label className="text-sm text-gray-400">{t("retire.reason")}</label>
                 <input
                   type="text"
-                  placeholder="E.g. Voluntary offset 2026"
+                  placeholder={t("retire.reason.placeholder")}
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   disabled={isProcessing}
@@ -220,12 +220,12 @@ export default function RetirePage() {
                   className="w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {isApproving || isApproveTxLoading
-                    ? "Approving..."
+                    ? t("retire.btn.approving")
                     : !amount || parsedAmount === BigInt(0)
-                      ? "Enter an amount"
+                      ? t("retire.btn.noAmount")
                       : !hasEnoughBalance
-                        ? "Insufficient balance"
-                        : "Approve dCARBON"}
+                        ? t("retire.btn.noBalance")
+                        : t("retire.btn.approve")}
                 </button>
               ) : (
                 <button
@@ -233,7 +233,7 @@ export default function RetirePage() {
                   disabled={isProcessing}
                   className="w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  {isRetiring || isRetireTxLoading ? "Retiring..." : "Retire Carbon"}
+                  {isRetiring || isRetireTxLoading ? t("retire.btn.retiring") : t("retire.btn.retire")}
                 </button>
               )}
             </div>
@@ -243,7 +243,7 @@ export default function RetirePage() {
         {/* Retirement History */}
         <section key={`history-${refreshKey}`}>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-200">📜 Retirement History</h2>
+            <h2 className="text-xl font-bold text-gray-200">📜 {t("retire.history")}</h2>
             <div className="flex gap-1 bg-gray-800 rounded-lg p-1">
               <button
                 onClick={() => setHistoryTab("my")}
@@ -253,7 +253,7 @@ export default function RetirePage() {
                     : "text-gray-400 hover:text-gray-200"
                 }`}
               >
-                Mine
+                {t("retire.history.mine")}
               </button>
               <button
                 onClick={() => setHistoryTab("all")}
@@ -263,7 +263,7 @@ export default function RetirePage() {
                     : "text-gray-400 hover:text-gray-200"
                 }`}
               >
-                All
+                {t("retire.history.all")}
               </button>
             </div>
           </div>

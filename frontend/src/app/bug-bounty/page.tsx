@@ -1,106 +1,91 @@
+"use client";
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-
-const severityLevels = [
-  {
-    level: "Critical",
-    color: "red",
-    reward: "1,000 – 5,000 dLuz",
-    examples: [
-      "Drain of funds from contracts or pools",
-      "Infinite minting of tokens (dLuz, dCARBON, dENERGY)",
-      "Bypass of ownership / admin controls",
-      "Price oracle manipulation",
-    ],
-  },
-  {
-    level: "High",
-    color: "orange",
-    reward: "500 – 1,000 dLuz",
-    examples: [
-      "Permission bypass on protected functions",
-      "Swap logic flaw causing partial loss of funds",
-      "Exploitable reentrancy in pool contracts",
-      "Front-running with direct financial impact",
-    ],
-  },
-  {
-    level: "Medium",
-    color: "yellow",
-    reward: "100 – 500 dLuz",
-    examples: [
-      "Denial of Service (DoS) on critical functions",
-      "Fee or slippage calculation errors",
-      "Input validation failures",
-      "Gas optimization issues that block transactions",
-    ],
-  },
-  {
-    level: "Low",
-    color: "green",
-    reward: "25 – 100 dLuz",
-    examples: [
-      "Frontend visual bugs affecting usability",
-      "Balance or price display errors",
-      "Broken links or inconsistent navigation",
-      "UX improvements with security impact",
-    ],
-  },
-];
-
-const rules = [
-  "Do not exploit vulnerabilities in production — use the Base Sepolia testnet.",
-  "Report one vulnerability per submission. Do not bundle multiple bugs.",
-  "Provide clear reproduction steps (PoC) with code when possible.",
-  "Allow the team 90 days to patch before any public disclosure.",
-  "Do not engage in social engineering, phishing, or infrastructure attacks.",
-  "Do not access or modify other users' data.",
-  "First valid submission takes priority — duplicates are not rewarded.",
-  "Known vulnerabilities or issues in third-party components are out of scope.",
-];
-
-const inScope = [
-  { name: "Smart Contracts", desc: "dLuz, dCARBON, dENERGY tokens — DEX Router, Factory, and Pools" },
-  { name: "Frontend", desc: "Next.js application — wallet connection logic, swap execution, on-chain data display" },
-  { name: "Integrations", desc: "Interactions with RainbowKit, wagmi, and contracts deployed on Base" },
-];
-
-const outOfScope = [
-  "Vercel, GitHub, or third-party provider infrastructure",
-  "Attacks requiring physical access to the user's device",
-  "Dependency vulnerabilities without demonstrable impact",
-  "Bugs already reported or listed in public issues",
-  "Automated scanner results without a manual PoC",
-];
-
-const colorMap: Record<string, { border: string; bg: string; text: string; dot: string }> = {
-  red: {
-    border: "border-red-500/30",
-    bg: "bg-red-500/10",
-    text: "text-red-400",
-    dot: "bg-red-500",
-  },
-  orange: {
-    border: "border-orange-500/30",
-    bg: "bg-orange-500/10",
-    text: "text-orange-400",
-    dot: "bg-orange-500",
-  },
-  yellow: {
-    border: "border-yellow-500/30",
-    bg: "bg-yellow-500/10",
-    text: "text-yellow-400",
-    dot: "bg-yellow-500",
-  },
-  green: {
-    border: "border-green-500/30",
-    bg: "bg-green-500/10",
-    text: "text-green-400",
-    dot: "bg-green-500",
-  },
-};
+import { useTranslation } from "@/i18n";
 
 export default function BugBountyPage() {
+  const { t } = useTranslation();
+
+  const severityLevels = [
+    {
+      level: t("bounty.critical"),
+      color: "red",
+      reward: "1,000 – 5,000 dLuz",
+      examples: [
+        t("bounty.ex.c1"),
+        t("bounty.ex.c2"),
+        t("bounty.ex.c3"),
+        t("bounty.ex.c4"),
+      ],
+    },
+    {
+      level: t("bounty.high"),
+      color: "orange",
+      reward: "500 – 1,000 dLuz",
+      examples: [
+        t("bounty.ex.h1"),
+        t("bounty.ex.h2"),
+        t("bounty.ex.h3"),
+        t("bounty.ex.h4"),
+      ],
+    },
+    {
+      level: t("bounty.medium"),
+      color: "yellow",
+      reward: "100 – 500 dLuz",
+      examples: [
+        t("bounty.ex.m1"),
+        t("bounty.ex.m2"),
+        t("bounty.ex.m3"),
+        t("bounty.ex.m4"),
+      ],
+    },
+    {
+      level: t("bounty.low"),
+      color: "green",
+      reward: "25 – 100 dLuz",
+      examples: [
+        t("bounty.ex.l1"),
+        t("bounty.ex.l2"),
+        t("bounty.ex.l3"),
+        t("bounty.ex.l4"),
+      ],
+    },
+  ];
+
+  const rules = [
+    t("bounty.rule.1"),
+    t("bounty.rule.2"),
+    t("bounty.rule.3"),
+    t("bounty.rule.4"),
+    t("bounty.rule.5"),
+    t("bounty.rule.6"),
+    t("bounty.rule.7"),
+    t("bounty.rule.8"),
+  ];
+
+  const inScope = [
+    { name: t("bounty.in.1.name"), desc: t("bounty.in.1.desc") },
+    { name: t("bounty.in.2.name"), desc: t("bounty.in.2.desc") },
+    { name: t("bounty.in.3.name"), desc: t("bounty.in.3.desc") },
+  ];
+
+  const outOfScope = [
+    t("bounty.out.1"),
+    t("bounty.out.2"),
+    t("bounty.out.3"),
+    t("bounty.out.4"),
+    t("bounty.out.5"),
+  ];
+
+  const colorMap: Record<string, { border: string; bg: string; text: string; dot: string }> = {
+    red: { border: "border-red-500/30", bg: "bg-red-500/10", text: "text-red-400", dot: "bg-red-500" },
+    orange: { border: "border-orange-500/30", bg: "bg-orange-500/10", text: "text-orange-400", dot: "bg-orange-500" },
+    yellow: { border: "border-yellow-500/30", bg: "bg-yellow-500/10", text: "text-yellow-400", dot: "bg-yellow-500" },
+    green: { border: "border-green-500/30", bg: "bg-green-500/10", text: "text-green-400", dot: "bg-green-500" },
+  };
+
   return (
     <main className="min-h-screen bg-gray-950 text-white">
       <Header />
@@ -111,17 +96,16 @@ export default function BugBountyPage() {
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-sm font-medium mb-6">
             <span>🛡️</span>
-            <span>SECURITY</span>
+            <span>{t("bounty.tag")}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Bug Bounty{" "}
+            {t("bounty.title")}
             <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-              Program
+              {t("bounty.title.highlight")}
             </span>
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Help protect the dLuz Protocol. Find vulnerabilities, report
-            responsibly, and earn dLuz rewards.
+            {t("bounty.desc")}
           </p>
         </div>
       </section>
@@ -129,9 +113,9 @@ export default function BugBountyPage() {
       {/* Severity Levels */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-4">Severity Levels & Rewards</h2>
+          <h2 className="text-2xl font-bold text-center mb-4">{t("bounty.severity.title")}</h2>
           <p className="text-gray-500 text-center mb-12 max-w-xl mx-auto">
-            Rewards paid in dLuz. Final amount depends on report quality, actual impact, and PoC clarity.
+            {t("bounty.severity.desc")}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -169,20 +153,16 @@ export default function BugBountyPage() {
       {/* Scope */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-12">Program Scope</h2>
+          <h2 className="text-2xl font-bold text-center mb-12">{t("bounty.scope.title")}</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* In Scope */}
             <div>
               <h3 className="text-lg font-semibold text-green-400 mb-4 flex items-center gap-2">
-                <span>✅</span> In Scope
+                <span>✅</span> {t("bounty.scope.in")}
               </h3>
               <div className="space-y-4">
                 {inScope.map((item) => (
-                  <div
-                    key={item.name}
-                    className="rounded-lg border border-green-500/20 bg-green-500/5 p-4"
-                  >
+                  <div key={item.name} className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
                     <h4 className="font-semibold text-white text-sm mb-1">{item.name}</h4>
                     <p className="text-sm text-gray-400">{item.desc}</p>
                   </div>
@@ -190,10 +170,9 @@ export default function BugBountyPage() {
               </div>
             </div>
 
-            {/* Out of Scope */}
             <div>
               <h3 className="text-lg font-semibold text-gray-500 mb-4 flex items-center gap-2">
-                <span>⛔</span> Out of Scope
+                <span>⛔</span> {t("bounty.scope.out")}
               </h3>
               <div className="rounded-lg border border-gray-800 bg-gray-900/30 p-5">
                 <ul className="space-y-3">
@@ -213,10 +192,8 @@ export default function BugBountyPage() {
       {/* Rules */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-4">Participation Rules</h2>
-          <p className="text-gray-500 text-center mb-10">
-            Responsible Disclosure — report ethically, get rewarded fairly.
-          </p>
+          <h2 className="text-2xl font-bold text-center mb-4">{t("bounty.rules.title")}</h2>
+          <p className="text-gray-500 text-center mb-10">{t("bounty.rules.desc")}</p>
 
           <div className="rounded-xl border border-gray-800 bg-gray-900/30 p-8">
             <ol className="space-y-4">
@@ -236,25 +213,18 @@ export default function BugBountyPage() {
       {/* How to Report */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">How to Report</h2>
-          <p className="text-gray-500 mb-10 max-w-xl mx-auto">
-            Send a detailed report through one of the channels below. Always include: vulnerability description, reproduction steps, and estimated impact.
-          </p>
+          <h2 className="text-2xl font-bold mb-4">{t("bounty.report.title")}</h2>
+          <p className="text-gray-500 mb-10 max-w-xl mx-auto">{t("bounty.report.desc")}</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Email */}
             <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-6 hover:border-green-500/30 transition-colors">
               <div className="text-3xl mb-3">📧</div>
               <h3 className="font-semibold text-white mb-2">Email</h3>
-              <a
-                href="mailto:dluzprotocol@gmail.com"
-                className="text-sm text-green-400 hover:text-green-300 break-all"
-              >
+              <a href="mailto:dluzprotocol@gmail.com" className="text-sm text-green-400 hover:text-green-300 break-all">
                 security@dluz.cc
               </a>
             </div>
 
-            {/* GitHub */}
             <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-6 hover:border-green-500/30 transition-colors">
               <div className="text-3xl mb-3">🔒</div>
               <h3 className="font-semibold text-white mb-2">GitHub</h3>
@@ -268,7 +238,6 @@ export default function BugBountyPage() {
               </a>
             </div>
 
-            {/* Telegram */}
             <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-6 hover:border-green-500/30 transition-colors">
               <div className="text-3xl mb-3">💬</div>
               <h3 className="font-semibold text-white mb-2">Telegram</h3>
@@ -289,16 +258,13 @@ export default function BugBountyPage() {
       <section className="py-20 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <div className="rounded-2xl border border-green-500/20 bg-gradient-to-b from-green-500/5 to-transparent p-12">
-            <h2 className="text-2xl font-bold mb-4">Found something?</h2>
-            <p className="text-gray-400 mb-8">
-              Every reported vulnerability strengthens the protocol and protects
-              the community. Your work is valued.
-            </p>
+            <h2 className="text-2xl font-bold mb-4">{t("bounty.cta.title")}</h2>
+            <p className="text-gray-400 mb-8">{t("bounty.cta.desc")}</p>
             <a
               href="mailto:dluzprotocol@gmail.com"
               className="inline-flex items-center gap-2 px-8 py-3 bg-green-500 hover:bg-green-400 text-gray-950 font-semibold rounded-xl transition-colors"
             >
-              🛡️ Report Vulnerability
+              🛡️ {t("bounty.cta.btn")}
             </a>
           </div>
         </div>

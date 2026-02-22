@@ -385,6 +385,49 @@ const pt: Record<string, string> = {
   "bounty.cta.title": "Encontrou algo?",
   "bounty.cta.desc": "Seu report pode proteger milhares de toneladas de carbono tokenizado.",
   "bounty.cta.btn": "Reportar Vulnerabilidade →",
+
+  // ─── Bug Bounty — Examples ───
+  "bounty.ex.c1": "Drenagem de fundos de contratos ou pools",
+  "bounty.ex.c2": "Mint infinito de tokens (dLuz, dCARBON, dENERGY)",
+  "bounty.ex.c3": "Bypass de controles de ownership / admin",
+  "bounty.ex.c4": "Manipulação de oracle de preço",
+  "bounty.ex.h1": "Bypass de permissões em funções protegidas",
+  "bounty.ex.h2": "Falha na lógica de swap causando perda parcial de fundos",
+  "bounty.ex.h3": "Reentrancy explorável em contratos de pool",
+  "bounty.ex.h4": "Front-running com impacto financeiro direto",
+  "bounty.ex.m1": "Denial of Service (DoS) em funções críticas",
+  "bounty.ex.m2": "Erros de cálculo de taxa ou slippage",
+  "bounty.ex.m3": "Falhas de validação de input",
+  "bounty.ex.m4": "Problemas de gas que bloqueiam transações",
+  "bounty.ex.l1": "Bugs visuais no frontend que afetam usabilidade",
+  "bounty.ex.l2": "Erros de exibição de saldo ou preço",
+  "bounty.ex.l3": "Links quebrados ou navegação inconsistente",
+  "bounty.ex.l4": "Melhorias de UX com impacto em segurança",
+
+  // ─── Bug Bounty — Rules ───
+  "bounty.rule.1": "Não explore vulnerabilidades em produção — use a testnet Base Sepolia.",
+  "bounty.rule.2": "Reporte uma vulnerabilidade por submissão. Não agrupe múltiplos bugs.",
+  "bounty.rule.3": "Forneça passos claros de reprodução (PoC) com código quando possível.",
+  "bounty.rule.4": "Dê ao time 90 dias para corrigir antes de qualquer divulgação pública.",
+  "bounty.rule.5": "Não pratique engenharia social, phishing ou ataques à infraestrutura.",
+  "bounty.rule.6": "Não acesse ou modifique dados de outros usuários.",
+  "bounty.rule.7": "A primeira submissão válida tem prioridade — duplicatas não são recompensadas.",
+  "bounty.rule.8": "Vulnerabilidades conhecidas em componentes de terceiros estão fora do escopo.",
+
+  // ─── Bug Bounty — Scope ───
+  "bounty.in.1.name": "Smart Contracts",
+  "bounty.in.1.desc": "Tokens dLuz, dCARBON, dENERGY — DEX Router, Factory e Pools",
+  "bounty.in.2.name": "Frontend",
+  "bounty.in.2.desc": "Aplicação Next.js — lógica de conexão de wallet, execução de swap, exibição de dados on-chain",
+  "bounty.in.3.name": "Integrações",
+  "bounty.in.3.desc": "Interações com RainbowKit, wagmi e contratos deployados na Base",
+  "bounty.out.1": "Infraestrutura da Vercel, GitHub ou provedores terceiros",
+  "bounty.out.2": "Ataques que requerem acesso físico ao dispositivo do usuário",
+  "bounty.out.3": "Vulnerabilidades em dependências sem impacto demonstrável",
+  "bounty.out.4": "Bugs já reportados ou listados em issues públicas",
+  "bounty.out.5": "Resultados de scanners automatizados sem PoC manual",
 };
 
 export default pt;
+
+// ─── PATCH: keys added above export ───

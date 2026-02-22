@@ -17,13 +17,13 @@ export function Header() {
   const mainLinks = [
     { label: t("nav.howItWorks"), href: "/#como-funciona" },
     { label: t("nav.tokens"), href: "/#tokens" },
-    { label: t("nav.buy"), href: "/#comprar" },
     { label: "Dashboard", href: "/#dashboard" },
-    { label: "Farm", href: "/#farm" },
     { label: "Retire", href: "/retire" },
   ];
 
   const moreLinks = [
+    { label: t("nav.buy"), href: "/#comprar" },
+    { label: "Farm", href: "/#farm" },
     { label: t("nav.energy"), href: "/#energia" },
     { label: t("nav.blog"), href: "/#blog" },
     { label: t("nav.faq"), href: "/#faq" },
