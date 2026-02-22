@@ -384,6 +384,16 @@ const en: Record<string, string> = {
   "bounty.report.desc": "Choose your preferred channel — we'll respond within 48h.",
   "bounty.cta.title": "Found something?",
   "bounty.cta.desc": "Your report can protect thousands of tonnes of tokenized carbon.",
+
+  // ─── CarbonBridge Backing Note ───
+  "bridge.note.toggle": "ℹ️ Why is the backing 1:1? Understand the model",
+  "bridge.note.p1": "Every dCARBON in circulation is backed by 1 BCT (Base Carbon Tonne) locked in the CarbonBridge contract. BCT, issued by Toucan Protocol, represents 1 verified tonne of CO₂ under the Verra VCS standard.",
+  "bridge.note.p2": "The current BCT price (~$0.08) reflects crypto voluntary market dynamics, not the environmental or regulatory value of the credit. In regulated markets like the EU ETS (€60–90/tCO₂) and Brazil future SBCE (R$50–150/tCO₂), the value per tonne is significantly higher.",
+  "bridge.note.p3": "The backing ratio is verifiable on-chain at any time. If the ratio drops below 100%, no new dCARBON can be minted until additional BCT is deposited.",
+  "bridge.note.deposit": "Deposit: you send BCT → Bridge locks BCT → mints dCARBON 1:1 to your wallet.",
+  "bridge.note.retire": "Retire: you send dCARBON → Bridge burns permanently → irreversible on-chain certificate.",
+  "bridge.note.source": "Sources: Toucan Protocol (toucan.earth) · Verra VCS (verra.org) · KlimaDAO (klimadao.finance)",
+
   "bounty.cta.btn": "Report Vulnerability →",
 };
 
