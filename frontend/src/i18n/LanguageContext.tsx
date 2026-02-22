@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from "react";
-import { pt } from "./pt";
-import { en } from "./en";
+import pt from "./pt";
+import en from "./en";
 
 export type Lang = "pt" | "en";
 type Dict = Record<string, string>;

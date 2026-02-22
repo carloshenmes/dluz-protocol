@@ -384,16 +384,6 @@ const pt: Record<string, string> = {
   "bounty.report.desc": "Escolha o canal que preferir — responderemos em até 48h.",
   "bounty.cta.title": "Encontrou algo?",
   "bounty.cta.desc": "Seu report pode proteger milhares de toneladas de carbono tokenizado.",
-
-  // ─── CarbonBridge Backing Note ───
-  "bridge.note.toggle": "ℹ️ Por que o lastro é 1:1? Entenda o modelo",
-  "bridge.note.p1": "Cada dCARBON em circulação é lastreado por 1 BCT (Base Carbon Tonne) travado no contrato CarbonBridge. O BCT, emitido pelo Toucan Protocol, representa 1 tonelada verificada de CO₂ sob o padrão Verra VCS.",
-  "bridge.note.p2": "O preço atual do BCT (~$0,08) reflete a dinâmica do mercado voluntário cripto, não o valor ambiental ou regulatório do crédito. Em mercados regulados como o EU ETS (€60–90/tCO₂) e o futuro SBCE brasileiro (R$50–150/tCO₂), o valor por tonelada é significativamente maior.",
-  "bridge.note.p3": "O ratio de lastro é verificável on-chain a qualquer momento. Se o ratio cair abaixo de 100%, nenhum novo dCARBON pode ser mintado até que BCT adicional seja depositado.",
-  "bridge.note.deposit": "Depósito: você envia BCT → Bridge trava o BCT → minta dCARBON 1:1 na sua carteira.",
-  "bridge.note.retire": "Aposentadoria: você envia dCARBON → Bridge queima permanentemente → certificado on-chain irrevogável.",
-  "bridge.note.source": "Fontes: Toucan Protocol (toucan.earth) · Verra VCS (verra.org) · KlimaDAO (klimadao.finance)",
-
   "bounty.cta.btn": "Reportar Vulnerabilidade →",
 };
 
