@@ -24,7 +24,6 @@ export function Header() {
   ];
 
   const moreLinks = [
-    { label: "CarbonBridge", href: "/#bridge" },
     { label: t("nav.energy"), href: "/#energia" },
     { label: t("nav.blog"), href: "/#blog" },
     { label: t("nav.faq"), href: "/#faq" },
