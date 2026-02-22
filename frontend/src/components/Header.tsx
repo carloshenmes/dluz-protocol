@@ -17,24 +17,25 @@ export function Header() {
   const mainLinks = [
     { label: t("nav.howItWorks"), href: "/#como-funciona" },
     { label: t("nav.tokens"), href: "/#tokens" },
-    { label: t("nav.buy"), href: "/#comprar" },
-    { label: t("nav.amazon"), href: "/#amazonia" },
-    { label: t("nav.bridge"), href: "/#bridge" },
-    { label: t("nav.farm"), href: "/#farm" },
+    { label: lang === "pt" ? "Comprar" : "Buy", href: "/#comprar" },
+    { label: "Dashboard", href: "/#dashboard" },
+    { label: "Farm", href: "/#farm" },
+    { label: "Retire", href: "/retire" },
   ];
 
   const moreLinks = [
+    { label: "CarbonBridge", href: "/#bridge" },
     { label: t("nav.energy"), href: "/#energia" },
     { label: t("nav.blog"), href: "/#blog" },
     { label: t("nav.faq"), href: "/#faq" },
     { label: t("nav.team"), href: "/#team" },
+    { label: "Bug Bounty", href: "/bug-bounty" },
   ];
 
   const allLinks = [...mainLinks, ...moreLinks];
 
   const toggleLang = () => setLang(lang === "pt" ? "en" : "pt");
 
-  // Fecha dropdown ao clicar fora
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
@@ -47,9 +48,8 @@ export function Header() {
 
   const linkClass = (href: string) => {
     const isActive =
-      href === "/retire"
-        ? pathname === "/retire"
-        : pathname === "/" && href.startsWith("/#");
+      pathname === href ||
+      (pathname === "/" && href.startsWith("/#"));
     return `text-sm transition-colors ${
       isActive
         ? "text-green-400 font-medium"
@@ -111,7 +111,6 @@ export function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          {/* Language Toggle */}
           <button
             onClick={toggleLang}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/60 hover:border-green-500/40 transition-colors text-sm"
@@ -142,17 +141,12 @@ export function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className={`block text-sm py-2 transition-colors ${
-                linkClass(link.href).includes("text-green-400")
-                  ? "text-green-400 font-medium"
-                  : "text-gray-400 hover:text-green-400"
-              }`}
+              className="block text-sm py-2 text-gray-400 hover:text-green-400 transition-colors"
             >
               {link.label}
             </Link>
           ))}
 
-          {/* Mobile language toggle */}
           <button
             onClick={toggleLang}
             className="flex items-center gap-2 py-2 text-sm text-gray-400 hover:text-green-400 transition-colors"
