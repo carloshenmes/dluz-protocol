@@ -13,13 +13,17 @@ export function Header() {
   const { lang, setLang, t } = useTranslation();
 
   const navLinks = [
-    { label: t("nav.protocolo"), href: "/#como-funciona" },
+    { label: t("nav.howItWorks"), href: "/#como-funciona" },
     { label: t("nav.tokens"), href: "/#tokens" },
-    { label: t("nav.comprar"), href: "/#comprar" },
-    { label: t("nav.dex"), href: "/#dex" },
-    { label: t("nav.amazonia"), href: "/#amazonia" },
-    { label: t("nav.energia"), href: "/#energia" },
-    { label: t("nav.retire"), href: "/retire" },
+    { label: t("nav.buy"), href: "/#comprar" },
+    { label: t("nav.market"), href: "/#mercado" },
+    { label: t("nav.amazon"), href: "/#amazonia" },
+    { label: t("nav.energy"), href: "/#energia" },
+    { label: t("nav.bridge"), href: "/#bridge" },
+    { label: t("nav.farm"), href: "/#farm" },
+    { label: t("nav.blog"), href: "/#blog" },
+    { label: t("nav.faq"), href: "/#faq" },
+    { label: t("nav.team"), href: "/#team" },
   ];
 
   const toggleLang = () => setLang(lang === "pt" ? "en" : "pt");
