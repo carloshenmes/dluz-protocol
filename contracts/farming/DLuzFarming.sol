@@ -15,24 +15,23 @@ contract DLuzFarming is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     struct PoolInfo {
-        IERC20 rewardToken;           // dCARBON ou dENERGY
-        uint256 rewardPerSecond;      // tokens de reward por segundo
-        uint256 accRewardPerShare;    // acumulado por share (scaled 1e18)
+        IERC20 rewardToken;
+        uint256 rewardPerSecond;
+        uint256 accRewardPerShare;
         uint256 lastRewardTime;
         uint256 totalStaked;
         bool active;
     }
 
     struct UserInfo {
-        uint256 amount;          // DLUZ staked
-        uint256 rewardDebt;      // debt pra cálculo
-        uint256 pendingRewards;  // rewards acumulados não claimados
+        uint256 amount;
+        uint256 rewardDebt;
+        uint256 pendingRewards;
     }
 
     IERC20 public immutable dluzToken;
 
     PoolInfo[] public pools;
-    // poolId => user => info
     mapping(uint256 => mapping(address => UserInfo)) public userInfo;
 
     event PoolAdded(uint256 indexed poolId, address rewardToken, uint256 rewardPerSecond);
@@ -94,9 +93,9 @@ contract DLuzFarming is Ownable, ReentrancyGuard {
 
         // Settle pending rewards
         if (user.amount > 0) {
-            uint256 pending = (user.amount * pool.accRewardPerShare) / 1e18 - user.rewardDebt;
-            if (pending > 0) {
-                user.pendingRewards += pending;
+            uint256 accum = (user.amount * pool.accRewardPerShare) / 1e18;
+            if (accum > user.rewardDebt) {
+                user.pendingRewards += accum - user.rewardDebt;
             }
         }
 
@@ -120,10 +119,10 @@ contract DLuzFarming is Ownable, ReentrancyGuard {
 
         PoolInfo storage pool = pools[poolId];
 
-        // Settle pending rewards
-        uint256 pending = (user.amount * pool.accRewardPerShare) / 1e18 - user.rewardDebt;
-        if (pending > 0) {
-            user.pendingRewards += pending;
+        // Settle pending rewards (safe against rounding underflow)
+        uint256 accum = (user.amount * pool.accRewardPerShare) / 1e18;
+        if (accum > user.rewardDebt) {
+            user.pendingRewards += accum - user.rewardDebt;
         }
 
         user.amount -= amount;
@@ -143,7 +142,11 @@ contract DLuzFarming is Ownable, ReentrancyGuard {
         PoolInfo storage pool = pools[poolId];
         UserInfo storage user = userInfo[poolId][msg.sender];
 
-        uint256 pending = (user.amount * pool.accRewardPerShare) / 1e18 - user.rewardDebt;
+        uint256 accum = (user.amount * pool.accRewardPerShare) / 1e18;
+        uint256 pending = 0;
+        if (accum > user.rewardDebt) {
+            pending = accum - user.rewardDebt;
+        }
         uint256 totalRewards = user.pendingRewards + pending;
 
         if (totalRewards == 0) revert ZeroAmount();
@@ -172,7 +175,11 @@ contract DLuzFarming is Ownable, ReentrancyGuard {
             accRewardPerShare += (reward * 1e18) / pool.totalStaked;
         }
 
-        uint256 pending = (user.amount * accRewardPerShare) / 1e18 - user.rewardDebt;
+        uint256 accum = (user.amount * accRewardPerShare) / 1e18;
+        uint256 pending = 0;
+        if (accum > user.rewardDebt) {
+            pending = accum - user.rewardDebt;
+        }
         return user.pendingRewards + pending;
     }
 

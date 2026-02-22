@@ -12,7 +12,7 @@
     "DLuzSale": "0xBC3D26485f76d3a4BE14a4dfE7840c4afa62184a",
     "TeamVesting": "0x24E7A346e396d9D783dBaf306eDa3579696CA525",
     "DLuzDEX": "0x576a60085100D2d2Ec612B28E6cCAF63E7CCa277",
-    "DLuzFarming": "0x507c91A294938397c2dFA071163e7d8dc4B72815",
+    "DLuzFarming": "0xd9021f25aA780753484484A9c874b4a222F3e7Cb",
     "MockBCT": "0x00Da85D253E8cD86435dEe081B0FD318e645667a"
   },
   "tokenomics": {
@@ -61,14 +61,5 @@
         "rate": "0.005/sec"
       }
     ]
-  },
-  "redeployments": [
-    {
-      "contract": "DLuzFarming",
-      "old": "0xd9021f25aA780753484484A9c874b4a222F3e7Cb",
-      "new": "0x507c91A294938397c2dFA071163e7d8dc4B72815",
-      "reason": "Fix underflow bug in unstake reward calculation",
-      "timestamp": "2026-02-22T00:55:04.544Z"
-    }
-  ]
+  }
 }
