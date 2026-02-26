@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "@/i18n";
 
 const CONTRACTS = [
   {
@@ -28,25 +29,29 @@ const CONTRACTS = [
 
 const BASESCAN = "https://sepolia.basescan.org/address/";
 
-const colorMap: Record<string, { dot: string; badge: string; glow: string }> = {
+const colorMap: Record<string, { dot: string; badge: string; row: string; icon: string }> = {
   yellow: {
     dot: "bg-yellow-400",
-    badge: "bg-yellow-400/10 text-yellow-400 border-yellow-400/20",
-    glow: "hover:border-yellow-500/40",
+    badge: "bg-yellow-400/10 text-yellow-400 border border-yellow-400/25 ring-0",
+    row: "hover:border-yellow-500/30 hover:bg-yellow-500/5",
+    icon: "hover:text-yellow-400",
   },
   green: {
-    dot: "bg-green-400",
-    badge: "bg-green-400/10 text-green-400 border-green-400/20",
-    glow: "hover:border-green-500/40",
+    dot: "bg-emerald-400",
+    badge: "bg-emerald-400/10 text-emerald-400 border border-emerald-400/25",
+    row: "hover:border-emerald-500/30 hover:bg-emerald-500/5",
+    icon: "hover:text-emerald-400",
   },
   blue: {
     dot: "bg-blue-400",
-    badge: "bg-blue-400/10 text-blue-400 border-blue-400/20",
-    glow: "hover:border-blue-500/40",
+    badge: "bg-blue-400/10 text-blue-400 border border-blue-400/25",
+    row: "hover:border-blue-500/30 hover:bg-blue-500/5",
+    icon: "hover:text-blue-400",
   },
 };
 
 export default function ContractAddresses() {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState<string | null>(null);
 
   const copy = (address: string, key: string) => {
@@ -57,62 +62,67 @@ export default function ContractAddresses() {
 
   return (
     <section className="py-16 px-4">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-2xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-10">
-          <span className="text-xs font-semibold tracking-widest text-gray-500 uppercase mb-3 block">
-            Base Sepolia · Chain ID 84532
+          <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest text-gray-500 uppercase mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            {t("contracts.tag")}
           </span>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-            Contratos Verificados
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight">
+            {t("contracts.title")}
           </h2>
-          <p className="text-sm text-gray-500 max-w-md mx-auto">
-            Endereços oficiais do protocolo dLuz deployados na testnet.
-            Verifique sempre antes de interagir.
+          <p className="text-sm text-gray-500 max-w-sm mx-auto leading-relaxed">
+            {t("contracts.subtitle")}
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="flex flex-col gap-3">
-          {CONTRACTS.map((c) => {
+        {/* Rows */}
+        <div className="flex flex-col gap-2">
+          {CONTRACTS.map((c, i) => {
             const cl = colorMap[c.color];
             return (
               <div
                 key={c.key}
-                className={`group flex items-center justify-between gap-4 rounded-xl border border-white/8 ${cl.glow} bg-white/[0.03] px-5 py-4 transition-all`}
+                className={`group flex items-center justify-between gap-3 rounded-2xl border border-white/[0.07] ${cl.row} bg-white/[0.025] px-5 py-4 transition-all duration-200`}
               >
-                {/* Left — label + symbol */}
-                <div className="flex items-center gap-3 min-w-[120px]">
+                {/* Index */}
+                <span className="text-[11px] font-mono text-gray-600 w-4 shrink-0 select-none">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* Dot + label + badge */}
+                <div className="flex items-center gap-2.5 min-w-[140px] shrink-0">
                   <span className={`w-2 h-2 rounded-full shrink-0 ${cl.dot}`} />
                   <span className="text-white font-semibold text-sm">{c.label}</span>
-                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${cl.badge}`}>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${cl.badge}`}>
                     {c.symbol}
                   </span>
                 </div>
 
-                {/* Center — address */}
-                <span className="font-mono text-xs text-gray-400 truncate flex-1 text-center hidden sm:block">
+                {/* Address — full on desktop, truncated on mobile */}
+                <span className="font-mono text-xs text-gray-500 truncate flex-1 text-center hidden sm:block select-all">
                   {c.address}
                 </span>
-                <span className="font-mono text-xs text-gray-400 sm:hidden">
-                  {c.address.slice(0, 10)}…{c.address.slice(-6)}
+                <span className="font-mono text-xs text-gray-500 sm:hidden select-all">
+                  {c.address.slice(0, 8)}…{c.address.slice(-6)}
                 </span>
 
-                {/* Right — actions */}
-                <div className="flex items-center gap-2 shrink-0">
+                {/* Actions */}
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     onClick={() => copy(c.address, c.key)}
-                    title="Copiar endereço"
-                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition text-gray-500 hover:text-white"
+                    title={t("contracts.copy")}
+                    className={`p-2 rounded-xl bg-white/[0.04] hover:bg-white/10 transition text-gray-600 ${cl.icon}`}
                   >
                     {copied === c.key ? (
-                      <svg className="w-3.5 h-3.5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
                     ) : (
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
                           d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
                     )}
@@ -122,11 +132,11 @@ export default function ContractAddresses() {
                     href={`${BASESCAN}${c.address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="Ver no BaseScan"
-                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition text-gray-500 hover:text-blue-400"
+                    title={t("contracts.scan")}
+                    className={`p-2 rounded-xl bg-white/[0.04] hover:bg-white/10 transition text-gray-600 ${cl.icon}`}
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
@@ -137,8 +147,8 @@ export default function ContractAddresses() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-[11px] text-gray-600 mt-6">
-          Rede de produção (mainnet) em breve · Auditoria em andamento
+        <p className="text-center text-[11px] text-gray-600 mt-6 tracking-wide">
+          {t("contracts.footer")}
         </p>
       </div>
     </section>

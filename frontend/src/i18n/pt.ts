@@ -414,6 +414,12 @@ const pt: Record<string, string> = {
   "bounty.rule.7": "A primeira submissão válida tem prioridade — duplicatas não são recompensadas.",
   "bounty.rule.8": "Vulnerabilidades conhecidas em componentes de terceiros estão fora do escopo.",
 
+  // ─── Contracts ───
+  "contracts.tag": "Base Sepolia · Chain ID 84532",
+  "contracts.title": "Contratos Verificados",
+  "contracts.subtitle": "Endereços oficiais deployados na testnet. Verifique sempre antes de interagir.",
+  "contracts.footer": "Rede principal (mainnet) em breve · Auditoria em andamento",
+
   // ─── Bug Bounty — Scope ───
   "bounty.in.1.name": "Smart Contracts",
   "bounty.in.1.desc": "Tokens dLuz, dCARBON, dENERGY — DEX Router, Factory e Pools",
@@ -430,4 +436,12 @@ const pt: Record<string, string> = {
 
 export default pt;
 
-// ─── PATCH: keys added above export ───
+
+
+// ─── Contracts ───
+pt["contracts.tag"] = "Base Sepolia · Chain ID 84532";
+pt["contracts.title"] = "Contratos Verificados";
+pt["contracts.subtitle"] = "Endereços oficiais deployados na testnet. Verifique sempre antes de interagir.";
+pt["contracts.footer"] = "Rede principal (mainnet) em breve · Auditoria em andamento";
+pt["contracts.copy"] = "Copiar endereço";
+pt["contracts.scan"] = "Ver no BaseScan";

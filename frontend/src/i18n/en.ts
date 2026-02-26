@@ -414,6 +414,12 @@ const en: Record<string, string> = {
   "bounty.rule.7": "First valid submission takes priority — duplicates are not rewarded.",
   "bounty.rule.8": "Known vulnerabilities or issues in third-party components are out of scope.",
 
+  // ─── Contracts ───
+  "contracts.tag": "Base Sepolia · Chain ID 84532",
+  "contracts.title": "Verified Contracts",
+  "contracts.subtitle": "Official protocol addresses deployed on testnet. Always verify before interacting.",
+  "contracts.footer": "Mainnet coming soon · Audit in progress",
+
   // ─── Bug Bounty — Scope ───
   "bounty.in.1.name": "Smart Contracts",
   "bounty.in.1.desc": "dLuz, dCARBON, dENERGY tokens — DEX Router, Factory, and Pools",
