@@ -6,6 +6,7 @@ import { LogoDEnergy } from "./LogoDEnergy";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { ReactNode } from "react";
 import { useTranslation } from "@/i18n";
+import ContractAddresses from "./ContractAddresses";
 
 interface TokenData {
   name: string;
@@ -96,6 +97,11 @@ export function TokensSection() {
             </AnimateOnScroll>
           ))}
         </div>
+
+        {/* Contratos verificados */}
+        <AnimateOnScroll delay={0.2}>
+          <ContractAddresses />
+        </AnimateOnScroll>
       </div>
     </section>
   );
